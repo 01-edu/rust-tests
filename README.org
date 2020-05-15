@@ -3,69 +3,69 @@
    let <varname> : <type> = value
 ** Example
    #+begin_src rust
-		let guess: i32 = 20;
+        let guess: i32 = 20;
    #+end_src
 ** Scalar Types
    A scalar types represents a single value
 *** Integers
-	- [iu]size(bits)
-	  - i -> signed integer size (8, 16, 32, 64, 128) bits
-	  - u -> unsigned integer
-	  - isize -> depends on the architecture of the system
-	  - usize -> depends on the architecture of the system
-	Integer literals (all number literals except the byte literal allow a type a type suffix such as 57u8 and _ as a visual separator such as 1_000)	
+    - [iu]size(bits)
+      - i -> signed integer size (8, 16, 32, 64, 128) bits
+      - u -> unsigned integer
+      - isize -> depends on the architecture of the system
+      - usize -> depends on the architecture of the system
+    Integer literals (all number literals except the byte literal allow a type a type suffix such as 57u8 and _ as a visual separator such as 1_000)    
 
-	| Number lit    | Example     |
-	| Decimal       | 98_222      |
-	| Hex           | 0xff        |
-	| Octal         | 0o77        |
-	| Binary        | 0b1111_0000 |
-	| Byte(u8 only) | b'A'        |
+    | Number lit    | Example     |
+    | Decimal       | 98_222      |
+    | Hex           | 0xff        |
+    | Octal         | 0o77        |
+    | Binary        | 0b1111_0000 |
+    | Byte(u8 only) | b'A'        |
 
 *** Floating-point numbers
-	f64 or f32, default f64
+    f64 or f32, default f64
 *** Booleans
-	true or false
+    true or false
 *** Characters
-	- Type char
-	- Specified with single quotes
-	- 4 bytes in size
+    - Type char
+    - Specified with single quotes
+    - 4 bytes in size
 ** Compound types
     - Can group multiple values into one type
-	- Rust has two primary types:
+    - Rust has two primary types:
 *** Tuples
-	A general way of grouping together a number of values into one compound type.
-	- Tuples have a fixed length
-	- Comma separated list of values inside parenthesis
-	- Each position in the tuple has a type (and they don't have to be the same)
-	- To get the individuals values of the tuple we can use pattern matching to destructure a tuple value like this:
-	  #+begin_src rust
-		fn main() {
-			let tup = (500, 64, 1);
-			let (x,y,z) = tup;
-		}
-	  #+end_src
-	- We can access a tuple element directly by using a period (.) followed by the index of the value we want to access. For example:
-	  #+begin_src rust
-		fn main() {
-			let x: (i32, f64, u8) = (500, 6.4, 1);
-			let five_hundred = x.0;
-			let six_point_four = x.1;
-			let one = x.2;
-		}
-	  #+end_src
+    A general way of grouping together a number of values into one compound type.
+    - Tuples have a fixed length
+    - Comma separated list of values inside parenthesis
+    - Each position in the tuple has a type (and they don't have to be the same)
+    - To get the individuals values of the tuple we can use pattern matching to destructure a tuple value like this:
+      #+begin_src rust
+        fn main() {
+            let tup = (500, 64, 1);
+            let (x,y,z) = tup;
+        }
+      #+end_src
+    - We can access a tuple element directly by using a period (.) followed by the index of the value we want to access. For example:
+      #+begin_src rust
+        fn main() {
+            let x: (i32, f64, u8) = (500, 6.4, 1);
+            let five_hundred = x.0;
+            let six_point_four = x.1;
+            let one = x.2;
+        }
+      #+end_src
 *** Arrays
-	- Arrays have a fixed length
-	- An array is a single chunk of memory on the stack
-	- Comma separated list of elements of the same type inside square brackets
-	- Example declaration:
-	  #+begin_src rust
-		let a: [i32;5] = [1, 2, 3, 4, 5]; // With type annotation
-		let a = [1, 2, 3, 4, 5];
-		let a = [3;5]; // Produces the array [3,3,3,3,3]
-	  #+end_src
-	- Indexing an array with array[index]
-	- Indexing an array out of bound creates a runtime error
+    - Arrays have a fixed length
+    - An array is a single chunk of memory on the stack
+    - Comma separated list of elements of the same type inside square brackets
+    - Example declaration:
+      #+begin_src rust
+        let a: [i32;5] = [1, 2, 3, 4, 5]; // With type annotation
+        let a = [1, 2, 3, 4, 5];
+        let a = [3;5]; // Produces the array [3,3,3,3,3]
+      #+end_src
+    - Indexing an array with array[index]
+    - Indexing an array out of bound creates a runtime error
 * Functions
   - The convention for the name of the functions is snake_case (lowercase words separated by underscores)
   - Starts with the keyword fn
@@ -86,21 +86,21 @@
    - It is possible to return before with the return keyword
    - Using if in a let statement
    - Because `if` is an expression, we can use it on the right side of a let statement
-	 #+begin_src rust
-	   let number = if condition {
-		   5
-	   } else {
-		   6
-	   };
-	 #+end_src
+     #+begin_src rust
+       let number = if condition {
+           5
+       } else {
+           6
+       };
+     #+end_src
    - To use this kind of construct the return types must be the same
-	 #+begin_src rust
-	   let number = if condition {
-		   5
-	   } else {
-		   "six"
-	   }
-	 #+end_src
+     #+begin_src rust
+       let number = if condition {
+           5
+       } else {
+           "six"
+       }
+     #+end_src
      This code will give a compilation error
 ** Repetition with loops
    Rust has three kinds of loops:
@@ -176,9 +176,9 @@ $ cargo test -- --show-output
    Examples of smart pointer: String and Vec<T>
    Smart pointers are usually implemented using structs. The characteristic that distinguishes a smart pointer from an ordinary struct is that smart pointers implement the Deref and Drop traits
 *** The Deref trait
-	Allows an instance of the smart pointer to behave like a reference so you can write code that works with either references or smart pointers.
+    Allows an instance of the smart pointer to behave like a reference so you can write code that works with either references or smart pointers.
 *** The Drop trait
-	Allows you to customize the code that is run when an instance of the smart pointers goes out of scope.
+    Allows you to customize the code that is run when an instance of the smart pointers goes out of scope.
 ** Using Box<T> to Point to Data on the Heap
    Boxes allow you to store data on the heap rather than the stack. What remains on the stack is the pointer to the heap data.
    Boxes don't have performance overhead, other than storing their data on the heap instead of on the stack. But they don't have many extra capabilities either. You'll use them most often in these situations:
@@ -187,8 +187,8 @@ $ cargo test -- --show-output
    - When you want to own a value and you care only that it's a type that implements a particular trait rather than being of a specific type
 ** Using a Box<T> to Store Data on the Heap
 *** Enabling Recursive Types with Boxes
-	At compile time, Rust needs to know how much space a type takes up. One type whose size can't be known at compile time is a recursive type, where a value can have as part of itself another value of the same type. Because this nesting of values could theoretically continue infinitely, Rust doesn't know how much space a value of a recursive type needs. However, boxes have a known size, so by inserting a box in a recursive type definition, you can have recursive types.
-	Example in [[file:smart_pointers/src/main.rs][smart_pointers:10]]
+    At compile time, Rust needs to know how much space a type takes up. One type whose size can't be known at compile time is a recursive type, where a value can have as part of itself another value of the same type. Because this nesting of values could theoretically continue infinitely, Rust doesn't know how much space a value of a recursive type needs. However, boxes have a known size, so by inserting a box in a recursive type definition, you can have recursive types.
+    Example in [[file:smart_pointers/src/main.rs][smart_pointers:10]]
 ** Treating Smart Pointers Like Regular References with the Deref Trait
    - Implementing the Deref trait allows you to customize the behavior of the dereference operator, *. By implementing Deref in such a way that a smart pointer can be treated like a regular reference and how it lets us work with either references. then we'll look at Rust's deref coercion feature and how it lets us work with either references or smart pointers.
    - After we implement the Deref trait we can dereference a any type as a normal reference
@@ -201,9 +201,9 @@ $ cargo test -- --show-output
 ** How Deref Coercion Interacts with Mutability
    - Similar to how you use the Deref trait to override the * operator on immutable references, you can use the DerefMut trait to override the * operator on mutable references.
    - Rust does deref coercion when it finds types and trait implementations in three cases:
-	 - From &T to &U when T: Deref<Target=U>
-	 - From &mut T to &mut U when T: DerefMut<Target=U>
-	 - From &mut T to &U when T: Deref<Target=U>
+     - From &T to &U when T: Deref<Target=U>
+     - From &mut T to &mut U when T: DerefMut<Target=U>
+     - From &mut T to &U when T: Deref<Target=U>
 ** Running Code on Cleanup with the Drop Trait
    - Used to customize the action executed when a variable is "drooped".
    - Rust automatically calls these method when a variable of these type goes out off scope.
@@ -214,16 +214,16 @@ $ cargo test -- --show-output
    - There is no straightforward way to disable the automatic drop functionality
    - Disabling Drop isn't usually necessary
    - Occasionally, you might want to clean up a value early.
-	 - One example is when using a smart pointer that manages a lock:
-	   - you might want to force the drop method so that other code can in the same scope can take acquire the lock
+     - One example is when using a smart pointer that manages a lock:
+       - you might want to force the drop method so that other code can in the same scope can take acquire the lock
    - the std::mem::drop is different from the drop method:
-	 - we can call it passing as an argument the variable that we want to drop.
+     - we can call it passing as an argument the variable that we want to drop.
 ** Rc<T>, the Reference Counted Smart Pointer
    - The name is an abbreviation of _reference counting_
    - Used when to enable multiple ownership:
-	 - An example is a graph data structure
-	   - Multiple edges might point to the same node
-	   - A node shouldn't be cleaned unless it doesn't have any edges pointing to it.
+     - An example is a graph data structure
+       - Multiple edges might point to the same node
+       - A node shouldn't be cleaned unless it doesn't have any edges pointing to it.
    - The type (Rc) keeps track of the number of references to a value, the value can be cleaned up without any references becoming invalid
    - We use the Rc<T> type when we want to allocate some data on the heap for multiple parts of our program to read
    - and we can't determine at compile time which part will finish using the data last.
@@ -234,10 +234,10 @@ $ cargo test -- --show-output
    - When all the owners go out of scope and Rc is equal to 0 the reference is cleaned.
 ** RefCell<T> and the Interior Mutability Pattern
    - Interior mutability is a design pattern in Rust that allows you to mutate data even when there are immutable references to that data.
-	 - Normally this action is disallowed by the borrowing rules.
-	 - To mutate data, the pattern uses unsafe code inside a data structure to bend Rust's usual rules that govern mutation and borrowing.
-	 - We can use the types that use the interior mutability pattern when we can ensure that the borrowing rules will be followed at runtime
-	 - Even though the compiler can't guarantee that. The unsafe code involved is then wrapped in a safe API, and the outer type is still immutable
+     - Normally this action is disallowed by the borrowing rules.
+     - To mutate data, the pattern uses unsafe code inside a data structure to bend Rust's usual rules that govern mutation and borrowing.
+     - We can use the types that use the interior mutability pattern when we can ensure that the borrowing rules will be followed at runtime
+     - Even though the compiler can't guarantee that. The unsafe code involved is then wrapped in a safe API, and the outer type is still immutable
 ** Enforcing Borrowing Rules at Runtime with RefCell<T>
    - The type RefCell<T> type represents single ownership over that data it holds.
    - If you brake the ownership rules your program will panic and exit.
