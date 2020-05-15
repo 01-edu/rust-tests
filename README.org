@@ -1,0 +1,254 @@
+* Data types
+** Defined like this
+   let <varname> : <type> = value
+** Example
+   let guess: i32 = 20;
+** Scalar Types
+   A scalar types represents a single value
+*** Integers
+	- [iu]size(bits)
+	  - i -> signed integer size (8, 16, 32, 64, 128) bits
+	  - u -> unsigned integer
+	  - isize -> depends on the architecture of the system
+	  - usize -> depends on the architecture of the system
+	Integer literals (all number literals except the byte literal allow a type a type suffix such as 57u8 and _ as a visual separator such as 1_000)	
+
+	| Number lit    | Example     |
+	| Decimal       | 98_222      |
+	| Hex           | 0xff        |
+	| Octal         | 0o77        |
+	| Binary        | 0b1111_0000 |
+	| Byte(u8 only) | b'A'        |
+
+*** Floating-point numbers
+	f64 or f32, default f64
+*** Booleans
+	true or false
+*** Characters
+	- Type char
+	- Specified with single quotes
+	- 4 bytes in size
+** Compound types
+    - Can group multiple values into one type
+	- Rust has two primary types:
+*** Tuples
+	A general way of grouping together a number of values into one compound type.
+	- Tuples have a fixed length
+	- Comma separated list of values inside parenthesis
+	- Each position in the tuple has a type (and they don't have to be the same)
+	- To get the individuals values of the tuple we can use pattern matching to destructure a tuple value like this:
+	  #+begin_src rust
+		fn main() {
+			let tup = (500, 64, 1);
+			let (x,y,z) = tup;
+		}
+	  #+end_src
+	- We can access a tuple element directly by using a period (.) followed by the index of the value we want to access. For example:
+	  #+begin_src rust
+		fn main() {
+			let x: (i32, f64, u8) = (500, 6.4, 1);
+			let five_hundred = x.0;
+			let six_point_four = x.1;
+			let one = x.2;
+		}
+	  #+end_src
+*** Arrays
+	- Arrays have a fixed length
+	- An array is a single chunk of memory on the stack
+	- Comma separated list of elements of the same type inside square brackets
+	- Example declaration:
+	  #+begin_src rust
+		let a: [i32;5] = [1, 2, 3, 4, 5]; // With type annotation
+		let a = [1, 2, 3, 4, 5];
+		let a = [3;5]; // Produces the array [3,3,3,3,3]
+	  #+end_src
+	- Indexing an array with array[index]
+	- Indexing an array out of bound creates a runtime error
+* Functions
+  - The convention for the name of the functions is snake_case (lowercase words separated by underscores)
+  - Starts with the keyword fn
+  - Rust doesn't care where you define your functions just that they are defined somewhere
+** Function parameters
+   - Parameters are special variables that are part of a functions signature.
+   - The concrete value of a parameter is called an argument
+   - Parameters are defined like so (name: type)
+** Functions Bodies Contain Statements and Expressions
+   - Rust is an expression-based language
+   - Statements are instructions that perform some action and do not return a value
+   - Expressions evaluate to a resulting value
+   - Statement end with semicolon
+   - Expression don't need semicolon
+** To Indicate the Return Value of a Function
+   - Use the -> to indicate the return type
+   - Function will return the last expression type without a semicolon
+   - It is possible to return before with the return keyword
+   - Using if in a let statement
+   - Because `if` is an expression, we can use it on the right side of a let statement
+	 #+begin_src rust
+	   let number = if condition {
+		   5
+	   } else {
+		   6
+	   };
+	 #+end_src
+   - To use this kind of construct the return types must be the same
+	 #+begin_src rust
+	   let number = if condition {
+		   5
+	   } else {
+		   "six"
+	   }
+	 #+end_src
+     This code will give a compilation error
+** Repetition with loops
+   Rust has three kinds of loops:
+*** Loop
+	- Executes a block of code indefinitely
+**** Returning values from loops
+	 - Add the value that should be returned after the break expression
+*** While
+	- Conditional loop
+	- While a condition is true the loop runs; otherwise it exists the loop
+*** For
+	- Loop through a collection with for
+	- Ex:
+	  #+begin_src rust
+		fn main() {
+			let a = [10, 20, 30, 40, 50];
+			for element in a.iter() {
+				println!("the value is: {}", element);
+			}
+		}
+	  #+end_src
+	  - Increases safety and speed (preferred over while is better loop when possible)
+	  - To loop through  a range instead of using while loop is better to use a Range
+		#+begin_src rust
+		  fn main() {
+			  for number in (1..4).rev() {
+				  println!("{}!", number);
+			  }
+			  println!("LIFTOFF!!!");
+		  }
+		#+end_src
+* Writing tests
+**  Using Result<T,E> in Tests
+   For these tests the test does not fail by panicking but by returning an Error 
+   Example in:[[file+emacs:./rectangle/src/main.rs][ rectangle/src/main.rs]]
+** Controlling How Tests Are Run
+*** Default behavior is to run the tests in parallel
+*** This can be changed with command line arguments
+
+** If the tests depend of a previous state or the executions needs to be consecutive
+   Use the flag --test-threads to limit the number of threads that run the code
+   $ cargo test -- --test-threads=1
+** Showing Function Output
+   By default, if a test passes, Rust's test library captures the anything printed to standard output.
+This can be overwritten by the option --show-output
+$ cargo test -- --show-output
+* Chapter 12 Project
+  Note: Using primitive values when a complex type would be more appropriate is anti-pattern known as primitive obsession.
+
+* Test-Driven Development
+1. Write a test that fails and run it to make sure it fails for the reason you expect.
+2. Write or modify just enough code to make the new test pass.
+3. Refactor the code you just added or changed and make sure the tests continue to pass.
+4. Repeat from step 1!
+* Functional Language Features: Iterators and Closures
+** Closures, a function-like construct you can store in a variable
+** Iterators, a way of processing a series of elements
+** Closures: Anonymous Functions that can Capture Their Environment
+   Rust's closures are anonymous functions you can save in a variable or pass as arguments to other functions. You can create the closure in one place and then call the closure to evaluate it in a different context. Unlike functions, closures can capture values from the scope in which they are defined. We'll demonstrate how these closure features allow for code reuse and behavior customization.
+
+*** Creating an Abstraction of Behavior with Closures
+* Ideas for the rust piscine:
+** Floating point package
+** Turing machine
+** A binary interpreter
+* Smart Pointers
+** Pointer
+   A pointer is a general concept for a variable that contains an address in memory. This address refers to, or "points at", some other data.
+** Smart Pointers
+   Are data structures that not only act like pointers but also have additional metadata and capabilities. 
+   There are originated in C++.
+   In Rust, which uses the concept of ownership and borrowing, an additional difference between references and smart pointers and smart pointers is that references are pointers that only borrow data; In contrast, in many cases, smart pointers own the data they point to.
+   Examples of smart pointer: String and Vec<T>
+   Smart pointers are usually implemented using structs. The characteristic that distinguishes a smart pointer from an ordinary struct is that smart pointers implement the Deref and Drop traits
+*** The Deref trait
+	Allows an instance of the smart pointer to behave like a reference so you can write code that works with either references or smart pointers.
+*** The Drop trait
+	Allows you to customize the code that is run when an instance of the smart pointers goes out of scope.
+** Using Box<T> to Point to Data on the Heap
+   Boxes allow you to store data on the heap rather than the stack. What remains on the stack is the pointer to the heap data.
+   Boxes don't have performance overhead, other than storing their data on the heap instead of on the stack. But they don't have many extra capabilities either. You'll use them most often in these situations:
+   - When you have a type whose type size can't be known at compile time and you want to use a value that type in a context that requires an exact size.
+   - When you have a large amount of data and you want to transfer ownership but ensure the data won't be copied when you do so.
+   - When you want to own a value and you care only that it's a type that implements a particular trait rather than being of a specific type
+** Using a Box<T> to Store Data on the Heap
+*** Enabling Recursive Types with Boxes
+	At compile time, Rust needs to know how much space a type takes up. One type whose size can't be known at compile time is a recursive type, where a value can have as part of itself another value of the same type. Because this nesting of values could theoretically continue infinitely, Rust doesn't know how much space a value of a recursive type needs. However, boxes have a known size, so by inserting a box in a recursive type definition, you can have recursive types.
+	Example in [[file:smart_pointers/src/main.rs][smart_pointers:10]]
+** Treating Smart Pointers Like Regular References with the Deref Trait
+   - Implementing the Deref trait allows you to customize the behavior of the dereference operator, *. By implementing Deref in such a way that a smart pointer can be treated like a regular reference and how it lets us work with either references. then we'll look at Rust's deref coercion feature and how it lets us work with either references or smart pointers.
+   - After we implement the Deref trait we can dereference a any type as a normal reference
+   - Behind the scenes Rust actually runs *(y.deref()) when you call *y where y is a type that implements the Deref trait
+** Implicit Deref Coercion with Functions and Methods
+   - Deref coercion is a convenience that Rust performs on arguments to functions and methods.
+   - Deref coercion works only on types that implement the Deref trait.
+   - Deref coercion happens automatically when we pass a reference to a particular type's value as an argument to a function or method that doesn't match the parameter type in the function definition. A sequence of calls to the deref method converts the type we provided into the type the parameter needs.
+   - To see deref coercion in action see [[file:smart_pointers/src/main.rs][smart_pointers]]
+** How Deref Coercion Interacts with Mutability
+   - Similar to how you use the Deref trait to override the * operator on immutable references, you can use the DerefMut trait to override the * operator on mutable references.
+   - Rust does deref coercion when it finds types and trait implementations in three cases:
+	 - From &T to &U when T: Deref<Target=U>
+	 - From &mut T to &mut U when T: DerefMut<Target=U>
+	 - From &mut T to &U when T: Deref<Target=U>
+** Running Code on Cleanup with the Drop Trait
+   - Used to customize the action executed when a variable is "drooped".
+   - Rust automatically calls these method when a variable of these type goes out off scope.
+   - The trait Drop requires that the method drop is implemented
+   - The Drop trait is include in the prelude so we don't need to bring it into scope.
+   - Variable are dropped in the reverse order they are created
+** Dropping a Value Early with std::mem::drop
+   - There is no straightforward way to disable the automatic drop functionality
+   - Disabling Drop isn't usually necessary
+   - Occasionally, you might want to clean up a value early.
+	 - One example is when using a smart pointer that manages a lock:
+	   - you might want to force the drop method so that other code can in the same scope can take acquire the lock
+   - the std::mem::drop is different from the drop method:
+	 - we can call it passing as an argument the variable that we want to drop.
+** Rc<T>, the Reference Counted Smart Pointer
+   - The name is an abbreviation of _reference counting_
+   - Used when to enable multiple ownership:
+	 - An example is a graph data structure
+	   - Multiple edges might point to the same node
+	   - A node shouldn't be cleaned unless it doesn't have any edges pointing to it.
+   - The type (Rc) keeps track of the number of references to a value, the value can be cleaned up without any references becoming invalid
+   - We use the Rc<T> type when we want to allocate some data on the heap for multiple parts of our program to read
+   - and we can't determine at compile time which part will finish using the data last.
+   - Rc<T> is only for use in single-threaded scenarios
+** Using Rc<T> to Share Data
+   - Rc::clone(&a) instead of creating a deep copy of the value of a (like a.clone would) it just creates a new reference and increments the counter of reference
+   - See the behavior of the reference counting (Rc<T>) in [[file:reference_counting/src/main.rs][reference_counting]]
+   - When all the owners go out of scope and Rc is equal to 0 the reference is cleaned.
+** RefCell<T> and the Interior Mutability Pattern
+   - Interior mutability is a design pattern in Rust that allows you to mutate data even when there are immutable references to that data.
+	 - Normally this action is disallowed by the borrowing rules.
+	 - To mutate data, the pattern uses unsafe code inside a data structure to bend Rust's usual rules that govern mutation and borrowing.
+	 - We can use the types that use the interior mutability pattern when we can ensure that the borrowing rules will be followed at runtime
+	 - Even though the compiler can't guarantee that. The unsafe code involved is then wrapped in a safe API, and the outer type is still immutable
+** Enforcing Borrowing Rules at Runtime with RefCell<T>
+   - The type RefCell<T> type represents single ownership over that data it holds.
+   - If you brake the ownership rules your program will panic and exit.
+   - The RefCell<T> type is useful when you're sure your code follows the borrowing rules but the compiler is unable to understand and guarantee that.
+   - It's only for use in single threaded scenarios and will give you a compile-time error if you try to use it in a multi-threaded context.
+** Interior Mutability: A mutability Borrow
+** Notes
+*** Reasons to choose Box, Rc, RefCell:
+**** Ownership
+***** Rc<T> enables multiple owners of the same data; Box<T> and RefCell<T> have single owners.
+**** Borrowing
+***** Box<T> allows immutable or mutable borrows checked at compile time;
+***** Rc<T> allows only immutable borrows checked at compile time;
+***** RefCell<T> allows mutable and immutable borrows checked at runtime.
+**** Mutability
+***** Because RefCell<T> allows mutable borrows checked at runtime, you can mutate the value inside the RefCell<T> even when the RefCell<T> is immutable.
