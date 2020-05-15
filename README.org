@@ -1,3 +1,5 @@
+* Check the structure and the progress 
+  [[file:rust-piscine.org][To-do]]
 * Data types
 ** Defined like this
    let <varname> : <type> = value
