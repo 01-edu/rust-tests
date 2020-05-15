@@ -2,17 +2,17 @@
 ** TODO First Part (until flow control Chapter 3.5 in the Rust Book)
    - [X] Declaring variables (scalar types)
    - [ ] Declaring variables (compound types)
-	 - [ ] Tuples
-	 - [ ] Arrays
+     - [ ] Tuples
+     - [ ] Arrays
    - [-] Declaring functions
-	 - [X] With parameters
-	 - [ ] Without parameters
-	 - [X] Examples of statements and expressions
-	 - [X] With returning values
+     - [X] With parameters
+     - [ ] Without parameters
+     - [X] Examples of statements and expressions
+     - [X] With returning values
    - [-] Control flow
-	 - [X] if (as an expression and as statement)
-	 - [ ] for
-	 - [ ] while
-	 - [ ] loop
-	 - [ ] returning from loops
+     - [X] if (as an expression and as statement)
+     - [ ] for
+     - [ ] while
+     - [ ] loop
+     - [ ] returning from loops
 ** TODO All the rest
