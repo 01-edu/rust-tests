@@ -2,7 +2,9 @@
 ** Defined like this
    let <varname> : <type> = value
 ** Example
-   let guess: i32 = 20;
+   #+begin_src rust
+		let guess: i32 = 20;
+   #+end_src
 ** Scalar Types
    A scalar types represents a single value
 *** Integers
