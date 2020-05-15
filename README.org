@@ -105,33 +105,33 @@
 ** Repetition with loops
    Rust has three kinds of loops:
 *** Loop
-	- Executes a block of code indefinitely
+    - Executes a block of code indefinitely
 **** Returning values from loops
-	 - Add the value that should be returned after the break expression
+     - Add the value that should be returned after the break expression
 *** While
-	- Conditional loop
-	- While a condition is true the loop runs; otherwise it exists the loop
+    - Conditional loop
+    - While a condition is true the loop runs; otherwise it exists the loop
 *** For
-	- Loop through a collection with for
-	- Ex:
-	  #+begin_src rust
-		fn main() {
-			let a = [10, 20, 30, 40, 50];
-			for element in a.iter() {
-				println!("the value is: {}", element);
-			}
-		}
-	  #+end_src
-	  - Increases safety and speed (preferred over while is better loop when possible)
-	  - To loop through  a range instead of using while loop is better to use a Range
-		#+begin_src rust
-		  fn main() {
-			  for number in (1..4).rev() {
-				  println!("{}!", number);
-			  }
-			  println!("LIFTOFF!!!");
-		  }
-		#+end_src
+    - Loop through a collection with for
+    - Ex:
+      #+begin_src rust
+        fn main() {
+            let a = [10, 20, 30, 40, 50];
+            for element in a.iter() {
+                println!("the value is: {}", element);
+            }
+        }
+      #+end_src
+      - Increases safety and speed (preferred over while is better loop when possible)
+      - To loop through  a range instead of using while loop is better to use a Range
+        #+begin_src rust
+          fn main() {
+              for number in (1..4).rev() {
+                  println!("{}!", number);
+              }
+              println!("LIFTOFF!!!");
+          }
+        #+end_src
 * Writing tests
 **  Using Result<T,E> in Tests
    For these tests the test does not fail by panicking but by returning an Error 
