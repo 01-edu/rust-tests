@@ -1,4 +1,4 @@
-* Check the structure and the progress 
+* Check the structure and the progress
   [[file:rust-piscine.org][To-do]]
 * Data types
 ** Defined like this
@@ -84,6 +84,11 @@
    - Expression don't need semicolon
 ** To Indicate the Return Value of a Function
    - Use the -> to indicate the return type
+	 #+begin_src rust
+	   fn value(n: i32) -> i32 {
+		   ...
+	   }
+	 #+end_src
    - Function will return the last expression type without a semicolon
    - It is possible to return before with the return keyword
    - Using if in a let statement
@@ -117,12 +122,12 @@
     - Loop through a collection with for
     - Ex:
       #+begin_src rust
-        fn main() {
-            let a = [10, 20, 30, 40, 50];
-            for element in a.iter() {
-                println!("the value is: {}", element);
-            }
-        }
+		fn main() {
+			let a = [10, 20, 30, 40, 50];
+			for element in a.iter() {
+				println!("the value is: {}", element);
+			}
+		}
       #+end_src
       - Increases safety and speed (preferred over while is better loop when possible)
       - To loop through  a range instead of using while loop is better to use a Range

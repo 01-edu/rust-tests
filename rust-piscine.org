@@ -1,16 +1,20 @@
 * TODO Piscine Topics and Structure
 ** TODO First Part (until flow control Chapter 3.5 in the Rust Book)
-   - [X] Declaring variables (scalar types)
-   - [ ] Declaring variables (compound types)
-     - [ ] Tuples
-     - [ ] Arrays
-   - [-] Declaring functions
-     - [X] With parameters
-     - [ ] Without parameters
-     - [X] Examples of statements and expressions
-     - [X] With returning values
+   - [X] Declaring variables (scalar types) ([[file:temperature_conv/src/main.rs][temperature_conversion]])
+   - [-] Working variables (compound types)
+     - [-] Tuples (Defining and accessing elements)
+       - [ ] Defining with different types
+       - [X] Destructuring ([[file:division_and_remainder/src/main.rs][division_and_remainder]])
+       - [X] Accessing with the index ([[file:matrix_transposition/src/main.rs][matrix_transposition]])
+     - [ ] Arrays (Defining and accessing elements)
+       - [ ] Defining
+       - [ ] Accessing
+   - [X] Declaring functions
+     - [X] Examples of statements and expressions ([[file:fibonacci/src/main.rs][fibonacci]])
+     - [X] With returning values ([[file:fibonacci/src/main.rs][fibonacci]])
+     - [X] Returning tuples ([[file:division_and_remainder/src/main.rs][division_and_remainder]])
    - [-] Control flow
-     - [X] if (as an expression and as statement)
+     - [X] if (as an expression and as statement) ([[file:fibonacci/src/main.rs][fibonacci]])
      - [ ] for
      - [ ] while
      - [ ] loop
