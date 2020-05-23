@@ -22,7 +22,7 @@
      - [ ] loop
      - [ ] returning from loops
 ** TODO Ownership
-   - [ ] Functions that take ownership
-   - [X] Functions that borrow immutably ([[file:ownership/src/main.rs][ownership]])
+   - [X] Functions that take ownership ([[file:ownership/src/main.rs][ownership]])
+   - [X] Functions that borrow immutably ([[file:borrow/src/main.rs][borrow]])
    - [ ] Functions that borrow mutably
 ** TODO All the rest
