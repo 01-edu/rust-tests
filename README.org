@@ -1,9 +1,8 @@
-* TODO Piscine Topics and Structure
-** TODO First Part (until flow control Chapter 3.5 in the Rust Book)
+* DONE First Part (until flow control Chapter 3.5 in the Rust Book)
    - [X] Declaring variables (scalar types) ([[file:temperature_conv/src/main.rs][temperature_conversion]])
-   - [-] Working variables (compound types)
-     - [-] Tuples (Defining and accessing elements)
-       - [ ] Defining with different types
+   - [X] Working variables (compound types)
+     - [X] Tuples (Defining and accessing elements)
+       - [X] Defining with different types ([[file:tuples/src/main.rs][tuples]])
        - [X] Destructuring ([[file:division_and_remainder/src/main.rs][division_and_remainder]])
        - [X] Accessing with the index ([[file:matrix_transposition/src/main.rs][matrix_transposition]])
      - [X] Arrays (Defining and accessing elements) ([[file:arrays/src/main.rs][arrays]])
@@ -15,14 +14,65 @@
      - [X] Examples of statements and expressions ([[file:fibonacci/src/main.rs][fibonacci]])
      - [X] With returning values ([[file:fibonacci/src/main.rs][fibonacci]])
      - [X] Returning tuples ([[file:division_and_remainder/src/main.rs][division_and_remainder]])
-   - [-] Control flow
+   - [X] Control flow
      - [X] if (as an expression and as statement) ([[file:fibonacci/src/main.rs][fibonacci]])
      - [X] for ([[file:arrays/src/main.rs][arrays]])
      - [X] while ([[file:arrays/src/main.rs][arrays]])
-     - [ ] loop
-     - [ ] returning from loops
-** TODO Ownership
+     - [X] loop ([[file:looping/src/main.rs][looping]])
+     - [X] returning from loops ([[file:looping/src/main.rs][looping]])
+* TODO Ownership
    - [X] Functions that take ownership ([[file:ownership/src/main.rs][ownership]])
    - [X] Functions that borrow immutably ([[file:borrow/src/main.rs][borrow]])
-   - [ ] Functions that borrow mutably
-** TODO All the rest
+   - [ ] Functions that borrow mutably ()
+* TODO Using Structs to Structure Related Data
+   - [ ] Defining an initializing Structs
+   - [ ] Method Syntax
+* TODO Enums and pattern matching
+   - [ ] Defining an Enum
+   - [ ] The Match Control Flow Operator
+   - [ ] Concise Control Flow With if let
+* TODO Common Collections
+   - [ ] Storing List of text with Vectors
+   - [ ] Storing UTF-8 Encoded Text with Strings
+   - [ ] Storing Keys with Associated Values in Hash Maps
+* TODO Error Handling
+   - [ ] Unrecoverable Errors with panic!
+   - [ ] Recoverable Errors with Result
+   - [ ] To panic or not to panic
+* TODO Generic Types, Traits and Lifetimes
+   - [ ] Generic Data Types
+   - [ ] Traits: Defining Shared Behavior
+   - [ ] Validating references with Lifetimes
+* TODO Writing Automated Tests
+   - [ ] How to write Tests
+   - [ ] Controlling How Tests are Run
+   - [ ] Test Organization
+* TODO Functional Language Features:
+   - [ ] Closures: Anonymous functions that can capture their environment
+   - [ ] Processing a Series of Items with Iterator
+* TODO Smart Pointers
+   - [ ] Using Box to Point to Data on the Heap
+   - [ ] Treating Smart Pointers Like Regular references with the Deref Trait
+   - [ ] Running Code on Clean up with the Drop Trait
+   - [ ] Rc, the Reference Counted Smart Pointer
+   - [ ] RefCell and the Interior Mutability Pattern
+   - [ ] Reference Counted Smart Pointer
+* TODO Fearless Concurrency
+   - [ ] Using threads to run code simultaneously
+   - [ ] Using Message Passing to Transfer Data Between Treads
+   - [ ] Shared-State Concurrency
+   - [ ] Extensible Concurrency with the Sync and Send Traits
+* TODO Object Oriented Programming Features
+   - [ ] Characteristics of Object-Oriented Languages
+   - [ ] Using Trait Objects That Allow for Values of Different Types
+   - [ ] Implementing an Object-Oriented Designed Pattern
+* TODO Pattern and Matching
+   - [ ] All the places patterns can be used
+   - [ ] Refutability: Whether a Pattern Might Fail to Match
+   - [ ] Pattern Syntax
+* TODO Advance Features
+  - [ ] Unsafe Rust
+  - [ ] Advance Trait
+  - [ ] Advance Types
+  - [ ] Advanced Functions and Closures
+  - [ ] Macros
