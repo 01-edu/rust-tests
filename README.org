@@ -20,7 +20,7 @@
     - [X] while ([[file:arrays/src/main.rs][arrays]])
     - [X] loop ([[file:looping/src/main.rs][looping]])
     - [X] returning from loops ([[file:looping/src/main.rs][looping]])
-* TODO Ownership
+* DONE Ownership
   SCHEDULED: <2020-06-10 Wed>
   - [X] Functions that take ownership ([[file:ownership/src/main.rs][ownership]])
   - [X] Functions that borrow immutably ([[file:borrow/src/main.rs][borrow]])
@@ -29,11 +29,10 @@
     - [X] At any time, you can have either one mutable reference or any number of immutable references. (An exercise that tries to use more than one mutable reference)
       - [X] Two or more immutable references ([[file:reference_rules/src/main.rs][reference_rules]])
       - [X] One mutable reference and one or more immutable ones ([[file:changes/src/main.rs][changes]])
-    - [ ] References must always be valid. (Make an exercise with a dangling reference)
 * TODO Using Structs to Structure Related Data
   SCHEDULED: <2020-06-12 Fri>
-  - [ ] Defining an initializing Structs
-  - [ ] Method Syntax
+  - [X] Defining an initializing Structs
+  - [X] Method Syntax
 * TODO Enums and pattern matching
   SCHEDULED: <2020-06-16 Tue>
   - [ ] Defining an Enum
