@@ -41,12 +41,12 @@
   - [X] Concise Control Flow With if let
 * TODO Common Collections
   SCHEDULED: <2020-06-18 Thu>
-  - [ ] Storing List of text with Vectors
-  - [ ] Storing UTF-8 Encoded Text with Strings
-  - [ ] Storing Keys with Associated Values in Hash Maps
+  - [X] Storing List of text with Vectors
+  - [ ] Storing UTF-8 Encoded Text with Storing
+  - [ ] Strings Keys with Associated Values in Hash Maps
 * TODO Error Handling
   SCHEDULED: <2020-06-23 Tue>
-  - [ ] Unrecoverable Errors with panic!
+  - [ ] uNrecoverable Errors with panic!
   - [ ] Recoverable Errors with Result
   - [ ] To panic or not to panic
 * TODO Generic Types, Traits and Lifetimes
