@@ -39,14 +39,14 @@
   - [X] Defining an Enum
   - [X] The Match Control Flow Operator
   - [X] Concise Control Flow With if let
-* TODO Common Collections
+* DONE Common Collections
   SCHEDULED: <2020-06-18 Thu>
   - [X] Storing List of text with Vectors
-  - [ ] Storing UTF-8 Encoded Text with Storing
-  - [ ] Strings Keys with Associated Values in Hash Maps
+  - [X] Storing UTF-8 Encoded Text with Storing
+  - [X] Strings Keys with Associated Values in Hash Maps
 * TODO Error Handling
   SCHEDULED: <2020-06-23 Tue>
-  - [ ] uNrecoverable Errors with panic!
+  - [ ] Unrecoverable Errors with panic!
   - [ ] Recoverable Errors with Result
   - [ ] To panic or not to panic
 * TODO Generic Types, Traits and Lifetimes
