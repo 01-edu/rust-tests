@@ -46,7 +46,7 @@
   - [X] Strings Keys with Associated Values in Hash Maps
 * TODO Error Handling
   SCHEDULED: <2020-06-23 Tue>
-  - [ ] Unrecoverable Errors with panic!
+  - [X] Unrecoverable Errors with panic!
   - [ ] Recoverable Errors with Result
   - [ ] To panic or not to panic
 * TODO Generic Types, Traits and Lifetimes
@@ -94,5 +94,6 @@
   - [ ] Advance Types
   - [ ] Advanced Functions and Closures
   - [ ] Macros
+* TODO Go back to The Rust Book, Chapter 8.3 Summary (Last section) to get more exercises in collections
 * END
   DEADLINE: <2020-07-15 Wed>
