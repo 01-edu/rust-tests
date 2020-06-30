@@ -44,11 +44,10 @@
   - [X] Storing List of text with Vectors
   - [X] Storing UTF-8 Encoded Text with Storing
   - [X] Strings Keys with Associated Values in Hash Maps
-* TODO Error Handling
+* DONE Error Handling
   SCHEDULED: <2020-06-23 Tue>
   - [X] Unrecoverable Errors with panic!
-  - [ ] Recoverable Errors with Result
-  - [ ] To panic or not to panic
+  - [X] Recoverable Errors with Result
 * TODO Generic Types, Traits and Lifetimes
   SCHEDULED: <2020-06-25 Thu>
   - [ ] Generic Data Types
