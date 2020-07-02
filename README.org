@@ -50,8 +50,8 @@
   - [X] Recoverable Errors with Result
 * TODO Generic Types, Traits and Lifetimes
   SCHEDULED: <2020-06-25 Thu>
-  - [ ] Generic Data Types
-  - [ ] Traits: Defining Shared Behavior
+  - [X] Generic Data Types
+  - [X] Traits: Defining Shared Behavior
   - [ ] Validating references with Lifetimes
 * TODO Writing Automated Tests
   SCHEDULED: <2020-06-30 Tue>
