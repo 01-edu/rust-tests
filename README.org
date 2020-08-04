@@ -48,22 +48,37 @@
   SCHEDULED: <2020-06-23 Tue>
   - [X] Unrecoverable Errors with panic!
   - [X] Recoverable Errors with Result
-* TODO Generic Types, Traits and Lifetimes
+* DONE Generic Types, Traits and Lifetimes
   SCHEDULED: <2020-06-25 Thu>
   - [X] Generic Data Types
   - [X] Traits: Defining Shared Behavior
-  - [ ] Validating references with Lifetimes
-* TODO Writing Automated Tests
-  SCHEDULED: <2020-06-30 Tue>
-  - [ ] How to write Tests
-  - [ ] Controlling How Tests are Run
-  - [ ] Test Organization
-* TODO Functional Language Features:
-  SCHEDULED: <2020-07-02 Thu>
-  - [ ] Closures: Anonymous functions that can capture their environment
-  - [ ] Processing a Series of Items with Iterator
+  - [X] Validating references with Lifetimes
+* DONE Functional Language Features:
+  SCHEDULED: <2020-07-09 Thu>
+  - [X] Closures: Anonymous functions that can capture their environment
+	- [X] Exercise using Iterator::find
+	- [X] Exercise using Iterator::map
+  - [X] Processing a Series of Items with Iterator
+* TODO Packages, Crates and modules
+  SCHEDULED: <2020-08-05 Wed>
+   - [ ] Create modules in the same file.
+   - [ ] Separate one module into another file.
+   - [ ] Put all the modules and sub modules in different files.
+* TODO Pattern and Matching
+  - [ ] All the places patterns can be used
+  - [ ] Refutability: Whether a Pattern Might Fail to Match
+  - [ ] Pattern Syntax
+* TODO Serde
+* TODO Cargo
+* TODO Debugging
+* TODO Web Assembly
+* TODO Go back to The Rust Book, Chapter 8.3 Summary (Last section) to get more exercises in collections
+* TODO For the raids
+** TODO Writing Automated Tests
+   - [ ] How to write Tests 
+   - [ ] Controlling How Tests are Run
+   - [ ] Test Organization
 * TODO Smart Pointers
-  SCHEDULED: <2020-07-04 Sat>
   - [ ] Using Box to Point to Data on the Heap
   - [ ] Treating Smart Pointers Like Regular references with the Deref Trait
   - [ ] Running Code on Clean up with the Drop Trait
@@ -71,28 +86,17 @@
   - [ ] RefCell and the Interior Mutability Pattern
   - [ ] Reference Counted Smart Pointer
 * TODO Fearless Concurrency
-  SCHEDULED: <2020-07-06 Mon>
   - [ ] Using threads to run code simultaneously
   - [ ] Using Message Passing to Transfer Data Between Treads
   - [ ] Shared-State Concurrency
   - [ ] Extensible Concurrency with the Sync and Send Traits
 * TODO Object Oriented Programming Features
-  SCHEDULED: <2020-07-08 Wed>
   - [ ] Characteristics of Object-Oriented Languages
   - [ ] Using Trait Objects That Allow for Values of Different Types
   - [ ] Implementing an Object-Oriented Designed Pattern
-* TODO Pattern and Matching
-  SCHEDULED: <2020-07-09 Thu>
-  - [ ] All the places patterns can be used
-  - [ ] Refutability: Whether a Pattern Might Fail to Match
-  - [ ] Pattern Syntax
 * TODO Advance Features
-  SCHEDULED: <2020-07-12 Sun>
   - [ ] Unsafe Rust
   - [ ] Advance Trait
   - [ ] Advance Types
   - [ ] Advanced Functions and Closures
   - [ ] Macros
-* TODO Go back to The Rust Book, Chapter 8.3 Summary (Last section) to get more exercises in collections
-* END
-  DEADLINE: <2020-07-15 Wed>
