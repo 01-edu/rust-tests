@@ -59,11 +59,11 @@
 	- [X] Exercise using Iterator::find
 	- [X] Exercise using Iterator::map
   - [X] Processing a Series of Items with Iterator
-* TODO Packages, Crates and modules
+* DONE Packages, Crates and modules
   SCHEDULED: <2020-08-05 Wed>
-   - [ ] Create modules in the same file.
-   - [ ] Separate one module into another file.
-   - [ ] Put all the modules and sub modules in different files.
+   - [X] Create modules in the same file.
+   - [X] Separate one module into another file.
+   - [X] Put all the modules and sub modules in different files.
 * TODO Pattern and Matching
   - [ ] All the places patterns can be used
   - [ ] Refutability: Whether a Pattern Might Fail to Match
