@@ -1,7 +1,7 @@
-// Write a function called doubtful that add to every passed to it a ?
+// Write a function called doubtful that add to every string passed to it a ?
 
-// You have to fix the code to make it compile an for that you can
-// only modify the code where is shown
+// You have to fix the code to make it compile and for that you can
+// only modify the code where is indicated
 #[derive(Debug)]
 struct User {
 	username: String,
@@ -15,7 +15,7 @@ fn main() {
 
 	println!("Before changing the string: {}", s);
 
-	change_str(&mut s);
+	doubtful(&mut s);
 
 	println!("After changing the string: {}", s);
 
@@ -37,6 +37,21 @@ fn main() {
 	println!("{:?}", user2);
 }
 
-fn change_str(s: &mut String) {
-	s.push_str("!")
+fn doubtful(s: &mut String) {
+	s.push_str("?")
+}
+
+#[cfg(test)]
+mod test {
+	use super::*;
+
+	#[test]
+	fn it_works() {
+		let mut s = "hello".to_string();
+		let s_copy = s.clone();
+
+		doubtful(&mut s);
+
+		assert_eq!(s, s_copy + "?");
+	}
 }

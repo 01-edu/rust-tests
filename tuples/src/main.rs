@@ -3,10 +3,11 @@
 // Its name and its last name as a string
 // Print the content of the tuple to stdout
 
-// Note: &str is a string slice in Rust for this exercise you just need
-// to know that string literals like "hello" are string slices
+#[derive(Debug)]
+struct Student(i32, String, String);
+
 fn main() {
-	let student: (i32, &str, &str) = (20, "Marie", "Malarme");
+	let student = Student(20, "Pedro".to_string(), "Domingos".to_string());
 	println!("Student: {:?}", student);
 	// After print only the first name
 	println!("Student first name: {}", student.1);
@@ -14,4 +15,17 @@ fn main() {
 	println!("Student last name: {}", student.2);
 	// After print only the id
 	println!("Student Id: {}", student.0);
+}
+
+#[cfg(test)]
+mod test {
+	use super::*;
+
+	#[test]
+	fn it_works() {
+		let student = Student(20, String::from("Pedro"), String::from("Domingos"));
+		assert_eq!(student.0, 20);
+		assert_eq!(student.1, "Pedro".to_string());
+		assert_eq!(student.2, "Domingos".to_string());
+	}
 }
