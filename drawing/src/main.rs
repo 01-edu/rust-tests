@@ -10,8 +10,8 @@
 // You have to define structures for Point, Circle, Line, Rectangle
 // and Triangle and make the code in `main.rs` compile and run.
 
-// You're free to implement the all the shapes with the internal
-// structure that you find mode adequate but you have to provide for
+// You're free to implement all the shapes with the internal
+// structure that you find more adequate, but you have to provide for
 // all the shapes an associated function `new` which will be described
 // next:
 
