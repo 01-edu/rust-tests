@@ -75,8 +75,8 @@
 * TODO Add 32 more exercises to the Rust piscine (for a total of 58 exercises)
   SCHEDULED: <2020-08-21 Fri>
   - Number of Draft Exercises: 26
-  - Newly added exercises: 13
-  - Total: 39
+  - Newly added exercises: 18
+  - Total: 43
 * TODO Add 32 more exercises to the Rust piscine (for a total of 90 exercises)
   SCHEDULED: <2020-08-28 Fri>
   - Number of Draft Exercises: 

@@ -151,7 +151,11 @@ impl BloodType {
 	fn donors(&self) -> Vec<Self> {
 		// all blood types A, B, AB, O
 		let mut blood_types = Vec::new();
-		let mut antigens = vec![Antigen::O, self.antigen.clone()];
+		let mut antigens = if self.antigen == Antigen::O {
+			vec![Antigen::O]
+		} else {
+			vec![Antigen::O, self.antigen.clone()]
+		};
 
 		let rh_factors = if self.rh_factor == RhFactor::Negative {
 			vec![RhFactor::Negative]
@@ -178,7 +182,11 @@ impl BloodType {
 	// who are the recipients of self
 	fn recipients(&self) -> Vec<BloodType> {
 		let mut blood_types = Vec::new();
-		let mut antigens = vec![Antigen::AB, self.antigen.clone()];
+		let mut antigens = if self.antigen != Antigen::AB {
+			vec![Antigen::AB, self.antigen.clone()]
+		} else {
+			vec![Antigen::AB]
+		};
 
 		let rh_factors = if self.rh_factor == RhFactor::Negative {
 			vec![RhFactor::Positive, RhFactor::Negative]
@@ -204,7 +212,15 @@ impl BloodType {
 }
 
 fn main() {
-	println!("Hello, world!");
+	let blood_type: BloodType = "O+".parse().unwrap();
+	println!("recipients of O+ {:?}", blood_type.recipients());
+	println!("donors of O+ {:?}", blood_type.donors());
+	let another_blood_type: BloodType = "A-".parse().unwrap();
+	println!(
+		"donors of O+ can receive from {:?} {:?}",
+		&another_blood_type,
+		blood_type.can_receive_from(&another_blood_type)
+	);
 }
 
 #[cfg(test)]
@@ -302,6 +318,24 @@ mod tests {
 		let mut expected: Vec<BloodType> = vec!["A-".parse().unwrap(), "O-".parse().unwrap()];
 		expected.sort();
 		assert_eq!(givers, expected);
+	}
+
+	#[test]
+	fn test_o_neg_donors() {
+		let mut givers = "O-".parse::<BloodType>().unwrap().donors();
+		givers.sort();
+		let mut expected: Vec<BloodType> = vec!["O-".parse().unwrap()];
+		expected.sort();
+		assert_eq!(givers, expected);
+	}
+
+	#[test]
+	fn test_ab_pos_recipients() {
+		let mut recipients: Vec<BloodType> = "AB+".parse::<BloodType>().unwrap().recipients();
+		recipients.sort();
+		let mut expected: Vec<BloodType> = vec!["AB+".parse().unwrap()];
+		expected.sort();
+		assert_eq!(recipients, expected);
 	}
 
 	#[test]
