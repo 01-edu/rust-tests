@@ -4,7 +4,7 @@
 ### Instructions
 
 Sometimes it is more desirable to catch the failure of some parts of a program instead
-of just calling panic
+of just calling panic.
 
 For this exercise you will have to create a structure called `Message`, this structure
 must have the following elements:
@@ -16,15 +16,15 @@ must have the following elements:
 The struct must also have a implementation of 2 functions associated to it:
 
 - `new`, that initializes the structure
-- `send_ms`, that only has its **self** as argument and returns an option. This function must
-  return `None` if the content of the message is either **empty** or contains the word **stupid**.
-  other wise it returns the content of the message.
+- `send_ms`, that only has its implementation type (**self**) as argument and returns an option.
+  This function must return `None` if the content of the message is either **empty** or contains the 
+  word **stupid**. Otherwise it returns the content of the message.
 
 You will have to create two more functions that aren't associated to any structure:
 
 - `check_ms` that receives as parameters the reference to the structure `Message` and returns a tuple,
 containing a `bool` and a `string`. This function will execute the function `send_ms` and if the result
-of the option is `None` it should return (false, "ERROR: illegal"). Other wise it returns `true` and the
+of the option is `None` it should return (false, "ERROR: illegal"). Otherwise it returns `true` and the
 content of the message sent.
 - `date_format` that creates and formats the date and time that the message was sent, the format should
 look like this: **Mon Oct  5 10:22:19 2020**
