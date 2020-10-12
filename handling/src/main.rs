@@ -7,7 +7,7 @@ Write a function, called `open_or_create` that as two arguments:
 - `file : &str` which is the name of the files
 - `content: &str` being the content to be written into the file
 
-This functions should try to open a file, if it doesn't exist creates it and returns it.
+This functions should try to open a file, if it does not exist creates it.
 You should panic, with the error, in case something goes wrong.
 
 ### Notions
