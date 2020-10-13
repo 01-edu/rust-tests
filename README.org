@@ -64,7 +64,7 @@
    - [X] Create modules in the same file.
    - [X] Separate one module into another file.
    - [X] Put all the modules and sub modules in different files.
-* DONE Fixe previous exercises
+* DONE Fix previous exercises
   SCHEDULED: <2020-08-17 Mon>
   - [X] fibonacci (the readme has to change if the test doesn't appear)
   - [X] tuples (missing test)
