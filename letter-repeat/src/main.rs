@@ -27,9 +27,8 @@ pub fn letter_repeat(candidate: &str) -> bool {
 }
 
 fn main() {
-    println!("{}",letter_repeat("algorithms"));
-    println!("{}",letter_repeat("This is false"));
-
+    println!("{}", letter_repeat("algorithms"));
+    println!("{}", letter_repeat("This is false"));
 }
 
 #[cfg(test)]
