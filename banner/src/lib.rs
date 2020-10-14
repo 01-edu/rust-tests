@@ -3,9 +3,6 @@
 
 ### Instructions
 
-`Result` is a better version of the `Option` type that describes possible error instead
-of possible absence
-
 Create a structure called `Flag` that as the following elements:
 
   - short_hand: String
