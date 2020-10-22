@@ -83,6 +83,43 @@ pub fn parse_todos(todo_str: &str) -> Result<TodoList, Box<dyn Error>> {
     Ok(parset)
 }
 
+/*
+// Example:
+
+mod lib;
+use lib::{ TodoList };
+
+fn main() {
+    let todos = TodoList::get_todo("todo_empty.json");
+    match todos {
+        Ok(list) => println!("{:?}", list),
+        Err(e) => {
+            println!("{}{:?}", e.description(), e.cause());
+        }
+    }
+    // output : "Todo List parse failed: None"
+
+    let todos = TodoList::get_todo("malformed_object.json");
+    match todos {
+        Ok(list) => println!("{:?}", list),
+        Err(e) => {
+            println!("{}{:?}", e.description(), e.cause().unwrap());
+        }
+    }
+    // output : "Todo List parse failed: Malformed(Error("missing field `title`", line: 1, column: 2))"
+
+    let todos = TodoList::get_todo("permission_err.json");
+    match todos {
+        Ok(list) => println!("{:?}", list),
+        Err(e) => {
+            println!("{}{:?}", e.description(), e.cause().unwrap());
+        }
+    }
+    // output : "Todo List read failed: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }"
+}
+
+*/
+
 #[cfg(test)]
 mod tests {
     use super::*;
