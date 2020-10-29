@@ -4,7 +4,7 @@
 ### Instructions
 
 Ownership is Rust's most unique feature, and it enables Rust to make memory safety guarantees without
-needing garbage collector. This comes with a cost od understanding ownership in tus rust.
+needing garbage collector. There for you must understand ownership in rust.
 
 Create the following functions :
 
