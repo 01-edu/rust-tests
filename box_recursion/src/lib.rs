@@ -67,17 +67,24 @@ impl WorkEnvironment {
 // Example :
 fn main() {
   let mut list = WorkEnvironment::new();
-  list.add_worker(String::from("CEO"), String::from("Joana"));
+  list.add_worker(String::from("CEO"), String::from("Marie"));
   list.add_worker(String::from("Manager"), String::from("Monica"));
   list.add_worker(String::from("Normal Worker"), String::from("Ana"));
-  list.add_worker(String::from("Normal Worker"), String::from("Luisa"));
+  list.add_worker(String::from("Normal Worker"), String::from("Alice"));
   println!("{:?}", list);
+  // output:
+  // WorkEnvironment { grade: Some(Worker { worker_type: "Normal Worker", worker_name: "Alice", next_worker: Some(Worker { worker_type: "Normal Worker", worker_name: "Ana", next_worker: Some(Worker { worker_type: "Manager", worker_name: "Monica", next_worker: Some(Worker { worker_type: "CEO", worker_name: "Marie", next_worker: None }) }) }) }) }
+
   println!("{:?}", list.search_worker());
+  // output:
+  // Some(("Alice", "Normal Worker"))
   list.remove_worker();
   list.remove_worker();
   list.remove_worker();
   list.remove_worker();
   println!("{:?}", list);
+  // output:
+  // WorkEnvironment { grade: None }
 }
 */
 
@@ -87,64 +94,76 @@ mod tests {
 
     #[test]
     fn test_new() {
-      let mut list = WorkEnvironment::new();
-      assert!(list.grade.is_none());
+        let list = WorkEnvironment::new();
+        assert!(list.grade.is_none());
     }
 
     #[test]
     fn test_one_worker() {
-      let mut list = WorkEnvironment::new();
-      list.add_worker(String::from("CEO"), String::from("Joana"));
-      list.remove_worker();
-      assert!(list.grade.is_none());
+        let mut list = WorkEnvironment::new();
+        list.add_worker(String::from("CEO"), String::from("Marie"));
+        list.remove_worker();
+        assert!(list.grade.is_none());
     }
 
     #[test]
     fn test_two_workers() {
-      let mut list = WorkEnvironment::new();
-      list.add_worker(String::from("CEO"), String::from("Joana"));
-      list.add_worker(String::from("Manager"), String::from("Monica"));
-      list.remove_worker();
+        let mut list = WorkEnvironment::new();
+        list.add_worker(String::from("CEO"), String::from("Marie"));
+        list.add_worker(String::from("Manager"), String::from("Monica"));
+        list.remove_worker();
 
-      assert_eq!(list.grade.as_ref().unwrap().worker_type, "CEO");
-      assert_eq!(list.grade.as_ref().unwrap().worker_name, "Joana");
+        assert_eq!(list.grade.as_ref().unwrap().worker_type, "CEO");
+        assert_eq!(list.grade.as_ref().unwrap().worker_name, "Marie");
     }
 
     #[test]
     fn test_more_workers() {
-      let mut list = WorkEnvironment::new();
-      list.add_worker(String::from("CEO"), String::from("Joana"));
-      list.add_worker(String::from("Manager"), String::from("Monica"));
-      list.add_worker(String::from("Normal Worker"), String::from("Ana"));
-      list.add_worker(String::from("Normal Worker"), String::from("Luisa"));
-      list.remove_worker();
-      
-      assert_eq!(list.grade.as_ref().unwrap().worker_type, "Normal Worker");
-      assert_eq!(list.grade.as_ref().unwrap().worker_name, "Ana");
-      
-      list.remove_worker();
-      list.remove_worker();
-      assert_eq!(list.grade.as_ref().unwrap().worker_type, "CEO");
-      assert_eq!(list.grade.as_ref().unwrap().worker_name, "Joana");
+        let mut list = WorkEnvironment::new();
+        list.add_worker(String::from("CEO"), String::from("Marie"));
+        list.add_worker(String::from("Manager"), String::from("Monica"));
+        list.add_worker(String::from("Normal Worker"), String::from("Ana"));
+        list.add_worker(String::from("Normal Worker"), String::from("Alice"));
+        list.remove_worker();
+
+        assert_eq!(list.grade.as_ref().unwrap().worker_type, "Normal Worker");
+        assert_eq!(list.grade.as_ref().unwrap().worker_name, "Ana");
+
+        list.remove_worker();
+        list.remove_worker();
+        assert_eq!(list.grade.as_ref().unwrap().worker_type, "CEO");
+        assert_eq!(list.grade.as_ref().unwrap().worker_name, "Marie");
     }
 
     #[test]
     fn test_search() {
-      let mut list = WorkEnvironment::new();
-      list.add_worker(String::from("CEO"), String::from("Joana"));
-      list.add_worker(String::from("Manager"), String::from("Monica"));
-      list.add_worker(String::from("Normal Worker"), String::from("Ana"));
-      list.add_worker(String::from("Normal Worker"), String::from("Luisa"));
+        let mut list = WorkEnvironment::new();
+        list.add_worker(String::from("CEO"), String::from("Marie"));
+        list.add_worker(String::from("Manager"), String::from("Monica"));
+        list.add_worker(String::from("Normal Worker"), String::from("Ana"));
+        list.add_worker(String::from("Normal Worker"), String::from("Alice"));
 
-      assert_eq!(list.search_worker().unwrap(), (String::from("Luisa"), String::from("Normal Worker")));
-      
-      list.remove_worker();
-      assert_eq!(list.search_worker().unwrap(), (String::from("Ana"), String::from("Normal Worker")));
+        assert_eq!(
+            list.search_worker().unwrap(),
+            (String::from("Alice"), String::from("Normal Worker"))
+        );
 
-      list.remove_worker();
-      assert_eq!(list.search_worker().unwrap(), (String::from("Monica"), String::from("Manager")));
+        list.remove_worker();
+        assert_eq!(
+            list.search_worker().unwrap(),
+            (String::from("Ana"), String::from("Normal Worker"))
+        );
 
-      list.remove_worker();
-      assert_eq!(list.search_worker().unwrap(), (String::from("Joana"), String::from("CEO")));
+        list.remove_worker();
+        assert_eq!(
+            list.search_worker().unwrap(),
+            (String::from("Monica"), String::from("Manager"))
+        );
+
+        list.remove_worker();
+        assert_eq!(
+            list.search_worker().unwrap(),
+            (String::from("Marie"), String::from("CEO"))
+        );
     }
 }
