@@ -34,6 +34,7 @@ fn open_or_create(s: &str, content: &str) {
 	f.write_all(content.as_bytes()).unwrap();
 }
 
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -44,6 +45,7 @@ mod tests {
 		let mut file = File::open(filename).unwrap();
 		let mut s = String::new();
 		file.read_to_string(&mut s).unwrap();
+		fs::remove_file(filename).unwrap();
 		return s;
 	}
 
@@ -55,7 +57,6 @@ mod tests {
 		open_or_create(filename, content);
 
 		assert_eq!(content, get_file_content(filename));
-		fs::remove_file(filename).unwrap();
 	}
 
 	#[test]
@@ -65,7 +66,6 @@ mod tests {
 		open_or_create(file, content);
 
 		assert_eq!(content, get_file_content(file));
-		fs::remove_file(file).unwrap();
 	}
 	#[test]
 	fn test_error_case() {
@@ -76,7 +76,7 @@ mod tests {
 		fs::set_permissions(filename, perms).unwrap();
 
 		let result = panic::catch_unwind(|| open_or_create(filename, "test"));
-		assert!(result.is_err());
 		fs::remove_file(filename).unwrap();
+		assert!(result.is_err());
 	}
 }
