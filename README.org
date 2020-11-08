@@ -72,7 +72,7 @@
   - [X] circle (improve the readme)
   - [X] hashing (check if the main can be changed)
   - [X] lifetimes (I ask to create the structure but it's already done)
-* TODO Add 32 more exercises to the Rust piscine (for a total of 58 exercises)
+* DONE Add 32 more exercises to the Rust piscine (for a total of 58 exercises)
   SCHEDULED: <2020-08-21 Fri>
   - Number of Draft Exercises: 26
   - Newly added exercises: 18
@@ -85,7 +85,7 @@
   - [ ] All the places patterns can be used
   - [ ] Refutability: Whether a Pattern Might Fail to Match
   - [ ] Pattern Syntax
-* TODO Serde
+* DONE Serde
 * TODO Cargo
 * TODO Debugging
 * TODO Web Assembly
