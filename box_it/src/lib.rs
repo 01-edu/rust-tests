@@ -5,11 +5,10 @@
 
 Create the following functions:
 
-- `transform_and_save_on_heap`, that receives a string with a number and transforms those numbers in to `u32`
-  and inserts it into a vector that must be saved in the heap using **Box**.
+- `transform_and_save_on_heap`, that receives a string with a number (that can or not have a k (kilo) suffix)
+  and transforms those numbers into `u32` and inserts it into a vector that must be saved in the heap using **Box**.
 
-- `copy_from_heap`, that copies the value form the heap (boxed element) into a normal value (unboxed value)
-  and returns it
+- `take_value_ownership`, that takes the value (unboxed value) form the box and returns it
 
 ### Notions
 
@@ -37,7 +36,7 @@ fn transform_and_save_on_heap(s: String) -> Box<Vec<u32>> {
     Box::new(v)
 }
 
-fn copy_from_heap(a: Box<Vec<u32>>) -> Vec<u32> {
+fn take_value_ownership(a: Box<Vec<u32>>) -> Vec<u32> {
     *a
 }
 
@@ -52,7 +51,7 @@ fn main() {
     println!("Box value : {:?}", &a_h);
     println!("size occupied in the stack : {:?} bytes", (std::mem::size_of_val(&a_h)));
     
-    let a_b_v = copy_from_heap(a_h);
+    let a_b_v = take_value_ownership(a_h);
     println!("value : {:?}", &a_b_v);
     println!("size occupied in the stack : {:?} bytes", (std::mem::size_of_val(&a_b_v)));
     // output :
@@ -93,9 +92,9 @@ mod tests {
         let new_str = String::from("5.5k 8.9k 32");
         let new_str_1 = String::from("6.8k 13.5k");
         let new_str_2 = String::from("20.3k 3.8k 7.7k 992");
-        let a = copy_from_heap(transform_and_save_on_heap(new_str));
-        let b = copy_from_heap(transform_and_save_on_heap(new_str_1));
-        let c = copy_from_heap(transform_and_save_on_heap(new_str_2));
+        let a = take_value_ownership(transform_and_save_on_heap(new_str));
+        let b = take_value_ownership(transform_and_save_on_heap(new_str_1));
+        let c = take_value_ownership(transform_and_save_on_heap(new_str_2));
 
         assert_eq!(a, vec![5500, 8900, 32]);
         assert_eq!(b, vec![6800, 13500]);
