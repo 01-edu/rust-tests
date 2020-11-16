@@ -1,14 +1,24 @@
-// Write a function that receives an u32 number and converts it into a
-// roman number in subtractive notation (the common way to write roman
-// number)
+// # Instructions
+// Implement the From<u32> Trait to create a roman number from a u32
+// the roman number should be in subtractive notation (the common way to write roman
+// number I, II, II, IV, V, VI, VII, VIII, IX, X ...)
 
-// For this start by defining the digits as RomanDigit with the values
+// For this start by defining the digits as `RomanDigit` with the values
 // I, V, X, L, C, D, M and Nulla for 0
 
 // Next define RomanNumber as a wrapper to a vector of RomanDigit's
-// And implement the Trait From<u32> to u32 values convert into RomanNumber's
+// And implement the Trait From<u32>
 
-#[derive(Debug, PartialEq, Eq)]
+// Examples:
+// RomanNumber::from(32) = [X,X,X,I,I]
+// RomanNumber::from(9) = [I,X]
+// RomanNumber::from(45) = [X,L,V]
+// RomanNumber:;from(0) = [Nulla]
+
+mod iterator;
+use crate::RomanDigit::*;
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 enum RomanDigit {
 	Nulla,
 	I,
@@ -19,8 +29,6 @@ enum RomanDigit {
 	D,
 	M,
 }
-
-use crate::RomanDigit::*;
 
 impl From<u32> for RomanDigit {
 	fn from(n: u32) -> Self {
@@ -37,10 +45,15 @@ impl From<u32> for RomanDigit {
 	}
 }
 
+#[derive(Debug)]
 struct RomanNumber(Vec<RomanDigit>);
 
 impl From<u32> for RomanNumber {
 	fn from(n: u32) -> Self {
+		if n == 0 {
+			return RomanNumber(vec![Nulla]);
+		}
+
 		let mut quotient = n;
 		let mut p = 0;
 		let mut reverse_roman = Vec::new();
