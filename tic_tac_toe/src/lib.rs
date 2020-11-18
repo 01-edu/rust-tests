@@ -8,9 +8,9 @@ You must create a tic tac toe checker.
 Create the following functions:
 
 - `tic_tac_toe` that receives a table of vectors that are wrapped (Vec<Vec<&str>>) and returns a string : `player O won` or `player X won` or `Tie`
-- `diagonals` that will receive a player and the table. Return a boolean, this must return true if all the diagonals are completed by the player
-- `horizontal` that will a player and the table. Return a boolean This must return true if one of the horizontal lines are completed by the player
-- `vertical` that will a player and the table. Return a boolean, this must return true if one of the vertical lines are completed by the player
+- `diagonals` that will receive a player and a table. It should return a boolean, this must return true if all the diagonals are completed by the player
+- `horizontal` that will a player and a table. It should return a boolean, this must return true if one of the horizontal lines are completed by the player
+- `vertical` that will a player and a table. It should return a boolean, this must return true if one of the vertical lines are completed by the player
 
 ### Notions
 
@@ -83,7 +83,7 @@ fn vertical(player: &str, table: &Vec<Vec<&str>>) -> bool {
 }
 
 /*
-// Example.
+// Example:
 
 fn main() {
     println!(
@@ -312,7 +312,7 @@ mod tests {
         let new_tests = Test::init_horizontal();
         for v in new_tests {
             assert_eq!(horizontal(v.player, &v.table), true)
-        };
+        }
 
         assert_eq!(
             horizontal(
@@ -353,7 +353,7 @@ mod tests {
         new_tests.append(&mut Test::init_horizontal());
         new_tests.append(&mut Test::init_vertical());
         new_tests.append(&mut Test::init_tie());
-        
+
         for v in new_tests {
             assert_eq!(tic_tac_toe(v.table), v.result.to_string());
         }
