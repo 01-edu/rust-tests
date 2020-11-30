@@ -5,7 +5,7 @@
 
 Create the following functions :
 
-- `add_ele` that adds a element to the value in the `Node`
+- `add_ele` that adds an element to the value in the `Node`
 
 - `how_many_references` that returns how many times the value is referenced in the code
 
