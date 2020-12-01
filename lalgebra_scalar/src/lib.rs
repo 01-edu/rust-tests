@@ -1,3 +1,4 @@
+// # Instructions
 // A scalar type must implement the operations
 // Addition, Subtraction, Multiplication and Division (you might
 // also have to use more restrictions). For this use a trait

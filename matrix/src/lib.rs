@@ -5,43 +5,36 @@
 // implement the basic operations for this you will need to follow the
 // next steps:
 
+// You can use a 2 dimensional Vec<T>'s
 // We will consider a matrix as a rectangular arrangements of scalars
-// Therefore you will have to create the definition of a Scalar by
-// defining a trait Scalar in another file: `scalar.rs.`
+// You can use the definition of scalars done in the last exercise:
+// `lalgebra_scalar`
 
-// Second exercise
+// Then define the associated function `identity` that returns the identity matrix
+// of size n
+// Ex:
+// Matrix::identity(3) == [[1,0,0], [0,1,0], [0,0,1]]
 
-// Continuing with this library we will define the Matrix<T> type
-// we will define it as a wrapper for a Vec of Vecs (To make it flexible)
-// That is, as a two dimensional Vec
-
-// Let's start to define functions for our matrices
-
-// First define an associated function call `new` that returns an
-// empty matrix
-// then define the associated function zero(row, col) that returns
-// a matrix of size `row x col` (row by col) with all positions filled
-// with the zero of each type
-
-// Then define the function identity that returns the identity matrix
-// of size `row x col`
+// And the associated function `zero` that returns a matrix of size
+// `row x col` with all the positions filled by zeroes
+// Ex:
+// Matrix::zero(3, 3) == [[0,0,0],[0,0,0],[0,0,0]]
 
 // Resources: https://doc.rust-lang.org/book/ch19-03-advanced-traits.html
 
+use lalgebra_scalar::Scalar;
 mod ops;
-mod scalar;
-use scalar::Scalar;
 
 #[derive(Debug, Eq, PartialEq)]
-struct Matrix<T>(Vec<Vec<T>>);
+pub struct Matrix<T>(pub Vec<Vec<T>>);
 
 impl<T: Scalar<Item = T>> Matrix<T> {
-	fn new() -> Matrix<T> {
+	pub fn new() -> Matrix<T> {
 		Matrix(vec![Vec::new()])
 	}
 	// It returns the zero matrix of the size given by the row and
 	// column parameters
-	fn zero(row: usize, col: usize) -> Matrix<T> {
+	pub fn zero(row: usize, col: usize) -> Matrix<T> {
 		let mut matrix = Matrix(Vec::new());
 		for _ in 0..row {
 			matrix.0.push(vec![T::zero(); col]);
@@ -49,7 +42,7 @@ impl<T: Scalar<Item = T>> Matrix<T> {
 		matrix
 	}
 
-	fn identity(n: usize) -> Matrix<T> {
+	pub fn identity(n: usize) -> Matrix<T> {
 		let mut matrix = Matrix::new();
 		for y in 0..n {
 			if y > 0 {

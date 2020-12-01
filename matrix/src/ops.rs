@@ -6,8 +6,6 @@
 // have the same size. Therefore the add method must handle the
 // possibility of failure by returning an Option<T>
 
-// And do the equivalent also for the operator `-` (Subtraction).
-
 use crate::{Matrix, Scalar};
 use std::ops::Add;
 
@@ -35,7 +33,7 @@ impl<T: Scalar<Item = T> + std::ops::Add<Output = T>> Add for Matrix<T> {
 
 use std::ops::Sub;
 
-impl<T: Scalar<Item = T> + std::ops::Sub<Output = T>> Sub for Matrix<T> {
+impl<T: Scalar<Item = T> + Sub<Output = T>> Sub for Matrix<T> {
 	type Output = Option<Self>;
 
 	fn sub(self, other: Self) -> Self::Output {
@@ -58,11 +56,11 @@ impl<T: Scalar<Item = T> + std::ops::Sub<Output = T>> Sub for Matrix<T> {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
 	use super::*;
 
 	#[test]
-	fn test_addition() {
+	fn addition() {
 		let matrix = Matrix(vec![vec![1, 1], vec![1, 1]]);
 		let matrix_2 = Matrix(vec![vec![1, 1], vec![1, 1]]);
 		let expected = Matrix(vec![vec![2, 2], vec![2, 2]]);
@@ -74,7 +72,7 @@ mod test {
 	}
 
 	#[test]
-	fn test_subtraction() {
+	fn subtraction() {
 		let matrix = Matrix(vec![vec![1, 1], vec![1, 1]]);
 		let matrix_2 = Matrix(vec![vec![1, 1], vec![1, 1]]);
 		let expected = Matrix(vec![vec![0, 0], vec![0, 0]]);
