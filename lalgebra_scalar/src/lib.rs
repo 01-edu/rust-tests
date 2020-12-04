@@ -9,9 +9,9 @@
 // multiplication). Therefore the Scalar trait will require 2
 // functions zero() and one()
 
-// After finishing implement the Scalar trait for u32
-// And for f32
-// And then for all the basic rust types i8, i16, ..., i64, f32, f64
+// After finishing implement the Scalar trait for u32, u64, i32, i64,
+// f32, f64
+
 use std::ops::{Add, Div, Mul, Sub};
 
 pub trait Scalar: Add + Div + Mul + Sub + std::marker::Sized + Clone {
@@ -84,7 +84,7 @@ mod test {
 	use super::*;
 
 	#[test]
-	fn scalar() {
+	fn scalar_u32() {
 		let a: u32 = u32::zero();
 		assert_eq!(a, 0 as u32);
 
@@ -93,10 +93,45 @@ mod test {
 	}
 
 	#[test]
-	fn f32_scalar() {
+	fn scalar_u64() {
+		let a = u64::zero();
+		assert_eq!(a, 0 as u64);
+
+		let b = u64::one();
+		assert_eq!(b, 1 as u64);
+	}
+
+	#[test]
+	fn scalar_i32() {
+		let a: i32 = i32::zero();
+		assert_eq!(a, 0 as i32);
+
+		let b = i32::one();
+		assert_eq!(b, 1 as i32);
+	}
+
+	#[test]
+	fn scalar_i64() {
+		let a: i64 = i64::zero();
+		assert_eq!(a, 0 as i64);
+
+		let b = i64::one();
+		assert_eq!(b, 1 as i64);
+	}
+
+	#[test]
+	fn scalar_f32() {
 		let zero = f32::zero();
 		assert_eq!(zero, 0.0);
 		let one = f32::one();
+		assert_eq!(one, 1.0);
+	}
+
+	#[test]
+	fn scalar_f64() {
+		let zero = f64::zero();
+		assert_eq!(zero, 0.0);
+		let one = f64::one();
 		assert_eq!(one, 1.0);
 	}
 }
