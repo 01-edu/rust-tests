@@ -88,7 +88,7 @@ mod tests {
     }
 
     #[test]
-    fn test_copy() {
+    fn test_take_value_from_box() {
         let new_str = String::from("5.5k 8.9k 32");
         let new_str_1 = String::from("6.8k 13.5k");
         let new_str_2 = String::from("20.3k 3.8k 7.7k 992");

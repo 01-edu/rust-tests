@@ -18,7 +18,7 @@ Create the following functions :
     ```rust
         fn main() {
           let mut b: Vec<&str> = vec!["2+2=4", "3+2=5", "10-3=3", "5+5=10"];
-            let a = delete_and_backspace(&mut b);
+            let a = is_correct(&mut b);
             println!("{:?}", (b, a));
             // output: (["✔", "✔", "✘", "✔"], 75)
         }
@@ -78,6 +78,7 @@ fn is_correct(v: &mut Vec<&str>) -> usize {
     (percentage * 100) / v.len()
 }
 
+/*
 fn main() {
     let mut a = String::from("bpp--o+er+++sskroi-++lcw");
     let mut b: Vec<&str> = vec!["2+2=4", "3+2=5", "10-3=3", "5+5=10"];
@@ -85,7 +86,9 @@ fn main() {
     let per = is_correct(&mut b); // the reference of  the value
 
     println!("{:?}%", (a, b, per));
+    // output: ("borrow", ["✔", "✔", "✘", "✔"], 75)
 }
+*/
 
 #[cfg(test)]
 mod tests {
@@ -114,6 +117,7 @@ mod tests {
         assert_eq!(result_1, 75);
         assert_eq!(result_2, 0);
         assert_eq!(result_3, 100);
+
         assert_eq!(b_1, vec!["✔", "✔", "✘", "✔"]);
         assert_eq!(b_2, vec!["✘", "✘", "✘", "✘"]);
         assert_eq!(b_3, vec!["✔", "✔", "✔", "✔"]);

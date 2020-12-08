@@ -32,7 +32,7 @@ For the module you must create the following:
 
 Afterwards you must use the module `messenger` and create the following:
 
-- A structure `Worker` that has the fields: 
+- A structure `Worker` that has the fields:
   -`track_value` this will be the value that will be tracked by the tracker.
   - `mapped_messages` that will have the latest messages. This must be a HashMap with the key being the type of message
   sent by the logger (info, error or warning) and the value being the message

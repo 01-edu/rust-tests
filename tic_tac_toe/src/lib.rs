@@ -7,10 +7,10 @@ You must create a tic tac toe checker.
 
 Create the following functions:
 
-- `tic_tac_toe` that receives a table of vectors that are wrapped (Vec<Vec<&str>>) and returns a string : `player O won` or `player X won` or `Tie`
+- `tic_tac_toe` that receives a table of vectors (Vec<Vec<&str>>) and returns a string : `player O won` or `player X won` or `Tie`
 - `diagonals` that will receive a player and a table. It should return a boolean, this must return true if all the diagonals are completed by the player
-- `horizontal` that will a player and a table. It should return a boolean, this must return true if one of the horizontal lines are completed by the player
-- `vertical` that will a player and a table. It should return a boolean, this must return true if one of the vertical lines are completed by the player
+- `horizontal` that will receive a player and a table. It should return a boolean, this must return true if one of the horizontal lines are completed by the player
+- `vertical` that will receive a player and a table. It should return a boolean, this must return true if one of the vertical lines are completed by the player
 
 ### Notions
 

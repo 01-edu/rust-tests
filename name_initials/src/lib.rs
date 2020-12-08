@@ -64,7 +64,7 @@ mod tests {
     }
 
     #[test]
-    fn test_memory() {
+    fn test_memory_allocation() {
         // the statistics tracked by jemalloc are cached
         // The epoch controls when they are refreshed
         let e = epoch::mib().unwrap();

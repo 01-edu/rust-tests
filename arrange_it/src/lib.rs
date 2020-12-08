@@ -3,7 +3,7 @@
 
 ### Instructions
 
-Create a function called `arrange_phrase` that takes a phrase and returns it organized
+Create a function called `arrange_phrase` that takes a string literal as a phrase and returns it organized
 Each word will have a number that indicates the position of that word
 
 ### Example
