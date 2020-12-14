@@ -27,8 +27,8 @@ out the message **"Fail to parse todo"** in case it's a parsing error, otherwise
   - For the `ParseErr` it will return an option that can be `None` if the tasks are **empty** otherwise the error, if
   the parsing is **malformed**.
 
-In the main file you will have to implement a function called `get_todo` that receives a literal string and returns a Result
-that can be the structure `TodoList` or the boxing error. This function must be able to deserialize the json file.
+In the main file you will have to implement a function called `get_todo` that receives a string and returns a Result
+that can be the structure `TodoList` or a boxing error. This function must be able to deserialize the json file.
 
 ### Notions
 
