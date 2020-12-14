@@ -89,7 +89,7 @@
   - [X] Rc, the Reference Counted Smart Pointer
   - [X] RefCell and the Interior Mutability Pattern
   - [X] Reference Counted Smart Pointer
-* TODO Finish last 6 exercises
+* TODO Finish last 4 exercises
   SCHEDULED: <2020-12-14 Mon>
   - [X] An exercise with a enum with a lifetime and a method for that lifetime
   - [X] Convert two arrays into a map
