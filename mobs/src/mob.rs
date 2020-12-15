@@ -2,7 +2,7 @@ pub mod boss;
 pub mod member;
 
 use boss::Boss;
-use member::{new_member, Member, Role};
+use member::{new, Member, Role};
 
 #[derive(Debug, Clone)]
 pub struct Mob {
@@ -16,7 +16,7 @@ pub struct Mob {
 impl Mob {
     pub fn recruit(&mut self, member_name: &str, member_age: u8) {
         self.members
-            .push(new_member(member_name, Role::Associate, member_age));
+            .push(new(member_name, Role::Associate, member_age));
     }
 
     pub fn attack(&mut self, target: &mut Mob) {

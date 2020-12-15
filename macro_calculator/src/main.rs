@@ -102,6 +102,7 @@ fn calculate_macros(foods: Vec<serde_json::Value>) -> serde_json::Value {
     })
 }
 
+#[cfg(test)]
 mod test {
     use super::*;
 

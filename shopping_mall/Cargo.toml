@@ -1,5 +1,5 @@
 [package]
-name = "mob"
+name = "shopping_mall"
 version = "0.1.0"
 authors = ["OGordoo <marcosafonso8@hotmail.com>"]
 edition = "2018"

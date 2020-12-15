@@ -91,6 +91,7 @@ fn volume_fit(
     times as f64 * size <= max_size as f64
 }
 
+#[cfg(test)]
 mod tests {
 
     use super::*;

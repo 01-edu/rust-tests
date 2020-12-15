@@ -54,6 +54,7 @@ use mob::{boss, member};
 
 fn main() {}
 
+#[cfg(test)]
 mod test {
   use super::*;
 
