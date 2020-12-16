@@ -5,7 +5,7 @@
 
 // For more information and examples https://en.wikipedia.org/wiki/Edit_distance
 
-fn edit_distance(source: &str, target: &str) -> usize {
+pub fn edit_distance(source: &str, target: &str) -> usize {
 	let src = source.chars().collect::<Vec<_>>();
 	let tar = target.chars().collect::<Vec<_>>();
 	let source_len = src.len() + 1;
@@ -43,16 +43,16 @@ fn edit_distance(source: &str, target: &str) -> usize {
 	matrix[target_len - 1][source_len - 1]
 }
 
-fn main() {
-	let source = "alignment";
-	let target = "assignment";
-	println!(
-		"It's necessary to make {} change(s) to {}, to get {}",
-		edit_distance(source, target),
-		source,
-		target
-	);
-}
+// fn main() {
+// 	let source = "alignment";
+// 	let target = "assignment";
+// 	println!(
+// 		"It's necessary to make {} change(s) to {}, to get {}",
+// 		edit_distance(source, target),
+// 		source,
+// 		target
+// 	);
+// }
 
 #[cfg(test)]
 mod test {
