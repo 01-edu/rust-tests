@@ -5,11 +5,11 @@
 
 You will have to create several functions to help run a shopping mall, with the help of the `mall` module provided:
 
-- `biggest_store`: receives a `mall::Mall` and returns the `mall::floor::store::Store` with the biggest `square_meters`;
-- `highest_paid_employees`: receives a `mall::Mall` and returns a vector containing all of the `mall::floor::store::employee::Employee`s with the highest salaries;
+- `biggest_store`: receives a `mall::Mall` and returns the `Store` with the biggest `square_meters`;
+- `highest_paid_employees`: receives a `mall::Mall` and returns a vector containing the `Employee`(s) with the highest salaries;
 - `nbr_of_employees`: receives a `mall::Mall` and returns the number of employees and securities, as an `usize`, in that mall.
 - `fire_old_securities`: receives a `mall::Mall` and removes from the `mall::Mall.securities` all securities who are 50 years old or older.
-- `check_securities`: receives a `mall::Mall` and a vector of `mall::security::Security` and if there are not at least 1 security for every 200 square meters of floor size, there should be added a security to the `mall::Mall.securities`
+- `check_securities`: receives a `mall::Mall` and a vector of `Security` and if there are not at least 1 security for every 200 square meters of floor size, there should be added a security to the `mall::Mall.securities`
 - `cut_or_raise`: receives a `mall::Mall and raises or cuts the salary  of every employee in the mall by 10% depending if the employee works for more than 10 hours
 
 
@@ -100,7 +100,6 @@ use floor::store;
 use mall::floor;
 use mall::security;
 use store::employee;
-
 
 fn biggest_store(mall: mall::Mall) -> store::Store {
     let mut res: store::Store = store::Store::new("", 0, vec![]);

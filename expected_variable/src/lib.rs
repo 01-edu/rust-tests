@@ -3,7 +3,7 @@
 
 ### Instructions
 
-Create a function `expected_variable` that receives two strings: one to be evaluated and the other to be compared to (expected) and return an Option. Every comparison should be case insensitive.
+Create a function `expected_variable` that receives two strings: one to be evaluated and the other to be compared to (expected) and returns an Option. Every comparison should be case insensitive.
 
 If the evaluated string is not in camel case or in snake case according to the `case` crate that you should use, `expected_variable` returns None.
 Otherwise the evaluated string should be compared to the expected string using the `edit_distance` function that you did in one of the previous quests.
@@ -41,7 +41,6 @@ extern crate edit_distance;
 
 use case::CaseExt;
 use edit_distance::edit_distance;
-
 
 fn expected_variable(evaluated: &str, expected: &str) -> Option<String> {
     let (evaluated1, correct1) = (evaluated.to_lowercase(), expected.to_lowercase());
