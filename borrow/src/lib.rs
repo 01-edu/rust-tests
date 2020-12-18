@@ -1,7 +1,25 @@
-// Complete the signature and the body of the `str_len` function so it
-// receives a string or a string literal and returns its length (of
-// type usize)
-// without taking ownership of the value (i.e, borrowing the value)
+/*
+## borrow
+
+### Instructions
+
+Complete the signature and the body of the `str_len` function so it
+receives a string or a string literal and returns its length (of type usize)
+without taking ownership of the value (i.e, borrowing the value)
+
+### Example
+
+```rust
+fn main() {
+	let s = "hello";
+	let s1 = "camelCase".to_string();
+
+	println!("\tstr_len(\"{}\") = {}", s, str_len(s));
+	println!("\tstr_len(\"{}\") = {}", s1, str_len(&s1));
+}
+```
+*/
+
 
 fn main() {
 	let s = "hello";
