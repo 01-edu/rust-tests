@@ -10,6 +10,23 @@ Write a function, called `open_or_create` that as two arguments:
 This functions should try to open a file, if it does not exist creates it.
 You should panic, with the error, in case something goes wrong.
 
+### Example
+
+```rust
+fn main() {
+	let path = "a.txt";
+	File::create(path).unwrap();
+   open_or_create(path, "content to be written");
+
+   let mut file = File::open(path).unwrap();
+
+   let mut s = String::new();
+   file.read_to_string(&mut s).unwrap();
+   println!("{}", s);
+   // output: content to be written
+}
+```
+
 ### Notions
 
 - https://doc.rust-lang.org/std/io/enum.ErrorKind.html
@@ -20,7 +37,6 @@ use std::fs::{File, OpenOptions};
 use std::io::prelude::*;
 use std::io::{ErrorKind, Write};
 
-fn main() {}
 
 fn open_or_create(s: &str, content: &str) {
 	let mut f = match OpenOptions::new().write(true).open(s) {

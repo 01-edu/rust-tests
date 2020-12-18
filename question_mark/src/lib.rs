@@ -13,6 +13,28 @@ You will have to create 3 structures:
 Beside the structure you must create a function named `get_fourth_layer` that is associated to the `One` structure.
 This function should return the `Option` value in the `Four` structure.
 
+### Example
+
+```rust
+fn main() {
+    let a = One {
+        first_layer : Some(Two {
+            second_layer: Some(Three {
+                third_layer: Some(Four {
+                    fourth_layer: Some(1000)
+                })
+            })
+        })
+    };
+
+    // output: 1000
+    println!("{:?}", match a.get_third_layer() {
+        Some(e) => e,
+        None => 0
+    })
+}
+```
+
 ### Notions
 
 - https://doc.rust-lang.org/stable/rust-by-example/error/option_unwrap/question_mark.html
@@ -43,26 +65,6 @@ impl One {
         self.first_layer?.second_layer?.third_layer?.fourth_layer
     }
 }
-
-/*
-fn main() {
-    let a = One {
-        first_layer : Some(Two {
-            second_layer: Some(Three {
-                third_layer: Some(Four {
-                    fourth_layer: Some(1000)
-                })
-            })
-        })
-    };
-
-    // output: 1000
-    println!("{:?}", match a.get_third_layer() {
-        Some(e) => e,
-        None => 0
-    })
-}
-*/
 
 #[cfg(test)]
 mod tests {
