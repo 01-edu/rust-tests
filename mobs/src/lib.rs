@@ -3,7 +3,7 @@
 
 ### Instructions
 
-Create a module `mob`, in which it has to be present:
+Create a different file and a folder called `mob.rs` and `mob` respectively. This will be the `mob` module that will contain:
 
 - a `Mob` structure that consists of:
   - a String `name`
