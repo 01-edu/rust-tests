@@ -1,12 +1,14 @@
 /*
-## options
+## profanity filter
 
 ### Instructions
 
 Sometimes it is more desirable to catch the failure of some parts of a program instead
 of just calling panic.
 
-For this exercise you will have to create a structure called `Message`, this structure
+For this exercise you will have to create a message blocker, where you must block the word `stupid`
+
+You will have to create a structure called `Message`, this structure
 must have the following elements:
 
 - content: String
