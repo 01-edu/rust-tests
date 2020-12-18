@@ -18,11 +18,32 @@ Create the following functions that receives a vector :
   - `unwrap_or_else` that in case of error returns a the 
     vector that justifies the error
 
+### Example
+
+```rust
+fn main() {
+    // println!("{:?}", expect(vec![1, 3, 2, 5]));
+    println!("{:?}", unwrap_or(vec![1, 3, 2, 5]));
+    // output : []
+    println!("{:?}", unwrap_or(vec![1, 3, 5]));
+    // output : [2, 4, 6]
+    println!("{:?}", unwrap_err(vec![1, 3, 2, 5]));
+    // output : ("There is a even value in the vector!", [2])
+    // println!("{:?}", unwrap_err(vec![1, 3, 5]));
+    println!("{:?}", unwrap(vec![1, 3, 5]));
+    // output : [2, 4, 6]
+    // println!("{:?}", unwrap(vec![1, 3, 2, 5]));
+    println!("{:?}", unwrap_or_else(vec![1, 3, 5]));
+    // output : [2, 4, 6]
+    println!("{:?}", unwrap_or_else(vec![3, 2, 6, 5]));
+    // output : [2, 6]
+}
+```
 ### Notions
 
 - https://doc.rust-lang.org/std/?search=unwrap
-
 */
+
 fn odd_to_even(data: Vec<u32>) -> Result<Vec<u32>, (String, Vec<u32>)> {
     let mut a = Vec::new();
     a.extend(data.iter().filter(|&value| value % 2 == 0));
@@ -54,22 +75,6 @@ fn unwrap(v: Vec<u32>) -> Vec<u32> {
 fn unwrap_or_else(v: Vec<u32>) -> Vec<u32> {
         odd_to_even(v).unwrap_or_else(|(_, x)| x)
 }
-
-/*
-Example:
-
-fn main() {
-    // println!("{:?}", expect(vec![1, 3, 2, 5]));
-    println!("{:?}", unwrap_or(vec![1, 3, 2, 5]));
-    println!("{:?}", unwrap_or(vec![1, 3, 5]));
-    println!("{:?}", unwrap_err(vec![1, 3, 2, 5]));
-    // println!("{:?}", unwrap_err(vec![1, 3, 5]));
-    println!("{:?}", unwrap(vec![1, 3, 5]));
-    // println!("{:?}", unwrap(vec![1, 3, 2, 5]));
-    println!("{:?}", unwrap_or_else(vec![1, 3, 5]));
-    println!("{:?}", unwrap_or_else(vec![3, 2, 6, 5]));
-}
-*/
 
 #[cfg(test)]
 mod tests {

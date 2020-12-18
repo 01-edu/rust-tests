@@ -1,7 +1,13 @@
-// Why does this code not compile
+/*
+## error types
+
+### Instructions
+
+Why does this code not compile
+
+*/
 
 // It's not possible to have one mutable reference and one immutable
-
 fn main() {
 	let ref mut a = String::from("Hello");
 	let len = a.len();

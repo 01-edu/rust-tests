@@ -12,6 +12,40 @@ Create the following functions:
 - `horizontal` that will receive a player and a table. It should return a boolean, this must return true if one of the horizontal lines are completed by the player
 - `vertical` that will receive a player and a table. It should return a boolean, this must return true if one of the vertical lines are completed by the player
 
+### Example
+
+```rust
+fn main() {
+    println!(
+        "{:?}",
+        tic_tac_toe(vec![
+            vec!["O", "X", "O"],
+            vec!["O", "P", "X"],
+            vec!["X", "#", "X"]
+        ])
+    );
+    // "Tie"
+    println!(
+        "{:?}",
+        tic_tac_toe(vec![
+            vec!["X", "O", "O"],
+            vec!["X", "O", "O"],
+            vec!["#", "O", "X"]
+        ])
+    );
+    // "player O won"
+
+    let dig = vec![
+            vec!["O", "O", "X"],
+            vec!["O", "X", "O"],
+            vec!["X", "#", "X"]
+        ];
+
+    println!("{:?}",tic_tac_toe(dig));
+    // "player X won"
+}
+```
+
 ### Notions
 
 - https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html
@@ -81,62 +115,6 @@ fn vertical(player: &str, table: &Vec<Vec<&str>>) -> bool {
     }
     return false;
 }
-
-/*
-// Example:
-
-fn main() {
-    println!(
-        "{:?}",
-        tic_tac_toe(vec![
-            vec!["O", "X", "O"],
-            vec!["O", "P", "X"],
-            vec!["X", "#", "X"]
-        ])
-    );
-    // "Tie"
-
-    println!(
-        "{:?}",
-        tic_tac_toe(vec![
-            vec!["X", "O", "O"],
-            vec!["X", "O", "O"],
-            vec!["#", "O", "X"]
-        ])
-    );
-    // "player O won"
-
-    println!(
-        "{:?}",
-        tic_tac_toe(vec![
-            vec!["X", "X", "O"],
-            vec!["O", "O", "O"],
-            vec!["O", "#", "X"]
-        ])
-    );
-    // "player O won"
-
-    println!(
-        "{:?}",
-        tic_tac_toe(vec![
-            vec!["O", "O", "X"],
-            vec!["O", "X", "O"],
-            vec!["X", "#", "X"]
-        ])
-    );
-    // "player X won"
-
-    println!(
-        "{:?}",
-        tic_tac_toe(vec![
-            vec!["O", "X", "O"],
-            vec!["X", "O", "O"],
-            vec!["X", "#", "O"]
-        ])
-    );
-    // "player O won"
-}
-*/
 
 #[cfg(test)]
 mod tests {

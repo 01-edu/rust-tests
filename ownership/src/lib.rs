@@ -1,9 +1,17 @@
-// Create a function that takes ownership of a string and returns the
-// first sub-word in it. It should work for camelCase as well as snake_case
-// first_subword(camelCase) returns camel
-// first_subword(snake_case) returns snake
+/*
+## ownership
 
-// And fix the printing expression so the code works
+### Instruction
+
+Create a function that takes ownership of a string and returns the
+first sub-word in it. It should work for camelCase as well as snake_case
+first_subword(camelCase) returns camel
+first_subword(snake_case) returns snake
+
+And fix the printing expression so the code works
+
+###
+
 fn main() {
 	let s1 = String::from("helloWorld");
 	let s2 = String::from("snake_case");
@@ -15,6 +23,7 @@ fn main() {
 	println!("first_subword({}) = {}", s3.clone(), first_subword(s3)); // Must print first_subword(CamelCase) = Camel
 	println!("first_subword({}) = {}", s4.clone(), first_subword(s4)); // Must print first_subword(just) = just
 }
+*/
 
 fn first_subword(mut s: String) -> String {
 	let mut position = 0;
