@@ -14,19 +14,6 @@ Otherwise `expected_value` should return None.
 Example:
 
 ```rs
-edit_distance("On_Point", "on_point").unwrap(); // -> 100%
-edit_distance("soClose", "So Close").unwrap(); // -> 88%
-edit_distance("something", "something_completely_different"); // -> None
-```
-
-*/
-
-extern crate case;
-extern crate edit_distance;
-
-use case::CaseExt;
-use edit_distance::edit_distance;
-
 fn main() {
     println!(
         "{} close to it",
@@ -45,6 +32,16 @@ fn main() {
         expected_variable("BenedictCumberbatch", "BeneficialCucumbersnatch").unwrap()
     ); // -> 73%
 }
+```
+
+*/
+
+extern crate case;
+extern crate edit_distance;
+
+use case::CaseExt;
+use edit_distance::edit_distance;
+
 
 fn expected_variable(evaluated: &str, expected: &str) -> Option<String> {
     let (evaluated1, correct1) = (evaluated.to_lowercase(), expected.to_lowercase());
