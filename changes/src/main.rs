@@ -3,7 +3,7 @@
 
 ### Instructions
 
-Why does this code not compile
+Make this code compile
 
 */
 
@@ -13,7 +13,7 @@ fn main() {
 	let len = a.len();
 	let b = &a;
 
-	add_excitement(a);
+	add_excitement(&mut a.clone());
 
 	println!("The len of {} is {}", a, len);
 	println!("The length of {} is {}", b, b.len());
@@ -21,4 +21,17 @@ fn main() {
 
 fn add_excitement(s: &mut String) {
 	s.push_str("!");
+}
+
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use assert_cmd::Command;
+
+	#[test]
+	fn test_main() {
+		let mut cmd = Command::cargo_bin("changes").unwrap();
+		cmd.assert().success();
+	}
 }
