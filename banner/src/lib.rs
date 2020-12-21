@@ -3,6 +3,9 @@
 
 ### Instructions
 
+`Result` is a better version of the `Option` type that describes possible error instead
+of possible absence
+
 Create a structure called `Flag` that as the following elements:
 
   - short_hand: String
@@ -36,12 +39,41 @@ You will have to create the following callback functions :
   - `rem`, that converts the reference strings to `float`s and returns the `Result`, being the remainder of the division
   of the `float`s or the standard (std) error `ParseFloatError`.
 
+### Example
+
+```rust
+fn main() {
+    let mut handler = FlagsHandler { flags: HashMap::new() };
+
+    let d = Flag::opt_flag("division", "divides the values, formula (a / b)");
+    let r = Flag::opt_flag(
+        "remainder",
+        "remainder of the division between two values, formula (a % b)",
+    );
+
+    handler.add_flag((d.short_hand, d.long_hand), div);
+    handler.add_flag((r.short_hand, r.long_hand), rem);
+
+    println!("{:?}", handler.exec_func(("-d".to_string(), "--division".to_string()), &["1.0", "2.0"]));
+    // output: "0.5"
+
+    println!("{:?}",handler.exec_func(("-r".to_string(), "--remainder".to_string()), &["2.0", "2.0"]));
+    // output: "0.0"
+    
+    println!("{:?}",handler.exec_func(("-d".to_string(), "--division".to_string()), &["a", "2.0"]));
+    // output: "invalid float literal"
+    
+    println!("{:?}",handler.exec_func(("-r".to_string(), "--remainder".to_string()), &["2.0", "fd"]));
+    // output: "invalid float literal"
+}
+```
+
 ### Notions
 
 - https://doc.rust-lang.org/rust-by-example/error/result.html
 - https://docs.rs/getopts/0.2.18/getopts/struct.Options.html#method.optflag
-
 */
+
 use std::collections::HashMap;
 use std::num::ParseFloatError;
 
@@ -97,33 +129,6 @@ impl Flag {
         }
     }
 }
-
-/* Example
-fn main() {
-    let mut handler = FlagsHandler { flags: HashMap::new() };
-
-    let d = Flag::opt_flag("division", "divides the values, formula (a / b)");
-    let r = Flag::opt_flag(
-        "remainder",
-        "remainder of the division between two values, formula (a % b)",
-    );
-
-    handler.add_flag((d.short_hand, d.long_hand), div);
-    handler.add_flag((r.short_hand, r.long_hand), rem);
-
-    // output: "0.5"
-    println!("{:?}", handler.exec_func(("-d".to_string(), "--division".to_string()), &["1.0", "2.0"]));
-
-    // output: "0.0"
-    println!("{:?}",handler.exec_func(("-r".to_string(), "--remainder".to_string()), &["2.0", "2.0"]));
-    
-    // output: "ERROR: invalid float literal"
-    println!("{:?}",handler.exec_func(("-d".to_string(), "--division".to_string()), &["a", "2.0"]));
-    
-    // output: "ERROR: invalid float literal"
-    println!("{:?}",handler.exec_func(("-r".to_string(), "--remainder".to_string()), &["2.0", "fd"]));
-}
-*/
 
 #[cfg(test)]
 mod tests {

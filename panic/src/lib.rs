@@ -1,10 +1,14 @@
-// Write a function that tries to open a file and panics if the file
-// doesn't exist
-use std::fs::{self, File};
+/*
+## error types
 
-fn main() {
-	open_file("file.txt");
-}
+### Instructions
+
+Write a function that tries to open a file and panics if the file
+doesn't exist
+
+*/
+
+use std::fs::{self, File};
 
 fn open_file(s: &str) -> File {
 	let file = File::open(s);

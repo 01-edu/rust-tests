@@ -9,10 +9,28 @@ Your objective is to fix the program so that all functions work.
 - `str_function`, returns a tuple with the original value and the exponential of that value as a string
 - `vec_function`, returns a tuple with the original value and the logarithm of each value
 
+The objective is to now how ownership works with different types.
+
+### Example
+
+```rust
+fn main() {
+    let a = String::from("1 2 4 5 6");
+    let b = vec![1, 2, 4, 5];
+    let c: u32 = 0;
+
+    println!("{:?}", nbr_function(c));
+    // output: (12, 162754.79141900392, 2.4849066497880004)
+    println!("{:?}", vec_function(b));
+    // output: ([1, 2, 4], [0.0, 0.6931471805599453, 1.3862943611198906])
+    println!("{:?}", str_function(a));
+    // output: ("1 2 4", "2.718281828459045 7.38905609893065 54.598150033144236")
+}
+```
+
 ### Notions
 
 - https://doc.rust-lang.org/rust-by-example/scope/move.html
-
 */
 
 fn nbr_function(c: u32) -> (u32, f64, f64){
@@ -40,22 +58,6 @@ fn vec_function(b: Vec<u32>) -> (Vec<u32>, Vec<f64>){
     (b.clone(), b.iter().map(|v| logarithm(*v)).collect())
 }
 
-
-/*
-// Example:
-fn main() {
-    let a = String::from("1 2 4 5 6");
-    let b = vec![1, 2, 4, 5];
-    let c: u32 = 0;
-
-    println!("{:?}", nbr_function(c));
-    // output: (12, 162754.79141900392, 2.4849066497880004)
-    println!("{:?}", vec_function(b));
-    // output: ([1, 2, 4], [0.0, 0.6931471805599453, 1.3862943611198906])
-    println!("{:?}", str_function(a));
-    // output: ("1 2 4", "2.718281828459045 7.38905609893065 54.598150033144236")
-}
-*/
 #[cfg(test)]
 mod tests {
     use super::*;

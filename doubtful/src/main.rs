@@ -1,7 +1,15 @@
-// Write a function called doubtful that add to every string passed to it a ?
+/*
+## doubtful
 
-// You have to fix the code to make it compile and for that you can
-// only modify the code where is indicated
+### Instructions
+
+Write a function called `doubtful` that adds to every string passed
+to it a question mark (?)
+
+You have to fix the code to make it compile an for that you can
+only modify the code where is indicated
+*/
+
 #[derive(Debug)]
 struct User {
 	username: String,
@@ -44,6 +52,7 @@ fn doubtful(s: &mut String) {
 #[cfg(test)]
 mod test {
 	use super::*;
+	use assert_cmd::Command;
 
 	#[test]
 	fn it_works() {
@@ -53,5 +62,11 @@ mod test {
 		doubtful(&mut s);
 
 		assert_eq!(s, s_copy + "?");
+	}
+
+	#[test]
+	fn test_main() {
+		let mut cmd = Command::cargo_bin("doubtful").unwrap();
+		cmd.assert().success();
 	}
 }

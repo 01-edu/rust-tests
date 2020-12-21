@@ -1,5 +1,5 @@
 /*
-## boxing
+## boxing_todo
 
 ### Instructions
 
@@ -18,7 +18,7 @@ For each data structure you will have to implement a function called `fmt` for t
 out the message **"Fail to parse todo"** in case it's a parsing error, otherwise it writes the message
 **"Failed to read todo file"**. And for the `Error` trait the following functions:
 
-- `description` that returns a reference to a string that says:
+- `description` that returns a string literal that says:
   - "Todo List parse failed: " for the `ParseErr`
   - "Todo List read failed: " for the `ReadErr`.
 
@@ -30,12 +30,47 @@ out the message **"Fail to parse todo"** in case it's a parsing error, otherwise
 In the main file you will have to implement a function called `get_todo` that receives a string and returns a Result
 that can be the structure `TodoList` or a boxing error. This function must be able to deserialize the json file.
 
+### Example
+
+```rust
+mod lib;
+use lib::{ TodoList };
+
+fn main() {
+    let todos = TodoList::get_todo("todo_empty.json");
+    match todos {
+        Ok(list) => println!("{:?}", list),
+        Err(e) => {
+            println!("{}{:?}", e.description(), e.cause());
+        }
+    }
+    // output : "Todo List parse failed: None"
+
+    let todos = TodoList::get_todo("malformed_object.json");
+    match todos {
+        Ok(list) => println!("{:?}", list),
+        Err(e) => {
+            println!("{}{:?}", e.description(), e.cause().unwrap());
+        }
+    }
+    // output : "Todo List parse failed: Malformed(Error("missing field `title`", line: 1, column: 2))"
+
+    let todos = TodoList::get_todo("permission_err.json");
+    match todos {
+        Ok(list) => println!("{:?}", list),
+        Err(e) => {
+            println!("{}{:?}", e.description(), e.cause().unwrap());
+        }
+    }
+    // output : "Todo List read failed: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }"
+}
+```
+
 ### Notions
 
 - https://serde.rs/
 - https://doc.rust-lang.org/stable/rust-by-example/error/multiple_error_types/boxing_errors.html
 - https://doc.rust-lang.org/stable/rust-by-example/trait/dyn.html
-
 */
 
 mod error;
@@ -82,43 +117,6 @@ pub fn parse_todos(todo_str: &str) -> Result<TodoList, Box<dyn Error>> {
     }
     Ok(parset)
 }
-
-/*
-// Example:
-
-mod lib;
-use lib::{ TodoList };
-
-fn main() {
-    let todos = TodoList::get_todo("todo_empty.json");
-    match todos {
-        Ok(list) => println!("{:?}", list),
-        Err(e) => {
-            println!("{}{:?}", e.description(), e.cause());
-        }
-    }
-    // output : "Todo List parse failed: None"
-
-    let todos = TodoList::get_todo("malformed_object.json");
-    match todos {
-        Ok(list) => println!("{:?}", list),
-        Err(e) => {
-            println!("{}{:?}", e.description(), e.cause().unwrap());
-        }
-    }
-    // output : "Todo List parse failed: Malformed(Error("missing field `title`", line: 1, column: 2))"
-
-    let todos = TodoList::get_todo("permission_err.json");
-    match todos {
-        Ok(list) => println!("{:?}", list),
-        Err(e) => {
-            println!("{}{:?}", e.description(), e.cause().unwrap());
-        }
-    }
-    // output : "Todo List read failed: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }"
-}
-
-*/
 
 #[cfg(test)]
 mod tests {
