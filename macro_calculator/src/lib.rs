@@ -35,21 +35,9 @@ Every value should be rounded to two decimal places (ex: 12.29) or one decimal p
 
 Hint: You will need the `serde`, `serde_json` and `serde_derive` crates.
 
-*/
+### Example
 
-extern crate serde_json;
-
-#[macro_use]
-extern crate serde_derive;
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Macros {
-    cals: f64,
-    carbs: f64,
-    proteins: f64,
-    fats: f64,
-}
-
+```rust
 fn main() {
     let a = serde_json::json!(
         {
@@ -72,6 +60,21 @@ fn main() {
 
     let macros: Macros = serde_json::from_value(calculate_macros(vec![a, b])).unwrap();
     println!("{:?}", macros);
+}
+```
+*/
+
+extern crate serde_json;
+
+#[macro_use]
+extern crate serde_derive;
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Macros {
+    cals: f64,
+    carbs: f64,
+    proteins: f64,
+    fats: f64,
 }
 
 fn calculate_macros(foods: Vec<serde_json::Value>) -> serde_json::Value {

@@ -1,12 +1,14 @@
 /*
-## options
+## profanity filter
 
 ### Instructions
 
 Sometimes it is more desirable to catch the failure of some parts of a program instead
 of just calling panic.
 
-For this exercise you will have to create a structure called `Message`, this structure
+For this exercise you will have to create a message blocker, where you must block the word `stupid`
+
+You will have to create a structure called `Message`, this structure
 must have the following elements:
 
 - content: String
@@ -28,6 +30,28 @@ of the option is `None` it should return (false, "ERROR: illegal"). Otherwise it
 content of the message sent.
 - `date_format` that creates and formats the date and time that the message was sent, the format should
 look like this: **Mon Oct  5 10:22:19 2020**
+
+### Example
+
+```rust
+fn main() {
+  let m0 = Message::new_ms("hello there".to_string(), "toby".to_string(), format_date());
+  println!("{:?}", check_ms(&m0));
+  // output: (true, "hello there")
+
+  let m1 = Message::new_ms("".to_string(), "toby".to_string(), format_date());
+  println!("{:?}", check_ms(&m1));
+  // output: (false, "ERROR: illegal")
+
+  let m2 = Message::new_ms("you are stupid".to_string(), "toby".to_string(), format_date());
+  println!("{:?}", check_ms(&m2));
+  // output: (false, "ERROR: illegal")
+
+  let m3 = Message::new_ms("stupid".to_string(), "toby".to_string(), format_date());
+  println!("{:?}", check_ms(&m3));
+  // output: (false, "ERROR: illegal")
+}
+```
 
 ### Notions
 
@@ -77,30 +101,6 @@ fn format_date() -> String {
   Utc::now().format("%a %b %e %T %Y").to_string()
 }
 
-/*
-// example
-fn main() {
-  let m0 = Message::new_ms("hello there".to_string(), "toby".to_string(), format_date());
-  println!("{:?}", check_ms(&m0));
-
-  let m1 = Message::new_ms("".to_string(), "toby".to_string(), format_date());
-  println!("{:?}", check_ms(&m1));
-
-  let m2 = Message::new_ms(
-    "you are stupid".to_string(),
-    "toby".to_string(),
-    format_date(),
-  );
-  println!("{:?}", check_ms(&m2));
-
-  let m3 = Message::new_ms(
-    "stupid".to_string(),
-    "toby".to_string(),
-    format_date(),
-  );
-  println!("{:?}", check_ms(&m3));
-}
-*/
 #[cfg(test)]
 mod tests {
   use super::*;

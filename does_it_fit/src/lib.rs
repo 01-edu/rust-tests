@@ -10,8 +10,8 @@ Using the `areas_volumes` module provided, create two functions:
   - `objects`, the type of geometrical shape(s) that it is  going to be tried to be fitted in the square (areas_volumes::Geometrical_Shapes)
   - `times`, the number of geometrical shapes that are going to be tried to be fitted in the square (usize)
   - `a` and `b`, the dimensions that the plane(s) shape(s) passed will have (both usize)
-    - `a` will refer to the side of the Square, the radius of the Circle, the side_a of the Rectangle and the base of the Triangle
-    - `b` will refer to the side_b of the Rectangle and the height of the Triangle
+    - `a` will refer to the side of the Square, the radius of the Circle, the side_a of the Rectangle or the base of the Triangle
+    - `b` will refer to the side_b of the Rectangle or the height of the Triangle
 - `area_fit` should return if the geometrical shape(s) fit inside of the square.
 
     - `volume_fit` that receives 8 arguments:
@@ -19,38 +19,39 @@ Using the `areas_volumes` module provided, create two functions:
   - `objects`, the type of geometrical volume(s) that it is  going to be tried to be fitted in the box (areas_volumes::Geometrical_Volumes)
   - `times`, the number of geometrical volumes that are going to be tried to be fitted in the box (usize)
   - `a`, `b` and `c`, the dimensions that the geometrical volume(s) passed will have (all of them usize)
-    - `a` will refer to the side of the Cube, the radius of the Sphere, the side_a of the Parallelepiped, the area of the base of the Triangular Pyramid and the base radius of the Cone
-    - `b` will refer to the side_b of the Parallelepiped, the height of the Triangular Pyramid and the height of the Cone
+    - `a` will refer to the side of the Cube, the radius of the Sphere, the side_a of the Parallelepiped, the area of the base of the Triangular Pyramid or the base radius of the Cone
+    - `b` will refer to the side_b of the Parallelepiped, the height of the Triangular Pyramid or the height of the Cone
     - `c` will refer to the side_c of the Parallelepiped
 - `volume_fit` should return if the geometrical volume(s) fit inside of the box.
+
+### Example
+
+```rust
+fn main() {
+    println!(
+        "Does 100 rectangles (2x1) fit in a 2 by 4 square? {}",
+        area_fit(2, 4, Geometrical_Shapes::Rectangle, 100, 2, 1)
+    ); // -> false
+    println!(
+        "Does 3 triangles (5 base and 3 height) fit in a 5 by 5 square? {}",
+        area_fit(5, 5, Geometrical_Shapes::Triangle, 3, 5, 3)
+    ); -> true
+    println!(
+        "Does 3 spheres (2 radius) fit in a 5 by 5 by 5 box? {}",
+        volume_fit(5, 5, 5, Geometrical_Volumes::Sphere, 3, 2, 0, 0)
+    ); -> false
+    println!(
+        "Does 3 triangles (5 base and 3 height) fit in a 5 by 7 by 5 box? {}",
+        volume_fit(5, 7, 5, Geometrical_Volumes::Parallelepiped, 1, 6, 7, 4)
+    ); -> true
+}
+```
 
 */
 
 mod areas_volumes;
 
 use areas_volumes::*;
-
-fn main() {
-    println!(
-        "Does 100 rectangles (2x1) fit in a 5 by 5 square? {}",
-        area_fit(5, 5, Geometrical_Shapes::Rectangle, 100, 2, 1)
-    );
-
-    println!(
-        "Does 3 triangles (5 base and 3 height) fit in a 7 by 7 square? {}",
-        area_fit(5, 5, Geometrical_Shapes::Triangle, 3, 5, 3)
-    );
-
-    println!(
-        "Does 3 sphres (2 radius) fit in a 5 by 5 by 5 box? {}",
-        volume_fit(5, 5, 5, Geometrical_Volumes::Sphere, 3, 2, 0, 0)
-    );
-
-    println!(
-        "Does 3 triangles (5 base and 3 height) fit in a 7 by 7 box? {}",
-        volume_fit(5, 5, 5, Geometrical_Volumes::Parallelepiped, 1, 6, 7, 4)
-    );
-}
 
 fn area_fit(
     x: usize,
@@ -134,23 +135,23 @@ mod tests {
     fn all_volumes() {
         assert_eq!(
             true,
-            volume_fit(5, 2, 3, Geometrical_Volumes::Cube, 2, 3, 3, 4)
+            volume_fit(5, 6, 3, Geometrical_Volumes::Cube, 2, 3, 3, 4)
         );
         assert_eq!(
             false,
-            volume_fit(7, 4, 4, Geometrical_Volumes::Cone, 0, 8, 2, 0)
+            volume_fit(7, 4, 4, Geometrical_Volumes::Cone, 1, 8, 2, 0)
         );
         assert_eq!(
             true,
-            volume_fit(2, 5, 3, Geometrical_Volumes::Sphere, 0, 1, 1, 1)
+            volume_fit(2, 5, 3, Geometrical_Volumes::Sphere, 1, 1, 1, 1)
         );
         assert_eq!(
             false,
-            volume_fit(2, 5, 3, Geometrical_Volumes::Parallelepiped, 0, 1, 1, 1)
+            volume_fit(2, 5, 3, Geometrical_Volumes::Parallelepiped, 31, 1, 1, 1)
         );
         assert_eq!(
             true,
-            volume_fit(2, 5, 3, Geometrical_Volumes::Pyramid, 0, 1, 1, 1)
+            volume_fit(7, 5, 3, Geometrical_Volumes::Pyramid, 3, 3, 2, 1)
         );
     }
 }
