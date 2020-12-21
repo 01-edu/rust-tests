@@ -24,6 +24,29 @@ Using the `areas_volumes` module provided, create two functions:
     - `c` will refer to the side_c of the Parallelepiped
 - `volume_fit` should return if the geometrical volume(s) fit inside of the box.
 
+### Example
+
+```rust
+fn main() {
+    println!(
+        "Does 100 rectangles (2x1) fit in a 5 by 5 square? {}",
+        area_fit(5, 5, Geometrical_Shapes::Rectangle, 100, 2, 1)
+    );
+    println!(
+        "Does 3 triangles (5 base and 3 height) fit in a 7 by 7 square? {}",
+        area_fit(5, 5, Geometrical_Shapes::Triangle, 3, 5, 3)
+    );
+    println!(
+        "Does 3 sphres (2 radius) fit in a 5 by 5 by 5 box? {}",
+        volume_fit(5, 5, 5, Geometrical_Volumes::Sphere, 3, 2, 0, 0)
+    );
+    println!(
+        "Does 3 triangles (5 base and 3 height) fit in a 7 by 7 box? {}",
+        volume_fit(5, 5, 5, Geometrical_Volumes::Parallelepiped, 1, 6, 7, 4)
+    );
+}
+```
+
 */
 
 mod areas_volumes;

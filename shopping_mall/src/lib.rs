@@ -12,15 +12,10 @@ You will have to create several functions to help run a shopping mall, with the 
 - `check_securities`: receives a `mall::Mall` and a vector of `mall::security::Security` and if there are not at least 1 security for every 200 square meters of floor size, there should be added a security to the `mall::Mall.securities`
 - `cut_or_raise`: receives a `mall::Mall and raises or cuts the salary  of every employee in the mall by 10% depending if the employee works for more than 10 hours
 
-*/
 
-mod mall;
+### Example
 
-use floor::store;
-use mall::floor;
-use mall::security;
-use store::employee;
-
+```rust
 fn main() {
     let secs = vec![
         mall::security::Security::new("John Oliver", 34, 7),
@@ -95,6 +90,17 @@ fn main() {
 
     println!("{:?}", &mall_la_vie); //prints the whole mall
 }
+```
+
+*/
+
+mod mall;
+
+use floor::store;
+use mall::floor;
+use mall::security;
+use store::employee;
+
 
 fn biggest_store(mall: mall::Mall) -> store::Store {
     let mut res: store::Store = store::Store::new("", 0, vec![]);
