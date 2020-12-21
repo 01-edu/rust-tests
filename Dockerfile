@@ -3,7 +3,6 @@ FROM alpine/git:1.0.20 as cloner
 RUN git clone --single-branch --branch rust-piscine https://github.com/01-edu/public.git
 
 COPY .ssh /root/.ssh
-RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 RUN git clone git@github.com:01-edu/rust-piscine-solutions.git
 RUN rm -rf /root/.ssh
 
