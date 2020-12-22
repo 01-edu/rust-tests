@@ -4,6 +4,7 @@ ADD https://time.is /tmp/invalidate_cache
 RUN git clone --single-branch --branch rust-piscine https://github.com/01-edu/public.git
 
 COPY .ssh /root/.ssh
+RUN chmod 400 /root/.ssh/id_ed25519
 RUN git clone git@github.com:01-edu/rust-piscine-solutions.git
 RUN rm -rf /root/.ssh
 
