@@ -4,7 +4,8 @@ set -euo pipefail
 IFS='
 '
 
-cp -a /app/public .
+mkdir -p public/rust
+cp -a /app/public/rust/tests public/rust
 
 ln -s student rust-piscine-solutions
 
