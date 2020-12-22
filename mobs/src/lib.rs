@@ -170,8 +170,8 @@ mod test {
     assert_eq!(a.cities.len(), 0);
     assert_eq!(a.wealth, 0);
 
-    assert_eq!(b.cities[0], ("San Francisco".to_string(), 7));
-    assert_eq!(b.cities[1], ("San Jose".to_string(), 5));
+    assert_eq!(b.cities[0], ("San Jose".to_string(), 5));
+    assert_eq!(b.cities[1], ("San Francisco".to_string(), 7));
     assert_eq!(b.wealth, 170000);
   }
 
