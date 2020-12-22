@@ -58,7 +58,6 @@ fn arrange_phrase(phrase: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use jemalloc_ctl::{epoch, stats};
 
     fn arrange_phrase_sol(phrase: &str) -> String {
         let nbrs: Vec<&str> = phrase.matches(char::is_numeric).collect();
@@ -91,7 +90,7 @@ mod tests {
         e.advance().unwrap();
         let student = allocated.read().unwrap();
 
-        assert_eq!(solution, student);
+        assert!(student <= solution, format!("your heap allocation is {}, and it must be less or equal to {}", student, solution));
     }
 
     #[test]
