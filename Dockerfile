@@ -1,5 +1,6 @@
 FROM alpine/git:1.0.20 as cloner
 
+ADD https://time.is /tmp/invalidate_cache
 RUN git clone --single-branch --branch rust-piscine https://github.com/01-edu/public.git
 
 COPY .ssh /root/.ssh
