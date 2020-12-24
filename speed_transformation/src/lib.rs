@@ -1,15 +1,15 @@
 // Create a function that receives the speed in km/h (kilometers per hour) and returns the
 // equivalent in m/s (meters per second)
 
-fn km_per_hour_to_meters_per_second(km_h: f64) -> f64 {
+pub fn km_per_hour_to_meters_per_second(km_h: f64) -> f64 {
 	(10.0 / 36.0) * km_h
 }
 
-fn main() {
-	let km_h = 100.0;
-	let m_s = km_per_hour_to_meters_per_second(km_h);
-	println!("{} km/h is equivalent to {} m/s", km_h, m_s);
-}
+// fn main() {
+// 	let km_h = 100.0;
+// 	let m_s = km_per_hour_to_meters_per_second(km_h);
+// 	println!("{} km/h is equivalent to {} m/s", km_h, m_s);
+// }
 
 #[cfg(test)]
 mod test {
