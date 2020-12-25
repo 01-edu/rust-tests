@@ -25,7 +25,7 @@ fn main() {
 }
 */
 
-fn first_subword(mut s: String) -> String {
+pub fn first_subword(mut s: String) -> String {
 	let mut position = 0;
 	for (i, c) in s.chars().enumerate() {
 		if c.is_uppercase() || c == '_' {
@@ -33,7 +33,7 @@ fn first_subword(mut s: String) -> String {
 		}
 	}
 	if position > 0 {
-		s.split_off(position);
+		let _ = s.split_off(position);
 	}
 	s
 }
