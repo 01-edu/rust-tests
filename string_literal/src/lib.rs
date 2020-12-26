@@ -21,98 +21,104 @@ Create the following functions:
 
 */
 
-#[global_allocator]
-static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
+// #[global_allocator]
+// static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
-fn is_empty(v: &str) -> bool {
-    // v.split("").collect::<Vec<&str>>().len() == 0 // -> this is the bad one for example it will allocate on the heap
-    v.is_empty()
+pub fn is_empty(v: &str) -> bool {
+	// v.split("").collect::<Vec<&str>>().len() == 0 // -> this is the bad one for example it will allocate on the heap
+	v.is_empty()
 }
 
-fn is_ascii(v: &str) -> bool {
-    v.is_ascii()
+pub fn is_ascii(v: &str) -> bool {
+	v.is_ascii()
 }
 
-fn contains(v: &str, pat: &str) -> bool {
-    v.contains(pat)
+pub fn contains(v: &str, pat: &str) -> bool {
+	v.contains(pat)
 }
 
-fn split_at(v: &str, index: usize) -> (&str, &str) {
-    v.split_at(index)
+pub fn split_at(v: &str, index: usize) -> (&str, &str) {
+	v.split_at(index)
 }
 
-fn find(v: &str, pat: char) -> usize {
-    v.find(pat).unwrap()
+pub fn find(v: &str, pat: char) -> usize {
+	v.find(pat).unwrap()
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use jemalloc_ctl::{epoch, stats};
+	use super::*;
+	use jemalloc_ctl::{epoch, stats};
 
-    fn is_empty_sol(v: &str) -> bool {
-        v.is_empty()
-    }
+	fn is_empty_sol(v: &str) -> bool {
+		v.is_empty()
+	}
 
-    fn is_ascii_sol(v: &str) -> bool {
-        v.is_ascii()
-    }
+	fn is_ascii_sol(v: &str) -> bool {
+		v.is_ascii()
+	}
 
-    fn contains_sol(v: &str, pat: &str) -> bool {
-        v.contains(pat)
-    }
+	fn contains_sol(v: &str, pat: &str) -> bool {
+		v.contains(pat)
+	}
 
-    fn split_at_sol(v: &str, index: usize) -> (&str, &str) {
-        v.split_at(index)
-    }
+	fn split_at_sol(v: &str, index: usize) -> (&str, &str) {
+		v.split_at(index)
+	}
 
-    fn find_sol(v: &str, pat: char) -> usize {
-        v.find(pat).unwrap()
-    }
-    
-    #[test]
-    fn test_memory() {
-        // the statistics tracked by jemalloc are cached
-        // The epoch controls when they are refreshed
-        let e = epoch::mib().unwrap();
-        // allocated: number of bytes allocated by the application
-        let allocated = stats::allocated::mib().unwrap();
+	fn find_sol(v: &str, pat: char) -> usize {
+		v.find(pat).unwrap()
+	}
 
-        // sense we only use string literals (&str)
-        // the heap will not be allocated, because
-        // &str are preallocated text (saved on the binary file)
-        is_empty_sol("");
-        is_ascii_sol("rust");
-        contains_sol("rust", "ru");
-        split_at_sol("rust", 2);
-        find_sol("rust", 'u');
-        // this will advance with the epoch giving the its old value
-        // where we read the updated heap allocation using the `allocated.read()`
-        e.advance().unwrap();
-        let solution = allocated.read().unwrap();
+	#[test]
+	fn test_memory() {
+		// the statistics tracked by jemalloc are cached
+		// The epoch controls when they are refreshed
+		let e = epoch::mib().unwrap();
+		// allocated: number of bytes allocated by the application
+		let allocated = stats::allocated::mib().unwrap();
 
-        is_empty("");
-        is_ascii_sol("rust");
-        contains("rust", "er");
-        split_at("rust", 2);
-        find("rust", 'u');
+		// sense we only use string literals (&str)
+		// the heap will not be allocated, because
+		// &str are preallocated text (saved on the binary file)
+		is_empty_sol("");
+		is_ascii_sol("rust");
+		contains_sol("rust", "ru");
+		split_at_sol("rust", 2);
+		find_sol("rust", 'u');
+		// this will advance with the epoch giving the its old value
+		// where we read the updated heap allocation using the `allocated.read()`
+		e.advance().unwrap();
+		let solution = allocated.read().unwrap();
 
-        e.advance().unwrap();
-        let student = allocated.read().unwrap();
+		is_empty("");
+		is_ascii_sol("rust");
+		contains("rust", "er");
+		split_at("rust", 2);
+		find("rust", 'u');
 
-        assert!(student <= solution, format!("your heap allocation is {}, and it must be less or equal to {}", student, solution));
-    }
+		e.advance().unwrap();
+		let student = allocated.read().unwrap();
 
-    #[test]
-    fn test_functions() {
-        assert!(is_empty(""));
-        assert!(!is_empty("something"));
-        assert!(is_ascii("rust"));
-        assert!(!is_ascii("rust¬"));
-        assert!(contains("rust", "ru"));
-        assert!(!contains("something", "mer"));
-        assert_eq!(split_at("rust", 2), ("ru", "st"));
-        assert_eq!(find("ru-st-e", '-'), 2);
-        assert_eq!(find("ru-st-e", 'e'), 6);
-    }
+		assert!(
+			student <= solution,
+			format!(
+				"your heap allocation is {}, and it must be less or equal to {}",
+				student, solution
+			)
+		);
+	}
+
+	#[test]
+	fn test_functions() {
+		assert!(is_empty(""));
+		assert!(!is_empty("something"));
+		assert!(is_ascii("rust"));
+		assert!(!is_ascii("rust¬"));
+		assert!(contains("rust", "ru"));
+		assert!(!contains("something", "mer"));
+		assert_eq!(split_at("rust", 2), ("ru", "st"));
+		assert_eq!(find("ru-st-e", '-'), 2);
+		assert_eq!(find("ru-st-e", 'e'), 6);
+	}
 }
