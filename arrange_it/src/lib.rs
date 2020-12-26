@@ -10,8 +10,8 @@ Each word will have a number that indicates the position of that word
 
 ```rust
 fn main() {
-    println!("{:?}", initials("is2 Thi1s T4est 3a"));
-    // output: This is a Test
+	println!("{:?}", initials("is2 Thi1s T4est 3a"));
+	// output: This is a Test
 }
 ```
 
@@ -25,20 +25,16 @@ fn main() {
 
 */
 
-#[global_allocator]
-static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
-use jemalloc_ctl::{epoch, stats};
+pub fn arrange_phrase(phrase: &str) -> String {
+	let nbrs: Vec<&str> = phrase.matches(char::is_numeric).collect();
+	let a = &phrase.replace(char::is_numeric, "");
+	let mut m: Vec<&str> = a.split_whitespace().collect();
 
-fn arrange_phrase(phrase: &str) -> String {
-    let nbrs: Vec<&str> = phrase.matches(char::is_numeric).collect();
-    let a = &phrase.replace(char::is_numeric, "");
-    let mut m: Vec<&str> = a.split_whitespace().collect();
-
-    for (i, ele) in nbrs.iter().enumerate() {
-        let strs : Vec<&str> = a.split_whitespace().collect();
-        m[ele.parse::<usize>().unwrap()-1] = strs[i];
-    }
-    m.join(" ")
+	for (i, ele) in nbrs.iter().enumerate() {
+		let strs: Vec<&str> = a.split_whitespace().collect();
+		m[ele.parse::<usize>().unwrap() - 1] = strs[i];
+	}
+	m.join(" ")
 }
 
 // example of function that works but does not pass the heap test
@@ -57,51 +53,57 @@ fn arrange_phrase(phrase: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+	use super::*;
 
-    fn arrange_phrase_sol(phrase: &str) -> String {
-        let nbrs: Vec<&str> = phrase.matches(char::is_numeric).collect();
-        let a = &phrase.replace(char::is_numeric, "");
-        let mut m: Vec<&str> = a.split_whitespace().collect();
-    
-        for (i, ele) in nbrs.iter().enumerate() {
-            let strs : Vec<&str> = a.split_whitespace().collect();
-            m[ele.parse::<usize>().unwrap()-1] = strs[i];
-        }
-        m.join(" ")
-    }
+	fn arrange_phrase_sol(phrase: &str) -> String {
+		let nbrs: Vec<&str> = phrase.matches(char::is_numeric).collect();
+		let a = &phrase.replace(char::is_numeric, "");
+		let mut m: Vec<&str> = a.split_whitespace().collect();
 
-    #[test]
-    fn test_heap_memory_allocation() {
-        // the statistics tracked by jemalloc are cached
-        // The epoch controls when they are refreshed
-        let e = epoch::mib().unwrap();
-        // allocated: number of bytes allocated by the application
-        let allocated = stats::allocated::mib().unwrap();
-        let test_value = "4of Fo1r pe6ople g3ood th5e the2";
+		for (i, ele) in nbrs.iter().enumerate() {
+			let strs: Vec<&str> = a.split_whitespace().collect();
+			m[ele.parse::<usize>().unwrap() - 1] = strs[i];
+		}
+		m.join(" ")
+	}
 
-        arrange_phrase_sol(test_value);
-        // this will advance with the epoch giving the its old value
-        // where we read the updated heap allocation using the `allocated.read()`
-        e.advance().unwrap();
-        let solution = allocated.read().unwrap();
+	#[test]
+	fn test_heap_memory_allocation() {
+		// the statistics tracked by jemalloc are cached
+		// The epoch controls when they are refreshed
+		let e = epoch::mib().unwrap();
+		// allocated: number of bytes allocated by the application
+		let allocated = stats::allocated::mib().unwrap();
+		let test_value = "4of Fo1r pe6ople g3ood th5e the2";
 
-        arrange_phrase(test_value);
-        e.advance().unwrap();
-        let student = allocated.read().unwrap();
+		arrange_phrase_sol(test_value);
+		// this will advance with the epoch giving the its old value
+		// where we read the updated heap allocation using the `allocated.read()`
+		e.advance().unwrap();
+		let solution = allocated.read().unwrap();
 
-        assert!(student <= solution, format!("your heap allocation is {}, and it must be less or equal to {}", student, solution));
-    }
+		arrange_phrase(test_value);
+		e.advance().unwrap();
+		let student = allocated.read().unwrap();
 
-    #[test]
-    fn test_function() {
-        let cases = vec![
-            "4of Fo1r pe6ople g3ood th5e the2",
-            "is2 Thi1s T4est 3a",
-            "w7ork t3he a4rt o5f Per1formance is2 a6voiding"
-            ];
-        for v in cases {
-            assert_eq!(arrange_phrase(v), arrange_phrase_sol(v));
-        }
-    }
+		assert!(
+			student <= solution,
+			format!(
+				"your heap allocation is {}, and it must be less or equal to {}",
+				student, solution
+			)
+		);
+	}
+
+	#[test]
+	fn test_function() {
+		let cases = vec![
+			"4of Fo1r pe6ople g3ood th5e the2",
+			"is2 Thi1s T4est 3a",
+			"w7ork t3he a4rt o5f Per1formance is2 a6voiding",
+		];
+		for v in cases {
+			assert_eq!(arrange_phrase(v), arrange_phrase_sol(v));
+		}
+	}
 }
