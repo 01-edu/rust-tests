@@ -10,15 +10,15 @@ You have to fix the code to make it compile an for that you can
 only modify the code where is indicated
 */
 
-fn main() {
-	let mut s = String::from("Hello");
+// fn main() {
+// 	let mut s = String::from("Hello");
 
-	println!("Before changing the string: {}", s);
-	doubtful(&mut s);
-	println!("After changing the string: {}", s);
-}
+// 	println!("Before changing the string: {}", s);
+// 	doubtful(&mut s);
+// 	println!("After changing the string: {}", s);
+// }
 
-fn doubtful(s: &mut String) {
+pub fn doubtful(s: &mut String) {
 	s.push_str("?")
 }
 
