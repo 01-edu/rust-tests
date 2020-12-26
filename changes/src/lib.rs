@@ -8,18 +8,18 @@ Make this code compile
 */
 
 // It's not possible to have one mutable reference and one immutable
-fn main() {
-	let ref mut a = String::from("Hello");
-	let len = a.len();
-	let b = &a;
+// fn main() {
+// 	let ref mut a = String::from("Hello");
+// 	let len = a.len();
+// 	let b = &a;
 
-	add_excitement(&mut a.clone());
+// 	add_excitement(&mut a.clone());
 
-	println!("The len of {} is {}", a, len);
-	println!("The length of {} is {}", b, b.len());
-}
+// 	println!("The len of {} is {}", a, len);
+// 	println!("The length of {} is {}", b, b.len());
+// }
 
-fn add_excitement(s: &mut String) {
+pub fn add_excitement(s: &mut String) {
 	s.push_str("!");
 }
 
@@ -43,5 +43,4 @@ mod test {
 		add_excitement(&mut expected);
 		assert_eq!(expected, "↕!");
 	}
-	use assert_cmd::Command;
 }
