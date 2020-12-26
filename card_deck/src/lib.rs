@@ -2,7 +2,7 @@
 use rand::Rng;
 
 #[derive(Debug, PartialEq)]
-enum Suit {
+pub enum Suit {
 	Heart,
 	Diamond,
 	Spade,
@@ -10,7 +10,7 @@ enum Suit {
 }
 
 #[derive(Debug, PartialEq)]
-enum Rank {
+pub enum Rank {
 	Ace,
 	King,
 	Queen,
@@ -19,12 +19,12 @@ enum Rank {
 }
 
 impl Rank {
-	fn random() -> Rank {
+	pub fn random() -> Rank {
 		let value: u8 = rand::thread_rng().gen_range(1, 14);
 		Rank::traslate(value)
 	}
 
-	fn traslate(value: u8) -> Rank {
+	pub fn traslate(value: u8) -> Rank {
 		match value {
 			1 => Rank::Ace,
 			n @ 2..=10 => Rank::Number(n),
@@ -36,12 +36,12 @@ impl Rank {
 }
 
 impl Suit {
-	fn random() -> Suit {
+	pub fn random() -> Suit {
 		let value = rand::thread_rng().gen_range(1, 5);
 		Suit::translate(value)
 	}
 
-	fn translate(value: u8) -> Suit {
+	pub fn translate(value: u8) -> Suit {
 		match value {
 			1 => Suit::Heart,
 			2 => Suit::Diamond,
@@ -52,12 +52,12 @@ impl Suit {
 }
 
 #[derive(Debug, PartialEq)]
-struct Card {
-	suit: Suit,
-	rank: Rank,
+pub struct Card {
+	pub suit: Suit,
+	pub rank: Rank,
 }
 
-fn winner_card(card: Card) -> bool {
+pub fn winner_card(card: Card) -> bool {
 	Card {
 		suit: Suit::Spade,
 		rank: Rank::Ace,
@@ -65,19 +65,19 @@ fn winner_card(card: Card) -> bool {
 }
 // Write a program that takes that returns a random card in the deck
 // A standard deck of cards has 52 cards: 4 suits and 13 cards per suit
-fn main() {
-	let your_card = Card {
-		rank: Rank::random(),
-		suit: Suit::random(),
-	};
+// fn main() {
+// 	let your_card = Card {
+// 		rank: Rank::random(),
+// 		suit: Suit::random(),
+// 	};
 
-	println!("You're card is a {:?}", your_card);
+// 	println!("You're card is a {:?}", your_card);
 
-	// Now if the card is an Ace of Spades print "You are the winner"
-	if winner_card(your_card) {
-		println!("You are the winner!");
-	}
-}
+// 	// Now if the card is an Ace of Spades print "You are the winner"
+// 	if winner_card(your_card) {
+// 		println!("You are the winner!");
+// 	}
+// }
 
 #[cfg(test)]
 mod tests {
