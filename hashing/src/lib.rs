@@ -6,27 +6,27 @@
 
 use std::collections::HashMap;
 
-fn main() {
-	println!("Hello, world!");
-	let v = vec![4, 7, 5, 2, 5, 1, 3];
-	println!("mean {}", mean(&v));
-	println!("median {}", median(&v));
-	println!("mode {}", mode(&v));
-}
+// fn main() {
+// 	println!("Hello, world!");
+// 	let v = vec![4, 7, 5, 2, 5, 1, 3];
+// 	println!("mean {}", mean(&v));
+// 	println!("median {}", median(&v));
+// 	println!("mode {}", mode(&v));
+// }
 
-fn mean(list: &Vec<i32>) -> f64 {
+pub fn mean(list: &Vec<i32>) -> f64 {
 	let sum: i32 = list.iter().sum();
 	sum as f64 / list.len() as f64
 }
 
-fn median(list: &Vec<i32>) -> i32 {
+pub fn median(list: &Vec<i32>) -> i32 {
 	let middle_pos = list.len() / 2;
 	let mut ordered = list.clone();
 	ordered.sort();
 	ordered[middle_pos]
 }
 
-fn mode(list: &Vec<i32>) -> i32 {
+pub fn mode(list: &Vec<i32>) -> i32 {
 	let mut mode = list[0];
 	let mut occurrences: HashMap<i32, u32> = HashMap::new();
 	for v in list.iter() {
