@@ -1,12 +1,12 @@
 // Write a functions called identity that calculates the identity of a
 // value (receives any data type and returns the same value)
 
-fn main() {
-	println!("Hello, world!");
-	println!("{}", identity(3));
-}
+// fn main() {
+// 	println!("Hello, world!");
+// 	println!("{}", identity(3));
+// }
 
-fn identity<T>(v: T) -> T {
+pub fn identity<T>(v: T) -> T {
 	v
 }
 
