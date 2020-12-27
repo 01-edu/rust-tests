@@ -4,20 +4,20 @@
 // same number of times in `s2` and all the characters in `s1` appear in
 // `s2` even if in different order)
 
-fn main() {
-	let word = "thought";
-	let word1 = "thougth";
-	println!(
-		"Is `{}` a permutation of `{}`? = {}",
-		word,
-		word1,
-		is_permutation(word, word1)
-	);
-}
+// fn main() {
+// 	let word = "thought";
+// 	let word1 = "thougth";
+// 	println!(
+// 		"Is `{}` a permutation of `{}`? = {}",
+// 		word,
+// 		word1,
+// 		is_permutation(word, word1)
+// 	);
+// }
 
 use std::collections::HashMap;
 
-fn is_permutation(s1: &str, s2: &str) -> bool {
+pub fn is_permutation(s1: &str, s2: &str) -> bool {
 	let mut s1_rep = HashMap::new();
 	let mut s2_rep = HashMap::new();
 	for c1 in s1.chars() {
