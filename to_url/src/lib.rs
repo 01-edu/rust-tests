@@ -1,7 +1,7 @@
 // Define a function called `to_url` that takes a string and
 // substitutes every white-space with '%20'
 
-fn to_url(s: &str) -> String {
+pub fn to_url(s: &str) -> String {
 	let mut s_r = String::new();
 	for c in s.chars() {
 		if c == ' ' {
@@ -13,10 +13,10 @@ fn to_url(s: &str) -> String {
 	s_r
 }
 
-fn main() {
-	let s = "Hello, world!";
-	println!("{} to be use as an url is {}", s, to_url(s));
-}
+// fn main() {
+// 	let s = "Hello, world!";
+// 	println!("{} to be use as an url is {}", s, to_url(s));
+// }
 
 #[cfg(test)]
 mod test {
