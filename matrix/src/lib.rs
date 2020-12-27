@@ -26,7 +26,7 @@ use lalgebra_scalar::Scalar;
 mod mult;
 mod ops;
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq, Clone)]
 pub struct Matrix<T>(pub Vec<Vec<T>>);
 
 impl<T: Scalar<Item = T>> Matrix<T> {

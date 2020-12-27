@@ -6,11 +6,11 @@ use crate::Scalar;
 use std::ops::Mul;
 
 impl<T: Scalar<Item = T>> Matrix<T> {
-	pub fn cols(&self) -> usize {
+	pub fn number_of_cols(&self) -> usize {
 		self.0[0].len()
 	}
 
-	pub fn rows(&self) -> usize {
+	pub fn number_of_rows(&self) -> usize {
 		self.0.len()
 	}
 
@@ -36,15 +36,15 @@ impl<T: Scalar<Item = T> + std::iter::Sum<<T as std::ops::Mul>::Output>> Mul for
 
 	fn mul(self, rhs: Self) -> Self::Output {
 		// If the number of columns of self match don't match the number of
-		// rows of self don't match return None
-		let row_lenght = self.rows();
-		let col_lenght = rhs.cols();
-		if self.cols() != rhs.rows() {
+		// number_of_rows of self don't match return None
+		let row_lenght = self.number_of_rows();
+		let col_lenght = rhs.number_of_cols();
+		if self.number_of_cols() != rhs.number_of_rows() {
 			return None;
 		}
 		let mut result: Matrix<T> = Matrix::zero(row_lenght, col_lenght);
-		for j in 0..result.rows() {
-			for i in 0..result.cols() {
+		for j in 0..result.number_of_rows() {
+			for i in 0..result.number_of_cols() {
 				result.0[j][i] = self
 					.row(j)
 					.iter()
