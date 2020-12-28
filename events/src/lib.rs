@@ -57,22 +57,22 @@ use chrono::Duration;
 use colored::*;
 
 #[derive(Debug, Eq, PartialEq)]
-enum Position {
+pub enum Position {
 	Top,
 	Bottom,
 	Center,
 }
 
 #[derive(Debug, Eq, PartialEq)]
-struct Notification {
-	size: u32,
-	color: (u8, u8, u8),
-	position: Position,
-	content: String,
+pub struct Notification {
+	pub size: u32,
+	pub color: (u8, u8, u8),
+	pub position: Position,
+	pub content: String,
 }
 
 #[derive(Debug)]
-enum Event<'a> {
+pub enum Event<'a> {
 	Remainder(&'a str),
 	Registration(Duration),
 	Appointment(&'a str),
@@ -91,11 +91,11 @@ struct DurationInHours {
 impl From<&Duration> for DurationInHours {
 	fn from(duration: &Duration) -> DurationInHours {
 		let mut left = duration.num_seconds();
-		let hours = dbg!(left / 3600);
+		let hours = left / 3600;
 		left %= 3600;
-		let minutes = dbg!(left / 60);
+		let minutes = left / 60;
 		left %= 60;
-		let seconds = dbg!(left);
+		let seconds = left;
 		DurationInHours {
 			hours,
 			minutes,
@@ -126,7 +126,7 @@ impl fmt::Display for Notification {
 use Event::*;
 
 impl<'a> Event<'a> {
-	fn notify(&self) -> Notification {
+	pub fn notify(&self) -> Notification {
 		match self {
 			Remainder(text) => Notification {
 				size: 50,
