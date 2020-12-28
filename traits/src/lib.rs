@@ -10,21 +10,21 @@
 // in the second line the strength, score and the money
 // and in the third line the weapons
 #[derive(Debug)]
-struct Player {
-	name: String,
-	strength: u32,
-	score: i32,
-	money: i32,
-	weapons: Vec<String>,
+pub struct Player {
+	pub name: String,
+	pub strength: u32,
+	pub score: i32,
+	pub money: i32,
+	pub weapons: Vec<String>,
 }
 
-struct Fruit {
-	weight_in_kg: f64,
+pub struct Fruit {
+	pub weight_in_kg: f64,
 }
 
-struct Meat {
-	weight_in_kg: f64,
-	fat_content: f64,
+pub struct Meat {
+	pub weight_in_kg: f64,
+	pub fat_content: f64,
 }
 
 fn main() {
@@ -50,12 +50,12 @@ fn main() {
 }
 
 impl Player {
-	fn eat<T: Food>(&mut self, food: T) {
+	pub fn eat<T: Food>(&mut self, food: T) {
 		self.strength += food.gives();
 	}
 }
 
-trait Food {
+pub trait Food {
 	fn gives(&self) -> u32;
 }
 

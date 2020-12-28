@@ -10,13 +10,14 @@
 
 use lalgebra_scalar::Scalar;
 
-struct Vector<T: Scalar<Item = T>>(Vec<T>);
+#[derive(Debug, Clone, Eq, PartialEq)]
+pub struct Vector<T: Scalar<Item = T>>(pub Vec<T>);
 
 use std::ops::Add;
 
-impl<T: Scalar<Item = T> + Add<Output = T>> Add for Vector<T> {
+impl<T: Scalar<Item = T> + Add<Output = T>> Add<&Self> for Vector<T> {
 	type Output = Option<Self>;
-	fn add(self, other: Self) -> Self::Output {
+	fn add(self, other: &Self) -> Self::Output {
 		if self.0.len() != other.0.len() {
 			return None;
 		}
@@ -33,11 +34,11 @@ impl<T: Scalar<Item = T> + Add<Output = T>> Add for Vector<T> {
 }
 
 impl<T: Scalar<Item = T> + std::iter::Sum<<T as std::ops::Mul>::Output>> Vector<T> {
-	fn new() -> Self {
+	pub fn new() -> Self {
 		Vector(Vec::new())
 	}
 
-	fn dot(&self, other: &Self) -> Option<T> {
+	pub fn dot(&self, other: &Self) -> Option<T> {
 		if self.0.len() != other.0.len() {
 			return None;
 		}
