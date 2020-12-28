@@ -4,22 +4,22 @@
 // with age 0 and with the name given
 
 #[derive(Debug)]
-struct Person<'a> {
-	name: &'a str,
-	age: u8,
+pub struct Person<'a> {
+	pub name: &'a str,
+	pub age: u8,
 }
 
 impl<'a> Person<'a> {
-	fn new(name: &str) -> Person {
+	pub fn new(name: &str) -> Person {
 		Person { name, age: 0 }
 	}
 }
 
-fn main() {
-	let person = Person::new("Leo");
+// fn main() {
+// 	let person = Person::new("Leo");
 
-	println!("Person = {:?}", person);
-}
+// 	println!("Person = {:?}", person);
+// }
 
 #[cfg(test)]
 mod tests {

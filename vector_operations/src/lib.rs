@@ -10,10 +10,10 @@
 // std::ops::Add and std::ops::Sub traits
 
 #[derive(Debug, Copy, Clone, PartialEq)]
-struct ThreeDVector<T> {
-	i: T,
-	j: T,
-	k: T,
+pub struct ThreeDVector<T> {
+	pub i: T,
+	pub j: T,
+	pub k: T,
 }
 
 use std::ops::{Add, Sub};
