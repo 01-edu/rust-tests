@@ -38,7 +38,7 @@ use std::io::prelude::*;
 use std::io::{ErrorKind, Write};
 
 
-fn open_or_create(s: &str, content: &str) {
+pub fn open_or_create(s: &str, content: &str) {
 	let mut f = match OpenOptions::new().write(true).open(s) {
 		Ok(file) => file,
 		Err(ref error) if error.kind() == ErrorKind::NotFound => match File::create(s) {

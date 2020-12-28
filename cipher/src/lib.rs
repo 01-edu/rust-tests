@@ -27,13 +27,13 @@ fn main() {
 use std::fmt;
 
 #[derive(Debug, Clone, Eq, PartialEq)]
-struct CipherError {
-    validation: bool,
-    expected: String,
+pub struct CipherError {
+    pub validation: bool,
+    pub expected: String,
 }
 
 impl CipherError {
-    fn new(validation: bool, expected: String) -> CipherError {
+    pub fn new(validation: bool, expected: String) -> CipherError {
         CipherError { validation, expected }
     }
 }
@@ -48,7 +48,7 @@ impl fmt::Display for CipherError {
     }
 }
 
-fn cipher(original: &str, ciphered: &str) -> Option<Result<bool, CipherError>> {
+pub fn cipher(original: &str, ciphered: &str) -> Option<Result<bool, CipherError>> {
     if ciphered == "" || original == "" {
         return None;
     }

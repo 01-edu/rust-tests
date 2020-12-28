@@ -28,7 +28,7 @@ fn main() {
     };
 
     // output: 1000
-    println!("{:?}", match a.get_third_layer() {
+    println!("{:?}", match a.get_fourth_layer() {
         Some(e) => e,
         None => 0
     })
@@ -41,27 +41,27 @@ fn main() {
 
 */
 #[derive(Clone, Copy)]
-struct One {
-    first_layer: Option<Two>
+pub struct One {
+    pub first_layer: Option<Two>
 }
 
 #[derive(Clone, Copy)]
-struct Two {
-    second_layer: Option<Three>
+pub struct Two {
+    pub second_layer: Option<Three>
 }
 
 #[derive(Clone, Copy)]
-struct Three {
-    third_layer: Option<Four>
+pub struct Three {
+    pub third_layer: Option<Four>
 }
 
 #[derive(Clone, Copy)]
-struct Four {
-    fourth_layer: Option<u16>
+pub struct Four {
+    pub fourth_layer: Option<u16>
 }
 
 impl One {
-    fn get_fourth_layer(&self) -> Option<u16> {
+    pub fn get_fourth_layer(&self) -> Option<u16> {
         self.first_layer?.second_layer?.third_layer?.fourth_layer
     }
 }

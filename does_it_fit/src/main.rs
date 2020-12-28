@@ -53,7 +53,7 @@ mod areas_volumes;
 
 use areas_volumes::*;
 
-fn area_fit(
+pub fn area_fit(
     x: usize,
     y: usize,
     objects: Geometrical_Shapes,
@@ -71,7 +71,7 @@ fn area_fit(
     times as f64 * size <= max_size as f64
 }
 
-fn volume_fit(
+pub fn volume_fit(
     x: usize,
     y: usize,
     z: usize,

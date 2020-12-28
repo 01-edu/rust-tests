@@ -76,22 +76,22 @@ fn main() {
 mod error;
 use error::{ ParseErr, ReadErr };
 
-use std::error::Error;
+pub use std::error::Error;
 
-use serde::{Deserialize, Serialize};
+pub use serde::{Deserialize, Serialize};
 use std::fs::read_to_string;
 
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub struct Task {
-    id: u32,
-    description: String,
-    level: u32,
+    pub id: u32,
+    pub description: String,
+    pub level: u32,
 }
 
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub struct TodoList {
-    title: String,
-    tasks: Vec<Task>,
+    pub title: String,
+    pub tasks: Vec<Task>,
 }
 
 impl TodoList {

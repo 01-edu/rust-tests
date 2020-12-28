@@ -62,15 +62,15 @@ fn main() {
 use chrono::prelude::Utc;
 
 #[allow(dead_code)]
-struct Message {
-  content: String,
-  user: String,
-  time_sent: String,
+pub struct Message {
+  pub content: String,
+  pub user: String,
+  pub time_sent: String,
 }
 
 #[allow(dead_code)]
 impl Message {
-  fn new(ms: String, u: String, t: String) -> Message {
+  pub fn new(ms: String, u: String, t: String) -> Message {
     Message {
       content: ms,
       user: u,
@@ -79,7 +79,7 @@ impl Message {
   }
   // allows the student to use options
   #[allow(dead_code)]
-  fn send_ms(&self) -> Option<&str> {
+  pub fn send_ms(&self) -> Option<&str> {
     match (&self.content[..], "stupid") {
       (x, p) if x.contains(p) || x == "" => None,
       _ => Some(&self.content),
@@ -89,7 +89,7 @@ impl Message {
 
 // the student can catch the None and return it as an error
 #[allow(dead_code)]
-fn check_ms(ms: &Message) -> (bool, &str) {
+pub fn check_ms(ms: &Message) -> (bool, &str) {
   match ms.send_ms() {
     Some(e) => (true, e),
     None => (false, "ERROR: illegal"),
@@ -97,7 +97,7 @@ fn check_ms(ms: &Message) -> (bool, &str) {
 }
 
 #[allow(dead_code)]
-fn format_date() -> String {
+pub fn format_date() -> String {
   Utc::now().format("%a %b %e %T %Y").to_string()
 }
 

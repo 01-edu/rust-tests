@@ -44,7 +44,7 @@ fn main() {
 - https://doc.rust-lang.org/std/?search=unwrap
 */
 
-fn odd_to_even(data: Vec<u32>) -> Result<Vec<u32>, (String, Vec<u32>)> {
+pub fn odd_to_even(data: Vec<u32>) -> Result<Vec<u32>, (String, Vec<u32>)> {
     let mut a = Vec::new();
     a.extend(data.iter().filter(|&value| value % 2 == 0));
     if a.len() != 0 {
@@ -56,23 +56,23 @@ fn odd_to_even(data: Vec<u32>) -> Result<Vec<u32>, (String, Vec<u32>)> {
     Ok(a)
 }
 
-fn expect(v: Vec<u32>) -> Vec<u32> {
+pub fn expect(v: Vec<u32>) -> Vec<u32> {
       odd_to_even(v).expect("ERROR ")
 }
 
-fn unwrap_or(v: Vec<u32>) -> Vec<u32> {
+pub fn unwrap_or(v: Vec<u32>) -> Vec<u32> {
         odd_to_even(v).unwrap_or(vec![])
 }
 
-fn unwrap_err(v: Vec<u32>) -> (String, Vec<u32>) {
+pub fn unwrap_err(v: Vec<u32>) -> (String, Vec<u32>) {
         odd_to_even(v).unwrap_err()
 }
 
-fn unwrap(v: Vec<u32>) -> Vec<u32> {
+pub fn unwrap(v: Vec<u32>) -> Vec<u32> {
         odd_to_even(v).unwrap()
 }
 
-fn unwrap_or_else(v: Vec<u32>) -> Vec<u32> {
+pub fn unwrap_or_else(v: Vec<u32>) -> Vec<u32> {
         odd_to_even(v).unwrap_or_else(|(_, x)| x)
 }
 
