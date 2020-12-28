@@ -77,7 +77,7 @@ struct Macros {
     fats: f64,
 }
 
-fn calculate_macros(foods: Vec<serde_json::Value>) -> serde_json::Value {
+pub fn calculate_macros(foods: Vec<serde_json::Value>) -> serde_json::Value {
     let (mut cals, mut prot, mut carbs, mut fats) = (0.0, 0.0, 0.0, 0.0);
 
     for food in foods {
@@ -103,6 +103,30 @@ fn calculate_macros(foods: Vec<serde_json::Value>) -> serde_json::Value {
         "proteins": (prot * 100.0).round() / 100.0,
         "fats": (fats * 100.0).round() / 100.0,
     })
+}
+
+fn main() {
+    let a = serde_json::json!(
+        {
+        "name": "light milk",
+        "calories": ["148kJ", "35kcal"],
+        "protein": 3.5,
+        "fats": 0.1,
+        "carbs": 5.0,
+        "nbr_of_portions": 0.7
+    });
+
+    let b = serde_json::json!({
+        "name": "oat cookies",
+        "calories": ["1996kJ", "477kcal"],
+        "protein": 8.2,
+        "fats": 21.0,
+        "carbs": 60.4,
+        "nbr_of_portions": 1.2,
+    });
+
+    let macros: Macros = serde_json::from_value(calculate_macros(vec![a, b])).unwrap();
+    println!("{:?}", macros);
 }
 
 #[cfg(test)]

@@ -42,7 +42,7 @@ extern crate edit_distance;
 use case::CaseExt;
 use edit_distance::edit_distance;
 
-fn expected_variable(evaluated: &str, expected: &str) -> Option<String> {
+pub fn expected_variable(evaluated: &str, expected: &str) -> Option<String> {
     let (evaluated1, correct1) = (evaluated.to_lowercase(), expected.to_lowercase());
 
     if (evaluated == evaluated.to_camel_lowercase()
