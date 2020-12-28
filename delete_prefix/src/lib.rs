@@ -7,7 +7,7 @@
 // delete_prefix("hello, ", "hello, world")? == "world"
 // delete_prefix("not", "win");
 
-fn delete_prefix<'a, 'b>(prefix: &'b str, s: &'a str) -> Option<&'a str> {
+pub fn delete_prefix<'a, 'b>(prefix: &'b str, s: &'a str) -> Option<&'a str> {
 	if prefix.len() > s.len() {
 		return None;
 	}
