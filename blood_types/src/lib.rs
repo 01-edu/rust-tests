@@ -34,7 +34,7 @@
 // types that can receive blood from self
 
 #[derive(Debug, PartialEq, Eq, Clone, PartialOrd, Ord)]
-enum Antigen {
+pub enum Antigen {
 	A,
 	AB,
 	B,
@@ -59,7 +59,7 @@ impl FromStr for Antigen {
 }
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone)]
-enum RhFactor {
+pub enum RhFactor {
 	Positive,
 	Negative,
 }
@@ -76,9 +76,9 @@ impl FromStr for RhFactor {
 }
 
 #[derive(PartialEq, Eq, PartialOrd)]
-struct BloodType {
-	antigen: Antigen,
-	rh_factor: RhFactor,
+pub struct BloodType {
+	pub antigen: Antigen,
+	pub rh_factor: RhFactor,
 }
 
 impl Ord for BloodType {
@@ -130,7 +130,7 @@ impl Debug for BloodType {
 }
 
 impl BloodType {
-	fn can_receive_from(&self, other: &Self) -> bool {
+	pub fn can_receive_from(&self, other: &Self) -> bool {
 		// Positive can only receive from positive
 		// A can only give from A
 		// And B can only give to B
@@ -148,7 +148,7 @@ impl BloodType {
 	}
 
 	// who are the donors of self
-	fn donors(&self) -> Vec<Self> {
+	pub fn donors(&self) -> Vec<Self> {
 		// all blood types A, B, AB, O
 		let mut blood_types = Vec::new();
 		let mut antigens = if self.antigen == Antigen::O {
@@ -180,7 +180,7 @@ impl BloodType {
 	}
 
 	// who are the recipients of self
-	fn recipients(&self) -> Vec<BloodType> {
+	pub fn recipients(&self) -> Vec<BloodType> {
 		let mut blood_types = Vec::new();
 		let mut antigens = if self.antigen != Antigen::AB {
 			vec![Antigen::AB, self.antigen.clone()]
@@ -211,17 +211,17 @@ impl BloodType {
 	}
 }
 
-fn main() {
-	let blood_type: BloodType = "O+".parse().unwrap();
-	println!("recipients of O+ {:?}", blood_type.recipients());
-	println!("donors of O+ {:?}", blood_type.donors());
-	let another_blood_type: BloodType = "A-".parse().unwrap();
-	println!(
-		"donors of O+ can receive from {:?} {:?}",
-		&another_blood_type,
-		blood_type.can_receive_from(&another_blood_type)
-	);
-}
+// fn main() {
+// 	let blood_type: BloodType = "O+".parse().unwrap();
+// 	println!("recipients of O+ {:?}", blood_type.recipients());
+// 	println!("donors of O+ {:?}", blood_type.donors());
+// 	let another_blood_type: BloodType = "A-".parse().unwrap();
+// 	println!(
+// 		"donors of O+ can receive from {:?} {:?}",
+// 		&another_blood_type,
+// 		blood_type.can_receive_from(&another_blood_type)
+// 	);
+// }
 
 #[cfg(test)]
 mod tests {
