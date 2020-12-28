@@ -110,20 +110,18 @@ fn main() {
 */
 
 mod messenger;
-use messenger::{Logger, Tracker};
-use std::cell::RefCell;
-use std::rc::Rc;
-use std::collections::HashMap;
+pub use messenger::*;
+pub use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
-struct Worker {
-    track_value: Rc<usize>,
-    mapped_messages: RefCell<HashMap<String, String>>,
-    all_messages: RefCell<Vec<String>>,
+pub struct Worker {
+    pub track_value: Rc<usize>,
+    pub mapped_messages: RefCell<HashMap<String, String>>,
+    pub all_messages: RefCell<Vec<String>>,
 }
 
 impl Worker {
-    fn new(s: usize) -> Worker {
+    pub fn new(s: usize) -> Worker {
         Worker {
             track_value: Rc::new(s),
             mapped_messages: RefCell::new(HashMap::new()),

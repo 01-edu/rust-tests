@@ -23,7 +23,7 @@ fn convert(s: &str) -> u32 {
     (n * 1000.0) as u32
 }
 
-fn transform_and_save_on_heap(s: String) -> Box<Vec<u32>> {
+pub fn transform_and_save_on_heap(s: String) -> Box<Vec<u32>> {
     let mut v :Vec<u32> = Vec::new();
 
     for token in s.split_whitespace() {
@@ -36,7 +36,7 @@ fn transform_and_save_on_heap(s: String) -> Box<Vec<u32>> {
     Box::new(v)
 }
 
-fn take_value_ownership(a: Box<Vec<u32>>) -> Vec<u32> {
+pub fn take_value_ownership(a: Box<Vec<u32>>) -> Vec<u32> {
     *a
 }
 

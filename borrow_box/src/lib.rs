@@ -25,22 +25,22 @@ You will have to create a **CRUD** functionality. Therefore creating the followi
 */
 
 #[derive(Debug, Clone, Eq, PartialEq)]
-struct Game {
-    id: u32,
-    p1: (String, u16),
-    p2: (String, u16),
-    nbr_of_games: u16
+pub struct Game {
+    pub id: u32,
+    pub p1: (String, u16),
+    pub p2: (String, u16),
+    pub nbr_of_games: u16
 }
 
 impl Game {
     // create the box
-    fn new(i: u32, pl1: String, pl2: String, n: u16) -> Box<Game> {
+    pub fn new(i: u32, pl1: String, pl2: String, n: u16) -> Box<Game> {
         Box::new(Game { id: i, p1: (pl1, 0), p2: (pl2, 0), nbr_of_games: n })
     }
 
     // read from the box using the reference `&`
     // return only the player that as the bigger score
-    fn read_winner(&self) -> (String, u16) {
+    pub fn read_winner(&self) -> (String, u16) {
         if self.p1.1 > self.p2.1 {
             self.p1.clone()
         } else if self.p1.1 < self.p2.1 {
@@ -50,7 +50,7 @@ impl Game {
         }
     }
 
-    fn update_score(&mut self, user_name: String) {
+    pub fn update_score(&mut self, user_name: String) {
         let total = self.p1.1 + self.p2.1;
         if self.p1.0 == user_name && total != self.nbr_of_games {
             self.p1.1 += 1;
@@ -59,7 +59,7 @@ impl Game {
         }
     }
 
-    fn delete(self) -> String {
+    pub fn delete(self) -> String {
         String::from(format!("game deleted: id -> {:?}", self.id))
     }
 }

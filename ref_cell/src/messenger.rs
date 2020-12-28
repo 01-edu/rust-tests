@@ -1,5 +1,5 @@
-use std::cell::RefCell;
-use std::rc::Rc;
+pub use std::cell::RefCell;
+pub use std::rc::Rc;
 
 pub trait Logger {
     fn warning(&self, msg: &str);

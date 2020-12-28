@@ -23,25 +23,25 @@ Do not forget that this will be a recursion type and it must point to `None` if 
 */
 
 #[derive(Debug)]
-struct WorkEnvironment {
-  grade: Link,
+pub struct WorkEnvironment {
+  pub grade: Link,
 }
 
-type Link = Option<Box<Worker>>;
+pub type Link = Option<Box<Worker>>;
 
 #[derive(Debug)]
-struct Worker {
-  worker_type: String,
-  worker_name: String,
-  next_worker: Link,
+pub struct Worker {
+  pub worker_type: String,
+  pub worker_name: String,
+  pub next_worker: Link,
 }
 
 impl WorkEnvironment {
-  fn new() -> WorkEnvironment {
+  pub fn new() -> WorkEnvironment {
     WorkEnvironment { grade: None }
   }
 
-  fn add_worker(&mut self, t: String, name: String) {
+  pub fn add_worker(&mut self, t: String, name: String) {
     let new_node = Box::new(Worker {
       worker_type: t,
       worker_name: name,
@@ -50,14 +50,14 @@ impl WorkEnvironment {
     self.grade = Some(new_node);
   }
 
-  fn remove_worker(&mut self) -> Option<String> {
+  pub fn remove_worker(&mut self) -> Option<String> {
     self.grade.take().map(|node| {
       self.grade = node.next_worker;
       node.worker_name
     })
   }
 
-  fn search_worker(&self) -> Option<(String, String)> {
+  pub fn search_worker(&self) -> Option<(String, String)> {
     self.grade.as_ref().map(|node| {
       (node.worker_name.clone(), node.worker_type.clone())
     })

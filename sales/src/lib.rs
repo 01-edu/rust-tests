@@ -69,37 +69,37 @@ fn main() {
 */
 
 #[derive(Debug, Clone)]
-struct Store {
-    products: Vec<(String, f32)>,
+pub struct Store {
+    pub products: Vec<(String, f32)>,
 }
 
 impl Store {
-    fn new(products: Vec<(String, f32)>) -> Store {
+    pub fn new(products: Vec<(String, f32)>) -> Store {
         Store { products }
     }
 }
 
 #[derive(Debug, Clone)]
-struct Cart {
-    items: Vec<(String, f32)>,
-    receipt: Vec<f32>
+pub struct Cart {
+    pub items: Vec<(String, f32)>,
+    pub receipt: Vec<f32>
 }
 
 impl Cart {
-    fn new() -> Cart {
+    pub fn new() -> Cart {
         Cart { items: vec![], receipt: vec![] }
     }
 
-    fn insert_item(&mut self, s: &Store, ele: String) {
+    pub fn insert_item(&mut self, s: &Store, ele: String) {
         let pos = s.products.iter().position(|(x, _)| *x == ele).unwrap();
         self.items.push((ele, s.products[pos].1));
     }
 
-    fn get_prices(&self) -> Vec<f32> {
+    pub fn get_prices(&self) -> Vec<f32> {
         self.items.iter().map(|(_, v)| *v).collect::<Vec<f32>>()
     }
 
-    fn generate_receipt(&mut self) -> Vec<f32> {
+    pub fn generate_receipt(&mut self) -> Vec<f32> {
         let mut prices = self.get_prices();
         let cal = self.items.len()/3;
         prices.sort_by(|a, b| a.partial_cmp(b).unwrap());
@@ -119,12 +119,6 @@ impl Cart {
 
 fn round_two(nbr: f32) -> f32 {
     (nbr*100.0).round() / 100.0
-}
-
-fn add_items(s: &Store, items: Vec<&str>, c: &mut Cart) {
-    for item in items.iter() {
-        c.insert_item(s, item.to_string());
-    }
 }
 
 #[cfg(test)]

@@ -19,23 +19,23 @@ Create the following functions :
 
 */
 
-use std::rc::Rc;
+pub use std::rc::Rc;
 
 #[derive(Debug)]
-struct Node {
-    value: Vec<Rc<String>>
+pub struct Node {
+    pub value: Vec<Rc<String>>
 }
 
 impl Node {
-    fn new(value: Vec<Rc<String>>) -> Node {
+    pub fn new(value: Vec<Rc<String>>) -> Node {
         Node { value: value }
     }
 
-    fn add_ele(&mut self, v: Rc<String>) {
+    pub fn add_ele(&mut self, v: Rc<String>) {
         self.value.push(v);
     }
 
-    fn rm_all_ref(&mut self, v: Rc<String>) {
+    pub fn rm_all_ref(&mut self, v: Rc<String>) {
         self.value.retain(|x| is_same_allocate(x, &v));
     }
 }
@@ -47,7 +47,7 @@ fn is_same_allocate(x: &Rc<String>, v: &Rc<String>) -> bool {
     return true
 }
 
-fn how_many_references(value: &Rc<String>) -> usize {
+pub fn how_many_references(value: &Rc<String>) -> usize {
     Rc::strong_count(value)
 }
 

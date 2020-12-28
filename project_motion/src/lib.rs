@@ -45,15 +45,15 @@ fn main() {
 // use std::iter::Sum;
 
 #[derive(Debug, Clone, PartialEq)]
-struct Object {
-    distance: f32,
-    velocity: f32,
-    height: f32,
-    time: f32,
+pub struct Object {
+    pub distance: f32,
+    pub velocity: f32,
+    pub height: f32,
+    pub time: f32,
 }
 
 impl Object {
-    fn throw_object(velocity: f32, height: f32) -> Object {
+    pub fn throw_object(velocity: f32, height: f32) -> Object {
         Object { distance: 0.0, velocity, height, time: 0.0 }
     }
 }

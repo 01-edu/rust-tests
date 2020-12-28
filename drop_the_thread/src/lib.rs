@@ -43,34 +43,33 @@ You must create a Drop checker API. For this you must create:
 */
 
 use std::cell::{RefCell, Cell};
-// use std::time::{Duration, Instant};
 
 #[derive(Debug, Default, Clone, Eq, PartialEq)]
-struct Workers {
-    drops: Cell<usize>,
-    states: RefCell<Vec<bool>>
+pub struct Workers {
+    pub drops: Cell<usize>,
+    pub states: RefCell<Vec<bool>>
 }
 
 impl Workers {
-    fn new() -> Workers {
+    pub fn new() -> Workers {
         Workers::default()
     }
 
-    fn new_worker(&self, c: String) -> (usize, Thread) {
+    pub fn new_worker(&self, c: String) -> (usize, Thread) {
         let g = Thread::new_thread(self.track_worker(), c, self);
         self.states.borrow_mut().push(false);
         (g.pid, g)
     }
 
-    fn track_worker(&self) -> usize {
+    pub fn track_worker(&self) -> usize {
         self.states.borrow().len()
     }
 
-    fn is_dropped(&self, id: usize) -> bool {
+    pub fn is_dropped(&self, id: usize) -> bool {
         self.states.borrow()[id]
     }
 
-    fn add_drop(&self, id: usize) {
+    pub fn add_drop(&self, id: usize) {
         if self.is_dropped(id) {
             panic!("{:?} is already dropped", id)
         }
@@ -81,19 +80,19 @@ impl Workers {
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]
-struct Thread<'a> {
-    pid: usize,
-    cmd: String,
-    // time: (String, u16),
+pub struct Thread<'a> {
+    pub pid: usize,
+    pub cmd: String,
+    pub // time: (String, u16),
     parent: &'a Workers,
 }
 
 impl<'a> Thread<'a> {
-    fn new_thread(p: usize, c: String, t: &'a Workers) -> Thread {
+    pub fn new_thread(p: usize, c: String, t: &'a Workers) -> Thread {
         Thread { pid: p, cmd: c , parent: t }
     }
 
-    fn skill(self) {
+    pub fn skill(self) {
         drop(self);
     }
 }
