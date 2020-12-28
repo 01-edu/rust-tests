@@ -1,5 +1,5 @@
 [package]
-name = "error-type"
+name = "error_type"
 version = "0.1.0"
 authors = ["lee <lee-dasilva@hotmail.com>"]
 edition = "2018"

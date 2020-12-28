@@ -90,20 +90,20 @@ fn main() {
 - https://docs.rs/chrono/0.4.19/chrono/naive/struct.NaiveDate.html
 
 */
-use chrono::{Utc, NaiveDate};
+pub use chrono::{Utc, NaiveDate};
 // use chrono::format::ParseError;
 use std::fmt;
 
 // this will be the structure that wil handle the errors
 #[derive(Debug, Eq, PartialEq)]
-struct FErr {
-    form_values: (String, String),
-    date: String,
-    err: String,
+pub struct FErr {
+    pub form_values: (String, String),
+    pub date: String,
+    pub err: String,
 }
 
 impl FErr {
-    fn new(name: String, error: String, err: String) -> FErr {
+    pub fn new(name: String, error: String, err: String) -> FErr {
         FErr { form_values: (name, error), date: Utc::now().format("%Y-%m-%d %H:%M:%S").to_string(), err}
     }
 }
@@ -115,7 +115,7 @@ impl fmt::Display for FErr {
 }
 
 #[derive(Debug, Eq, PartialEq)]
-enum SexType {
+pub enum SexType {
     Male,
     Female,
 }
@@ -126,17 +126,17 @@ enum SexType {
 //   - combination of all ASCII character types
 //   - do not use sequests of characters
 #[derive(Debug, Eq, PartialEq)]
-struct Form {
-    first_name: String,
-    last_name: String,
-    birth: NaiveDate,
-    sex: SexType,
-    birth_location: String,
-    password: String,
+pub struct Form {
+    pub first_name: String,
+    pub last_name: String,
+    pub birth: NaiveDate,
+    pub sex: SexType,
+    pub birth_location: String,
+    pub password: String,
 }
 
 impl Form {
-    fn new(first_name: String,
+    pub fn new(first_name: String,
            last_name: String,
            birth: NaiveDate,
            sex: SexType,
@@ -155,7 +155,7 @@ impl Form {
 
     // this will validate the form, it does not validate if
     // the requirements are not fulfilled
-    fn validate(&self) -> Result<Vec<&str>, FErr> {
+    pub fn validate(&self) -> Result<Vec<&str>, FErr> {
         let v: Vec<&str> = vec![
             match &self.first_name {
                 x if x == &String::from("") => Err(self.user_name()),
@@ -191,6 +191,7 @@ impl Form {
 
 }
 
+#[allow(dead_code)]
 fn create_date(date: &str) -> NaiveDate {
     NaiveDate::parse_from_str(date, "%Y-%m-%d").unwrap()
 }
