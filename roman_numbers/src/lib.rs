@@ -19,7 +19,7 @@ mod iterator;
 use crate::RomanDigit::*;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-enum RomanDigit {
+pub enum RomanDigit {
 	Nulla,
 	I,
 	V,
@@ -46,7 +46,7 @@ impl From<u32> for RomanDigit {
 }
 
 #[derive(Debug)]
-struct RomanNumber(Vec<RomanDigit>);
+pub struct RomanNumber(pub Vec<RomanDigit>);
 
 impl From<u32> for RomanNumber {
 	fn from(n: u32) -> Self {
