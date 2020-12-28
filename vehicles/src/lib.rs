@@ -5,23 +5,23 @@
 // of the vehicle but the vehicles can be of two types: Car or Truck
 // With the following structure:
 #[allow(dead_code)]
-struct Car<'a> {
-	plate_nbr: &'a str,
-	model: &'a str,
-	horse_power: u32,
-	year: u32,
+pub struct Car<'a> {
+	pub plate_nbr: &'a str,
+	pub model: &'a str,
+	pub horse_power: u32,
+	pub year: u32,
 }
 
 #[allow(dead_code)]
-struct Truck<'a> {
-	plate_nbr: &'a str,
-	model: &'a str,
-	horse_power: u32,
-	year: u32,
-	load_tons: u32,
+pub struct Truck<'a> {
+	pub plate_nbr: &'a str,
+	pub model: &'a str,
+	pub horse_power: u32,
+	pub year: u32,
+	pub load_tons: u32,
 }
 
-trait Vehicle {
+pub trait Vehicle {
 	fn model(&self) -> &str;
 	fn year(&self) -> u32;
 }
@@ -49,7 +49,7 @@ impl Vehicle for Car<'_> {
 // implement the Vehicle trait
 
 #[allow(dead_code)]
-fn all_models(list: Vec<&dyn Vehicle>) -> Vec<&str> {
+pub fn all_models(list: Vec<&dyn Vehicle>) -> Vec<&str> {
 	let mut models = Vec::new();
 	for ve in list {
 		models.push(ve.model());
