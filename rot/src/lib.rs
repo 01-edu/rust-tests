@@ -76,7 +76,7 @@ student@ubuntu:~/[[ROOT]]/test$
 
 */
 
-fn rotate(input: &str, key: i8) -> String {
+pub fn rotate(input: &str, key: i8) -> String {
     input
         .chars()
         .map(|character| match character {
