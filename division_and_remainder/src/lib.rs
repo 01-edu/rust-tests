@@ -1,37 +1,34 @@
-// fn main() {
-// 	let x = 9;
-// 	let y = 4;
-// 	let (division, remainder) = divide(x, y);
-// 	println!(
-// 		"\t{}/{}: division = {}, remainder = {}",
-// 		x, y, division, remainder
-// 	);
-// }
+/*Change the body of the function divide to return the value of the
+integer division of the x and y and the remainder of that division
+You're only allowed to change the body of the function
+
+fn main() {
+    let x = 9;
+    let y = 4;
+    let (division, remainder) = divide(x, y);
+    println!(
+        "{}/{}: division = {}, remainder = {}",
+        x, y, division, remainder
+    );
+}
+*/
 
 pub fn divide(x: i32, y: i32) -> (i32, i32) {
-	(x / y, x % y)
+    // You're code here
+    let div = x / y;
+    let rem = x % y;
+    (div, rem)
 }
 
-#[test]
-#[should_panic]
-fn divide_by_0() {
-	divide(40, 0);
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-#[test]
-fn test_divide() {
-	let (div, rem) = divide(40, 3);
-
-	assert_eq!(div, 13);
-	assert_eq!(rem, 1);
-
-	let (div, rem) = divide(389, 39);
-
-	assert_eq!(div, 9);
-	assert_eq!(rem, 38);
-
-	let (div, rem) = divide(29, 332);
-
-	assert_eq!(div, 0);
-	assert_eq!(rem, 29);
+    #[test]
+    fn it_works() {
+        assert_eq!(divide(3, 4), (3 / 4, 3 % 4));
+        assert_eq!(divide(73, 4), (73 / 4, 73 % 4));
+        assert_eq!(divide(432, 32), (432 / 32, 432 % 32));
+        assert_eq!(divide(897, 29), (897 / 29, 897 % 29));
+    }
 }
