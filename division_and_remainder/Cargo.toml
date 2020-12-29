@@ -1,5 +1,5 @@
 [package]
-name = "division_and_reminder"
+name = "division_and_remainder"
 version = "0.1.0"
 authors = ["Augusto <aug.ornelas@gmail.com>"]
 edition = "2018"
