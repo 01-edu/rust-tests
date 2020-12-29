@@ -2,7 +2,7 @@
 // `search` receives an array of i32 and a key, then it will return the position
 // of the given key in the array.
 
-fn search(array: &[i32], key: i32) -> Option<usize> {
+pub fn search(array: &[i32], key: i32) -> Option<usize> {
     let array = array.as_ref();
 
     if array.is_empty() {
