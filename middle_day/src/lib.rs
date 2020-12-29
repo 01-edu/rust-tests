@@ -17,8 +17,8 @@ fn main() {
 */
 
 extern crate chrono;
-use chrono::prelude::*;
-use chrono::Weekday as wd;
+pub use chrono::prelude::*;
+pub use chrono::Weekday as wd;
 
 pub fn middle_day(year: usize) -> Option<wd> {
     if year % 400 == 0 || (year % 4 == 0 && year % 100 != 0) {
@@ -26,12 +26,6 @@ pub fn middle_day(year: usize) -> Option<wd> {
     }
 
     Some(Utc.ymd(year as i32, 7, 2).weekday())
-}
-
-fn main() {
-    let date = Utc.ymd(2011, 12, 2).and_hms(21, 12, 09);
-
-    println!("{:?}", middle_day(1022).unwrap());
 }
 
 #[cfg(test)]

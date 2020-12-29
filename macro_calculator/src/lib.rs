@@ -69,12 +69,12 @@ extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
 
-#[derive(Serialize, Deserialize, Debug)]
-struct Macros {
-    cals: f64,
-    carbs: f64,
-    proteins: f64,
-    fats: f64,
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+pub struct Macros {
+    pub cals: f64,
+    pub carbs: f64,
+    pub proteins: f64,
+    pub fats: f64,
 }
 
 pub fn calculate_macros(foods: Vec<serde_json::Value>) -> serde_json::Value {
@@ -104,7 +104,7 @@ pub fn calculate_macros(foods: Vec<serde_json::Value>) -> serde_json::Value {
         "fats": (fats * 100.0).round() / 100.0,
     })
 }
-
+/*
 fn main() {
     let a = serde_json::json!(
         {
@@ -128,7 +128,7 @@ fn main() {
     let macros: Macros = serde_json::from_value(calculate_macros(vec![a, b])).unwrap();
     println!("{:?}", macros);
 }
-
+*/
 #[cfg(test)]
 mod test {
     use super::*;
