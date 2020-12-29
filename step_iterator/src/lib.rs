@@ -31,7 +31,7 @@
 // Like beg: 0, end: 100, steps: 7 the last number returned will be
 // the last number returned will be 98
 
-struct StepIterator<T> {
+pub struct StepIterator<T> {
 	beg: T,
 	started: bool,
 	end: T,
@@ -40,7 +40,7 @@ struct StepIterator<T> {
 
 use std::ops::Add;
 impl<T: Copy + Add<Output = T> + PartialOrd + PartialEq> StepIterator<T> {
-	fn new(beg: T, end: T, step: T) -> Self {
+	pub fn new(beg: T, end: T, step: T) -> Self {
 		Self {
 			beg,
 			started: false,
