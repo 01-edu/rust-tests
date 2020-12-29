@@ -27,6 +27,7 @@ fn search(array: &[i32], key: i32) -> Option<usize> {
 
     return None;
 }
+
 fn main() {
     let ar = [1, 3, 4, 6, 8, 9, 11];
     let f = search(&ar, 6);
