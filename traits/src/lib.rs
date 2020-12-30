@@ -27,27 +27,27 @@ pub struct Meat {
 	pub fat_content: f64,
 }
 
-fn main() {
-	let apple = Fruit { weight_in_kg: 1.0 };
-	assert_eq!(apple.gives(), 4);
-	let steak = Meat {
-		weight_in_kg: 1.0,
-		fat_content: 1.0,
-	};
+// fn main() {
+// 	let apple = Fruit { weight_in_kg: 1.0 };
+// 	assert_eq!(apple.gives(), 4);
+// 	let steak = Meat {
+// 		weight_in_kg: 1.0,
+// 		fat_content: 1.0,
+// 	};
 
-	let mut player1 = Player {
-		name: String::from("player1"),
-		strength: 1,
-		score: 0,
-		money: 0,
-		weapons: vec![String::from("knife")],
-	};
-	println!("Before eating {:?}", player1);
-	player1.eat(apple);
-	println!("After eating an apple\n{:?}", player1);
-	player1.eat(steak);
-	println!("After eating a steak\n{:?}", player1);
-}
+// 	let mut player1 = Player {
+// 		name: String::from("player1"),
+// 		strength: 1,
+// 		score: 0,
+// 		money: 0,
+// 		weapons: vec![String::from("knife")],
+// 	};
+// 	println!("Before eating {:?}", player1);
+// 	player1.eat(apple);
+// 	println!("After eating an apple\n{:?}", player1);
+// 	player1.eat(steak);
+// 	println!("After eating a steak\n{:?}", player1);
+// }
 
 impl Player {
 	pub fn eat<T: Food>(&mut self, food: T) {

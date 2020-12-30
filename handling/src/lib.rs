@@ -34,9 +34,7 @@ fn main() {
 */
 
 use std::fs::{File, OpenOptions};
-use std::io::prelude::*;
 use std::io::{ErrorKind, Write};
-
 
 pub fn open_or_create(s: &str, content: &str) {
 	let mut f = match OpenOptions::new().write(true).open(s) {
@@ -50,12 +48,13 @@ pub fn open_or_create(s: &str, content: &str) {
 	f.write_all(content.as_bytes()).unwrap();
 }
 
-
 #[cfg(test)]
 mod tests {
 	use super::*;
 	use std::fs;
 	use std::panic;
+
+	use std::io::prelude::*;
 
 	fn get_file_content(filename: &str) -> String {
 		let mut file = File::open(filename).unwrap();

@@ -8,7 +8,7 @@ doesn't exist
 
 */
 
-use std::fs::{self, File};
+use std::fs::File;
 
 pub fn open_file(s: &str) -> File {
 	let file = File::open(s);
@@ -22,6 +22,7 @@ pub fn open_file(s: &str) -> File {
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use std::fs;
 
 	#[test]
 	#[should_panic]
