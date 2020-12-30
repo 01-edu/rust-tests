@@ -58,7 +58,7 @@ struct AuthorInfo {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct CommitData {
+pub struct CommitData {
 	sha: String,
 	commit: Commit,
 	author: Author,
@@ -66,17 +66,16 @@ struct CommitData {
 
 use std::collections::HashMap;
 
-fn commits_per_author<'a>(data: &'a Vec<CommitData>) -> HashMap<&'a str, u32> {
+pub fn commits_per_author<'a>(data: &'a Vec<CommitData>) -> HashMap<&'a str, u32> {
 	let mut commits_per_author: HashMap<&'a str, u32> = HashMap::new();
 	for commit in data {
 		let count = commits_per_author.entry(&commit.author.login).or_insert(0);
 		*count += 1;
 	}
-	println!("Total: {}", data.len());
 	commits_per_author
 }
 
-fn commits_per_week(data: &Vec<CommitData>) -> HashMap<String, u32> {
+pub fn commits_per_week(data: &Vec<CommitData>) -> HashMap<String, u32> {
 	let mut commits_per_week: HashMap<String, u32> = HashMap::new();
 	for commit in data {
 		let count = commits_per_week
