@@ -38,6 +38,7 @@ fn main() {
 
 use case::CaseExt;
 use edit_distance::edit_distance;
+use expected_variable::*;
 
 #[cfg(test)]
 mod tests {

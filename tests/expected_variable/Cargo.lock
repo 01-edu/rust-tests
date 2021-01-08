@@ -17,3 +17,12 @@ dependencies = [
  "case",
  "edit_distance",
 ]
+
+[[package]]
+name = "expected_variable_test"
+version = "0.1.0"
+dependencies = [
+ "case",
+ "edit_distance",
+ "expected_variable",
+]

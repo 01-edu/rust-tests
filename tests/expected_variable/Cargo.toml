@@ -1,5 +1,5 @@
 [package]
-name = "expected_variable"
+name = "expected_variable_test"
 version = "0.1.0"
 authors = ["OGordoo <marcosafonso8@hotmail.com>"]
 edition = "2018"
