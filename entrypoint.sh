@@ -4,14 +4,13 @@ set -euo pipefail
 IFS='
 '
 
-mkdir -p public/rust
-cp -a /app/public/rust/tests public/rust
+cp -a /app/tests .
 
-ln -s student rust-piscine-solutions
+ln -s student solutions
 
-if ! test -f "public/rust/tests/${EXERCISE}_test/Cargo.toml"; then
+if ! test -f "tests/${EXERCISE}_test/Cargo.toml"; then
 	echo "No test file found for the exercise : $EXERCISE"
 	exit 1
 fi
 
-cargo test --manifest-path "public/rust/tests/${EXERCISE}_test/Cargo.toml"
+cargo test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"

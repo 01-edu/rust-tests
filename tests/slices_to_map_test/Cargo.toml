@@ -7,4 +7,4 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-slices_to_map = { path = "../../../../rust-piscine-solutions/slices_to_map"}
+slices_to_map = { path = "../../solutions/slices_to_map"}

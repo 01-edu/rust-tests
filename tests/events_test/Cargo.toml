@@ -9,4 +9,4 @@ edition = "2018"
 [dependencies]
 chrono = "0.4"
 colored = "2"
-events = { path = "../../../../rust-piscine-solutions/events"}
+events = { path = "../../solutions/events"}

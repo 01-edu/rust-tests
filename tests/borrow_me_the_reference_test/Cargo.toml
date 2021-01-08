@@ -8,4 +8,4 @@ edition = "2018"
 
 [dependencies]
 meval = "0.2"
-borrow_me_the_reference = { path = "../../../../rust-piscine-solutions/borrow_me_the_reference"}
+borrow_me_the_reference = { path = "../../solutions/borrow_me_the_reference"}

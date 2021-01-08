@@ -7,4 +7,4 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-lalgebra_vector = { path = "../../../../rust-piscine-solutions/lalgebra_vector"}
+lalgebra_vector = { path = "../../solutions/lalgebra_vector"}

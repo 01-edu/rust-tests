@@ -7,4 +7,4 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-diamond_creation = { path = "../../../../rust-piscine-solutions/diamond_creation"} 
+diamond_creation = { path = "../../solutions/diamond_creation"}

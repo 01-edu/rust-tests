@@ -7,4 +7,4 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-pig_latin = { path = "../../../../rust-piscine-solutions/pig_latin"} 
+pig_latin = { path = "../../solutions/pig_latin"}

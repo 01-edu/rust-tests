@@ -7,4 +7,4 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-how_many_references = { path = "../../../../rust-piscine-solutions/how_many_references"}
+how_many_references = { path = "../../solutions/how_many_references"}

@@ -7,4 +7,4 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rgb_match = { path = "../../../../rust-piscine-solutions/rgb_match"} 
+rgb_match = { path = "../../solutions/rgb_match"}

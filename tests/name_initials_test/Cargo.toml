@@ -9,4 +9,4 @@ edition = "2018"
 [dependencies]
 jemalloc-ctl = "0.3.3"
 jemallocator = "0.3.2"
-name_initials = { path = "../../../../rust-piscine-solutions/name_initials"}
+name_initials = { path = "../../solutions/name_initials"}

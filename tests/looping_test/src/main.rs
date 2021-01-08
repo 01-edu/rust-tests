@@ -1,6 +1,6 @@
 use rexpect::spawn;
 
-const MANIFEST_PATH: &str = "../../../../rust-piscine-solutions/looping/Cargo.toml";
+const MANIFEST_PATH: &str = "../../solutions/looping/Cargo.toml";
 
 #[test]
 fn test_correct_answer() {

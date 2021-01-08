@@ -7,4 +7,4 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-error_type = { path = "../../../../rust-piscine-solutions/error_type"}
+error_type = { path = "../../solutions/error_type"}
