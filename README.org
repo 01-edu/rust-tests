@@ -1,0 +1,137 @@
+* DONE First Draft                                                  :ARCHIVE:
+* DONE First Part (until flow control Chapter 3.5 in the Rust Book) :ARCHIVE:
+  - [X] Declaring variables (scalar types) ([[file:temperature_conv/src/main.rs][temperature_conversion]])
+  - [X] Working variables (compound types)
+    - [X] Tuples (Defining and accessing elements)
+      - [X] Defining with different types ([[file:tuples/src/main.rs][tuples]])
+      - [X] Destructuring ([[file:division_and_remainder/src/main.rs][division_and_remainder]])
+      - [X] Accessing with the index ([[file:matrix_transposition/src/main.rs][matrix_transposition]])
+    - [X] Arrays (Defining and accessing elements) ([[file:arrays/src/main.rs][arrays]])
+      - [X] Defining
+        - [X] Arrays with the same value in the short way ex. [3, 3, 3, 3, 3]
+        - [X] Arrays with different values
+      - [X] Accessing
+  - [X] Declaring functions
+    - [X] Examples of statements and expressions ([[file:fibonacci/src/main.rs][fibonacci]])
+    - [X] With returning values ([[file:fibonacci/src/main.rs][fibonacci]])
+    - [X] Returning tuples ([[file:division_and_remainder/src/main.rs][division_and_remainder]])
+  - [X] Control flow
+    - [X] if (as an expression and as statement) ([[file:fibonacci/src/main.rs][fibonacci]])
+    - [X] for ([[file:arrays/src/main.rs][arrays]])
+    - [X] while ([[file:arrays/src/main.rs][arrays]])
+    - [X] loop ([[file:looping/src/main.rs][looping]])
+    - [X] returning from loops ([[file:looping/src/main.rs][looping]])
+* DONE Ownership                                                    :ARCHIVE:
+  SCHEDULED: <2020-06-10 Wed>
+  - [X] Functions that take ownership ([[file:ownership/src/main.rs][ownership]])
+  - [X] Functions that borrow immutably ([[file:borrow/src/main.rs][borrow]])
+  - [X] Functions that borrow mutably ([[file:mutability/src/main.rs][mutability]])
+  - [-] Rules of references
+    - [X] At any time, you can have either one mutable reference or any number of immutable references. (An exercise that tries to use more than one mutable reference)
+      - [X] Two or more immutable references ([[file:reference_rules/src/main.rs][reference_rules]])
+      - [X] One mutable reference and one or more immutable ones ([[file:changes/src/main.rs][changes]])
+* DONE Using Structs to Structure Related Data                      :ARCHIVE:
+  SCHEDULED: <2020-06-12 Fri>
+  - [X] Defining an initializing Structs
+  - [X] Method Syntax
+* DONE Enums and pattern matching                                   :ARCHIVE:
+  SCHEDULED: <2020-06-16 Tue>
+  - [X] Defining an Enum
+  - [X] The Match Control Flow Operator
+  - [X] Concise Control Flow With if let
+* DONE Common Collections                                           :ARCHIVE:
+  SCHEDULED: <2020-06-18 Thu>
+  - [X] Storing List of text with Vectors
+  - [X] Storing UTF-8 Encoded Text with Storing
+  - [X] Strings Keys with Associated Values in Hash Maps
+* DONE Error Handling                                               :ARCHIVE:
+  SCHEDULED: <2020-06-23 Tue>
+  - [X] Unrecoverable Errors with panic!
+  - [X] Recoverable Errors with Result
+* DONE Generic Types, Traits and Lifetimes                          :ARCHIVE:
+  SCHEDULED: <2020-06-25 Thu>
+  - [X] Generic Data Types
+  - [X] Traits: Defining Shared Behavior
+  - [X] Validating references with Lifetimes
+* DONE Functional Language Features:                                :ARCHIVE:
+  SCHEDULED: <2020-07-09 Thu>
+  - [X] Closures: Anonymous functions that can capture their environment
+    - [X] Exercise using Iterator::find
+    - [X] Exercise using Iterator::map
+  - [X] Processing a Series of Items with Iterator
+* DONE Packages, Crates and modules                                 :ARCHIVE:
+  SCHEDULED: <2020-08-05 Wed>
+   - [X] Create modules in the same file.
+   - [X] Separate one module into another file.
+   - [X] Put all the modules and sub modules in different files.
+* DONE Fix previous exercises                                       :ARCHIVE:
+  SCHEDULED: <2020-08-17 Mon>
+  - [X] fibonacci (the readme has to change if the test doesn't appear)
+  - [X] tuples (missing test)
+  - [X] mutability (fix readme and add tests)
+  - [X] circle (improve the readme)
+  - [X] hashing (check if the main can be changed)
+  - [X] lifetimes (I ask to create the structure but it's already done)
+* DONE Add 32 more exercises to the Rust piscine (for a total of 58 exercises) :ARCHIVE:
+  SCHEDULED: <2020-08-21 Fri>
+  - Number of Draft Exercises: 26
+  - Newly added exercises: 32
+  - Total: 58
+* DONE Add more exercises to the Rust piscine (for a total of 84 exercises) :ARCHIVE:
+  SCHEDULED: <2020-08-28 Fri>
+  - Newly added exercises: 3
+  - Total: 84
+* DONE Serde                                                        :ARCHIVE:
+* DONE Smart Pointers                                               :ARCHIVE:
+  - [X] Using Box to Point to Data on the Heap
+  - [X] Treating Smart Pointers Like Regular references with the Deref Trait
+  - [X] Running Code on Clean up with the Drop Trait
+  - [X] Rc, the Reference Counted Smart Pointer
+  - [X] RefCell and the Interior Mutability Pattern
+  - [X] Reference Counted Smart Pointer
+* DONE Finish last 4 exercises                                      :ARCHIVE:
+  SCHEDULED: <2020-12-14 Mon>
+  - [X] An exercise with a enum with a lifetime and a method for that lifetime
+  - [X] Convert two arrays into a map
+  - [X] Look into the iterator implementation in the standard library
+    - [X] Exercise 3
+    - [X] std::iterator::Iterator
+  - [X] Closure exercises
+    - [X] Passing closures as arguments
+    - [X] Difference between closures Fn, FnOnce, FnMut
+* DONE Merge Afonso's exercises                                     :ARCHIVE:
+  SCHEDULED: <2020-12-14 Mon>
+* DONE Pattern and Matching                                         :ARCHIVE:
+  - [ ] All the places patterns can be used
+  - [ ] Refutability: Whether a Pattern Might Fail to Match
+  - [ ] Pattern Syntax
+* TODO All exercise must be libs to be tested
+* TODO All functions to be tested must be public
+* TODO Try to put the quest one in public to test with cargo
+* TODO Make a script that takes the comments from all the exercises and create a readme file into the correct folder
+  <2020-12-16 Wed>
+* TODO Move change all the functions to public
+  <2020-12-16 Wed>
+* TODO Cargo
+* TODO Debugging
+* TODO Web Assembly
+* TODO Go back to The Rust Book, Chapter 8.3 Summary (Last section) to get more exercises in collections
+* TODO For the raids
+** TODO Writing Automated Tests
+   - [ ] How to write Tests
+   - [ ] Controlling How Tests are Run
+   - [ ] Test Organization
+** TODO Drawing exercise
+** TODO Traffic light simulation
+** TODO Introduction to creating a window
+* TODO Fearless Concurrency
+  - [ ] Using threads to run code simultaneously
+  - [ ] Using Message Passing to Transfer Data Between Treads
+  - [ ] Shared-State Concurrency
+  - [ ] Extensible Concurrency with the Sync and Send Traits
+* TODO Advance Features
+  - [ ] Unsafe Rust
+  - [ ] Advance Trait
+  - [ ] Advance Types
+  - [ ] Advanced Functions and Closures
+  - [ ] Macros
