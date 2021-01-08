@@ -36,9 +36,6 @@ fn main() {
 
 */
 
-extern crate case;
-extern crate edit_distance;
-
 use case::CaseExt;
 use edit_distance::edit_distance;
 
