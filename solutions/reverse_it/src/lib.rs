@@ -4,10 +4,8 @@ pub fn reverse_it(nbr: i32) -> String {
     let rev: Vec<char> = str_nbr.chars().rev().collect();
     if nbr >= 0 {
         return format!("{}{}", rev.into_iter().collect::<String>(), str_nbr);
-    } else {
-        println!("{:?}", rev);
-        return format!("-{}{}", rev.into_iter().collect::<String>(), str_nbr);
     }
+    return format!("-{}{}", rev.into_iter().collect::<String>(), str_nbr);
 }
 
 #[cfg(test)]
