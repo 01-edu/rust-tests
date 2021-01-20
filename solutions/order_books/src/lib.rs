@@ -8,11 +8,9 @@ pub mod library {
         }
     }
     pub mod books {
-        #[derive(Debug)]
         pub struct Book {
             pub title: String,
             pub year: usize,
-            pub images: bool,
         }
     }
 }

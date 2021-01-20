@@ -7,26 +7,21 @@ fn main() {
     let mut writer_a = Writer {
         first_name: "William".to_string(),
         last_name: "Shakespeare".to_string(),
-        age: 52,
         books: vec![
             Book {
                 title: "Hamlet".to_string(),
-                images: false,
                 year: 1600,
             },
             Book {
                 title: "Othelo".to_string(),
-                images: false,
                 year: 1603,
             },
             Book {
                 title: "Romeo and Juliet".to_string(),
-                images: false,
                 year: 1593,
             },
             Book {
                 title: "MacBeth".to_string(),
-                images: false,
                 year: 1605,
             },
         ],
@@ -54,26 +49,21 @@ mod tests {
         let mut writer = Writer {
             first_name: "William".to_string(),
             last_name: "Shakespeare".to_string(),
-            age: 52,
             books: vec![
                 Book {
                     title: "Hamlet".to_string(),
-                    images: false,
                     year: 1600,
                 },
                 Book {
                     title: "Othelo".to_string(),
-                    images: false,
                     year: 1603,
                 },
                 Book {
                     title: "Romeo and Juliet".to_string(),
-                    images: false,
                     year: 1593,
                 },
                 Book {
                     title: "MacBeth".to_string(),
-                    images: false,
                     year: 1605,
                 },
             ],
@@ -91,31 +81,25 @@ mod tests {
         let mut writer = Writer {
             first_name: "William".to_string(),
             last_name: "Shakespeare".to_string(),
-            age: 55,
             books: vec![
                 Book {
                     title: "Harry Potter and the Philosopher's Stone".to_string(),
-                    images: false,
                     year: 1997,
                 },
                 Book {
                     title: "Harry Potter and the Prisoner of Azkaban".to_string(),
-                    images: false,
                     year: 1999,
                 },
                 Book {
                     title: "Harry Potter and the Order of the Phoenix".to_string(),
-                    images: false,
                     year: 2003,
                 },
                 Book {
                     title: "Harry Potter and the Chamber of Secrets".to_string(),
-                    images: false,
                     year: 1998,
                 },
                 Book {
                     title: "Harry Potter and the Deathly Hallows".to_string(),
-                    images: false,
                     year: 2007,
                 },
             ],
