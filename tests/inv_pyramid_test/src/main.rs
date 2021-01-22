@@ -1,5 +1,9 @@
 use inv_pyramid::*;
 
+fn main() {
+    println!("{:?}", inv_pyramid(String::from("&"), 8));
+}
+
 #[test]
 fn it_works() {
     let data_sets = vec![
