@@ -42,13 +42,13 @@ fn main() {
 
 #[derive(Debug)]
 pub struct ChessPosition {
-    rank: i32,
-    file: i32,
+    pub rank: i32,
+    pub file: i32,
 }
 
 #[derive(Debug)]
 pub struct Queen {
-    position: ChessPosition,
+    pub position: ChessPosition,
 }
 
 impl ChessPosition {
