@@ -8,4 +8,3 @@ edition = "2018"
 
 [dependencies]
 partial_sums = {path = "../../solutions/partial_sums"}
-rand = "0.8.2"

@@ -1,5 +1,4 @@
 use partial_sums::parts_sums;
-use rand::Rng;
 
 fn main() {
     println!(
