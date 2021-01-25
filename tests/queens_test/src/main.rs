@@ -15,7 +15,7 @@ So, given the position of the two queens on a chess board, you will have to
 implement the function `can_attack` in the given struct `Queen` with
 the purpose of finding out if the two queens can attack each other or not.
 For this to be possible, you will also have to implement the struct `ChessPosition`
-with the function `new` that will allow you to verify if the position is 
+with the function `new` that will allow you to verify if the position is
 valid or not. If the position is valid it will return that position and invalid it will return `None`.
 
 So if you are told that the white queen is at (2, 3) and the black queen is at (5, 6),
