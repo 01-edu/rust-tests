@@ -16,7 +16,7 @@ pub fn brainfuck(pattern: &str) {
             '+' => ds[dp] = ds[dp] + 1,
             '-' => ds[dp] = ds[dp] - 1,
             '.' => {
-                println!("{}", ds[dp] as u8 as char);
+                print!("{}", ds[dp] as u8 as char);
             }
             '[' => {
                 if ds[dp] == 0 {

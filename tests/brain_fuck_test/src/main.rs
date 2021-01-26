@@ -1,10 +1,8 @@
-use std::process::Command;
-
 fn main() {}
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::process::Command;
 
     const MANIFEST_PATH: &str = "../../solutions/brain_fuck/Cargo.toml";
 

@@ -2,7 +2,6 @@ fn main() {}
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::process::Command;
 
     const MANIFEST_PATH: &str = "../../solutions/rpn/Cargo.toml";
