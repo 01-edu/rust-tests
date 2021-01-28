@@ -28,7 +28,7 @@ fn test_positive() {
 }
 
 #[test]
-fn test_negative() {
+fn test_long() {
 	let mut f = HashMap::new();
 	f.insert("Daniel", 41758712);
 	f.insert("Ashley", 54551444);
