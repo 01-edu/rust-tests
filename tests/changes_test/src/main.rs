@@ -30,7 +30,7 @@ fn main() {
 }
 
 #[test]
-fn test_unexistente_alias() {
+fn test_nonexistent_alias() {
 	let mut lights = Vec::new();
 	for i in 0..5 {
 		let alias = format!("light-{}", i);
