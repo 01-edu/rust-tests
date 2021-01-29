@@ -15,7 +15,7 @@ mod tests {
             .output()
             .expect("Failed to execute command");
 
-        String::from_utf8_lossy(&output.stdout).trim().to_string()
+        String::from_utf8(output.stdout).unwrap()
     }
 
     #[test]

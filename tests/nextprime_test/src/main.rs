@@ -1,4 +1,4 @@
-use next_prime::*;
+use nextprime::*;
 
 fn main() {
     println!("The next prime after 4 is: {}", next_prime(4));
