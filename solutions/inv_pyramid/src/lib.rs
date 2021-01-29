@@ -1,7 +1,7 @@
 pub fn inv_pyramid(st: String, i: u32) -> Vec<String> {
     let mut vec = vec![];
     for v in 1..i {
-        let mut s = String::from("");
+        let mut s = String::new();
         for _ in 0..v {
             s.push_str(" ")
         }
@@ -11,7 +11,8 @@ pub fn inv_pyramid(st: String, i: u32) -> Vec<String> {
         vec.push(s);
     }
     for v in 0..i {
-        let mut s = String::from("");
+        let mut s = String::new();
+
         for _ in 0..(i - v) {
             s.push_str(" ")
         }
