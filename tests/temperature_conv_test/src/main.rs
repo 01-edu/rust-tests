@@ -6,11 +6,21 @@ fn eql(a: f64, b: f64) -> bool {
 	(b - a).abs() < EPSILON
 }
 
+fn ceil(value: f64, scale: u8) -> f64 {
+	let multiplier = 10i64.pow(scale as u32) as f64;
+	(value * multiplier).ceil() / multiplier
+}
+
+
 #[test]
 fn test_f_to_c() {
 	println!("{}", fahrenheit_to_celsius(83.0));
-	assert!(eql(fahrenheit_to_celsius(20.0), -6.666666666666666));
-	assert!(eql(fahrenheit_to_celsius(83.0), 28.333333333333332));
+
+	let rounded = ceil(fahrenheit_to_celsius(20.0),2);
+	assert!(eql(rounded, -6.65));
+
+	let rounded2 = ceil(fahrenheit_to_celsius(83.0),2);
+	assert!(eql(rounded2, 28.34));
 }
 
 #[test]
