@@ -9,4 +9,5 @@ name = "temperature_conv_test"
 version = "0.1.0"
 dependencies = [
  "temperature_conv",
+ "math",
 ]
