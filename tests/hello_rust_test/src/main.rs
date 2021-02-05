@@ -15,6 +15,8 @@ mod tests {
 			.output()
 			.expect("Failed to execute command");
 
+		println!("{:?}", String::from_utf8(out.stderr));
+		assert!(out.status.success());
 		assert_eq!(String::from_utf8(out.stdout).unwrap(), "Hello, Rust!!\n");
 	}
 }
