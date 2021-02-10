@@ -1,0 +1,3 @@
+#!/bin/sh
+
+for dir in */; do cargo test --manifest-path "$dir"Cargo.toml; done
