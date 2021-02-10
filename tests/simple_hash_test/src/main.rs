@@ -14,14 +14,14 @@ fn main() {
 
 	println!(
 		"Does the HashMap contains the name Roman? => {}",
-		contain(hash.clone(), "Roman")
+		contain(&hash, "Roman")
 	);
 	println!(
 		"Does the HashMap contains the name Katie? => {}",
-		contain(hash.clone(), "Katie")
+		contain(&hash, "Katie")
 	);
-	println!("Removing Robert {:?}", remove(hash.clone(), "Robert"));
-	println!("Hash {:?}", hash);
+	println!("Removing Robert {:?}", remove(&mut hash, "Robert"));
+	println!("Hash {:?}", &hash);
 }
 
 #[test]
@@ -33,13 +33,13 @@ fn test_contains() {
 	s.insert("Johnny", 546);
 	s.insert("Albert", 12323214);
 
-	assert_eq!(true, contain(s.clone(), "Pedro"));
-	assert_eq!(true, contain(s.clone(), "Ralph"));
-	assert_eq!(true, contain(s.clone(), "Johnny"));
-	assert_eq!(true, contain(s.clone(), "Albert"));
-	assert_eq!(false, contain(s.clone(), "Marco"));
-	assert_eq!(false, contain(s.clone(), "Joan"));
-	assert_eq!(false, contain(s.clone(), "Louise"));
+	assert_eq!(true, contain(&s, "Pedro"));
+	assert_eq!(true, contain(&s, "Ralph"));
+	assert_eq!(true, contain(&s, "Johnny"));
+	assert_eq!(true, contain(&s, "Albert"));
+	assert_eq!(false, contain(&s, "Marco"));
+	assert_eq!(false, contain(&s, "Joan"));
+	assert_eq!(false, contain(&s, "Louise"));
 }
 
 #[test]
@@ -50,7 +50,7 @@ fn test_remove() {
 	n.insert("Ott Tanak", 32);
 	n.insert("Thierry Neuville", 32);
 
-	remove(n.clone(), "Dani Sordo");
-	assert_eq!(true, contain(n.clone(), "Ott Tanak"));
-	assert_eq!(false, contain(n.clone(), "Dani Ŝordo"))
+	remove(&mut n, "Dani Sordo");
+	assert_eq!(true, contain(&n, "Ott Tanak"));
+	assert_eq!(false, contain(&n, "Dani Ŝordo"))
 }

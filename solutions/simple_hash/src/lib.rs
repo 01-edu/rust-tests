@@ -3,14 +3,14 @@
 
 use std::collections::HashMap;
 
-pub fn contain(h: HashMap<&str, i32>, s: &str) -> bool {
+pub fn contain(h: &HashMap<&str, i32>, s: &str) -> bool {
 	match h.get(s) {
 		Some(_hash) => true,
 		None => false,
 	}
 }
 
-pub fn remove(mut h: HashMap<&str, i32>, s: &str) {
+pub fn remove(h: &mut HashMap<&str, i32>, s: &str) {
 	h.remove(s);
 }
 
@@ -46,13 +46,13 @@ mod tests {
 		s.insert("Johnny", 546);
 		s.insert("Albert", 12323214);
 
-		assert_eq!(true, contain(s.clone(), "Pedro"));
-		assert_eq!(true, contain(s.clone(), "Ralph"));
-		assert_eq!(true, contain(s.clone(), "Johnny"));
-		assert_eq!(true, contain(s.clone(), "Albert"));
-		assert_eq!(false, contain(s.clone(), "Marco"));
-		assert_eq!(false, contain(s.clone(), "Joan"));
-		assert_eq!(false, contain(s.clone(), "Louise"));
+		assert_eq!(true, contain(&s, "Pedro"));
+		assert_eq!(true, contain(&s, "Ralph"));
+		assert_eq!(true, contain(&s, "Johnny"));
+		assert_eq!(true, contain(&s, "Albert"));
+		assert_eq!(false, contain(&s, "Marco"));
+		assert_eq!(false, contain(&s, "Joan"));
+		assert_eq!(false, contain(&s, "Louise"));
 	}
 
 	#[test]
@@ -63,8 +63,8 @@ mod tests {
 		n.insert("Ott Tanak", 32);
 		n.insert("Thierry Neuville", 32);
 
-		remove(n.clone(), "Dani Sordo");
-		assert_eq!(true, contain(n.clone(), "Ott Tanak"));
-		assert_eq!(false, contain(n.clone(), "Dani Ŝordo"))
+		remove(&mut n, "Dani Sordo");
+		assert_eq!(true, contain(&n, "Ott Tanak"));
+		assert_eq!(false, contain(&n, "Dani Ŝordo"))
 	}
 }

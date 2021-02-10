@@ -27,7 +27,7 @@ fn test_winner() {
 	for rank in 1..14 {
 		for suit in 1..5 {
 			let card = Card {
-				rank: Rank::traslate(rank),
+				rank: Rank::translate(rank),
 				suit: Suit::translate(suit),
 			};
 			if card != winner {

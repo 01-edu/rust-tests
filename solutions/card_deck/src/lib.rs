@@ -21,10 +21,10 @@ pub enum Rank {
 impl Rank {
 	pub fn random() -> Rank {
 		let value: u8 = rand::thread_rng().gen_range(1, 14);
-		Rank::traslate(value)
+		Rank::translate(value)
 	}
 
-	pub fn traslate(value: u8) -> Rank {
+	pub fn translate(value: u8) -> Rank {
 		match value {
 			1 => Rank::Ace,
 			n @ 2..=10 => Rank::Number(n),
@@ -92,7 +92,7 @@ mod tests {
 		for rank in 1..14 {
 			for suit in 1..5 {
 				let card = Card {
-					rank: Rank::traslate(rank),
+					rank: Rank::translate(rank),
 					suit: Suit::translate(suit),
 				};
 				if card != winner {

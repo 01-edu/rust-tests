@@ -5,15 +5,15 @@ use strings::*;
 
 fn main() {
 	println!("lenght of {} = {}", "❤", "❤".len());
-	println!("lenght of {} = {}", "❤", char_lenght("❤"));
-	println!("lenght of {} = {}", "形声字", char_lenght("形聲字"));
+	println!("lenght of {} = {}", "❤", char_length("❤"));
+	println!("lenght of {} = {}", "形声字", char_length("形聲字"));
 	println!("lenght of {} = {}", "形声字", "形聲字".len());
 	println!("lenght of {} = {}", "change", "change".len());
-	println!("lenght of {} = {}", "change", char_lenght("change"));
-	println!("char lenght of {} = {}", "😍", char_lenght("😍"));
+	println!("lenght of {} = {}", "change", char_length("change"));
+	println!("char lenght of {} = {}", "😍", char_length("😍"));
 }
 
-// fn char_lenght(s: &str) -> usize {
+// fn char_length(s: &str) -> usize {
 // 	let mut chars = 0;
 // 	for _ in s.chars() {
 // 		chars += 1;
@@ -24,16 +24,16 @@ fn main() {
 #[test]
 fn test_ascii() {
 	let s = "ascii";
-	assert_eq!(char_lenght(s), 5);
+	assert_eq!(char_length(s), 5);
 }
 
 #[test]
 fn test_emoji() {
 	let s = "❤😍";
-	assert_eq!(char_lenght(s), 2);
+	assert_eq!(char_length(s), 2);
 }
 #[test]
 fn test_chinese_char() {
 	let s = "形声字";
-	assert_eq!(char_lenght(s), 3);
+	assert_eq!(char_length(s), 3);
 }
