@@ -1,5 +1,5 @@
 /*
-## string literal
+## string literals
 
 ### Instructions
 
@@ -27,7 +27,7 @@ static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 #[allow(unused_imports)]
 use jemalloc_ctl::{epoch, stats};
 #[allow(unused_imports)]
-use string_literal::*;
+use string_literals::*;
 
 fn main() {
 	println!("{}", is_empty(""));
