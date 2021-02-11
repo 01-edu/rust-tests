@@ -1,4 +1,4 @@
-use unwrap_and_expect::*;
+use unwrap_or_expect::*;
 
 fn main() {
     println!("{:?}", unwrap_or(vec![1, 3, 2, 5]));
