@@ -67,7 +67,7 @@ fn test_memory_allocation() {
 	assert!(
 		stu_violations <= sol_violations,
 		format!(
-			"You are allocation to the heap {} time, and it must be less or equal to {} times",
+			"You are allocating to the heap {} time, and it must be less or equal to {} times",
 			stu_violations, sol_violations
 		)
 	);
