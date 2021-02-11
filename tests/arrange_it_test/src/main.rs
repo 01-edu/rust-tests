@@ -1,53 +1,22 @@
-/*
-## arrange_it
+// fn test_memory() {
+// 	assert!(assert_no_alloc(|| is_empty("")));
+// 	assert!(assert_no_alloc(|| is_ascii("rust")));
+// 	assert!(assert_no_alloc(|| contains("rust", "ru")));
+// 	assert!(("ru", "st") == assert_no_alloc(|| split_at("rust", 2)));
+// 	assert!(1 == assert_no_alloc(|| find("rust", 'u')));
+// }
 
-### Instructions
-
-Create a function called `arrange_phrase` that takes a string literal as a phrase and returns it organized
-Each word will have a number that indicates the position of that word
-
-### Example
-
-```rust
-```
-
-> This exercise will test the **heap allocation** of your function!
-> So try your best to allocate the minimum data on the heap!
-
-### Notions
-
-- https://doc.rust-lang.org/1.22.0/book/first-edition/the-stack-and-the-heap.html
-- https://doc.rust-lang.org/std/primitive.str.html#method.split
-
-*/
-
-#[allow(unused_imports)]
-#[global_allocator]
-static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 #[allow(unused_imports)]
 use arrange_it::*;
+use assert_no_alloc::*;
 
-#[allow(unused_imports)]
-use jemalloc_ctl::{epoch, stats};
+#[global_allocator]
+static A: AllocDisabler = AllocDisabler;
 
 #[allow(dead_code)]
 fn main() {
 	println!("{:?}", arrange_phrase("is2 Thi1s T4est 3a"));
 }
-
-// example of function that works but does not pass the heap test
-// fn arrange_phrase(phrase: &str) -> String {
-//     let words_nbr = phrase.matches(" ").count() + 1;
-//     let mut result_vec:Vec<String> = vec!["".to_string();words_nbr];
-//     for word in phrase.split_whitespace().into_iter() {
-//         for i in 1..words_nbr+1 {
-//             if word.contains(&i.to_string()){
-//                 result_vec[i-1] = word.split(&i.to_string()).collect::<String>();
-//             }
-//         }
-//     }
-//     result_vec.join(" ")
-// }
 
 #[allow(dead_code)]
 fn arrange_phrase_sol(phrase: &str) -> String {
@@ -64,28 +33,17 @@ fn arrange_phrase_sol(phrase: &str) -> String {
 
 #[test]
 fn test_heap_memory_allocation() {
-	// the statistics tracked by jemalloc are cached
-	// The epoch controls when they are refreshed
-	let e = epoch::mib().unwrap();
-	// allocated: number of bytes allocated by the application
-	let allocated = stats::allocated::mib().unwrap();
-	let test_value = "4of Fo1r pe6ople g3ood th5e the2";
-
-	arrange_phrase_sol(test_value);
-	// this will advance with the epoch giving the its old value
-	// where we read the updated heap allocation using the `allocated.read()`
-	e.advance().unwrap();
-	let solution = allocated.read().unwrap();
-
-	arrange_phrase(test_value);
-	e.advance().unwrap();
-	let student = allocated.read().unwrap();
-
+	let test_value = "w7ork t3he a4rt o5f Per1formance is2 a6voiding";
+	assert_no_alloc(|| arrange_phrase_sol(test_value));
+	let sol_violations = violation_count();
+	assert_no_alloc(|| arrange_phrase(test_value));
+	let stu_violations = violation_count() - sol_violations;
+	
 	assert!(
-		student <= solution,
+		stu_violations <= sol_violations,
 		format!(
-			"your heap allocation is {}, and it must be less or equal to {}",
-			student, solution
+			"You are allocation to the heap {} time, and it must be less or equal to {} times",
+			stu_violations, sol_violations
 		)
 	);
 }

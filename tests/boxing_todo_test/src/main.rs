@@ -90,7 +90,8 @@ mod tests {
 	#[should_panic(expected = "Malformed(Error(\"missing field `title`\", line: 1, column: 2))")]
 	fn test_malformed_json() {
 		#[derive(Serialize, Deserialize)]
-		struct Mal {};
+		#[allow(dead_code)]
+		struct Mal {}
 		let file_name = "malformed.json";
 		let malformed: Mal = serde_json::from_str(r#"{}"#).unwrap();
 		serde_json::to_writer(&File::create(file_name).unwrap(), &malformed).unwrap();

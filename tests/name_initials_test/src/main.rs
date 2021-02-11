@@ -20,11 +20,12 @@ with names and return a vector of Strings with the initials of each name.
 
 */
 
-#[global_allocator]
-static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
-
+use assert_no_alloc::*;
 #[allow(unused_imports)]
 use name_initials::*;
+
+#[global_allocator]
+static A: AllocDisabler = AllocDisabler;
 
 #[allow(dead_code)]
 fn main() {
@@ -32,9 +33,6 @@ fn main() {
 	println!("{:?}", initials(&mut names));
 	// output: ["H. P.", "S. E.", "J. L.", "B. O."]
 }
-
-#[allow(unused_imports)]
-use jemalloc_ctl::{epoch, stats};
 
 #[allow(dead_code)]
 struct Test<'a> {
@@ -61,34 +59,16 @@ fn initials_sol(arr: &mut Vec<&str>) -> Vec<String> {
 
 #[test]
 fn test_memory_allocation() {
-	// the statistics tracked by jemalloc are cached
-	// The epoch controls when they are refreshed
-	let e = epoch::mib().unwrap();
-	// allocated: number of bytes allocated by the application
-	let allocated = stats::allocated::mib().unwrap();
-	let mut test_value = vec![
-		"Lee Silva",
-		"Harry Potter",
-		"Someone Else",
-		"J. L.",
-		"Barack Obama",
-	];
-
-	initials_sol(&mut test_value);
-	// this will advance with the epoch giving the its old value
-	// where we read the updated heap allocation using the `allocated.read()`
-	e.advance().unwrap();
-	let solution = allocated.read().unwrap();
-
-	initials(&mut test_value);
-	e.advance().unwrap();
-	let student = allocated.read().unwrap();
-
+	let mut test_value = vec!["Harry Potter", "Someone Else", "J. L.", "Barack Obama"];
+	assert_no_alloc(|| initials_sol(&mut test_value));
+	let sol_violations = violation_count();
+	assert_no_alloc(|| initials(&mut test_value));
+	let stu_violations = violation_count() - sol_violations;
 	assert!(
-		student <= solution,
+		stu_violations <= sol_violations,
 		format!(
-			"your heap allocation is {}, and it must be less or equal to {}",
-			student, solution
+			"You are allocation to the heap {} time, and it must be less or equal to {} times",
+			stu_violations, sol_violations
 		)
 	);
 }
