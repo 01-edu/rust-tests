@@ -2,7 +2,7 @@ use std::io::Write;
 use std::process::{Command, Stdio};
 
 const MANIFEST_PATH: &str = "../../solutions/looping/Cargo.toml";
-const RIDDLE: &str = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?";
+const RIDDLE: &str = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?\n";
 const ANSWER: &str = "The letter e\n";
 
 fn main() {
@@ -28,7 +28,7 @@ fn test_correct_answer() {
 	let output = looping.wait_with_output().expect("Failed to read stdout");
 	assert_eq!(
 		String::from_utf8_lossy(&output.stdout),
-		RIDDLE.to_string() + "\nIt took you 1 trial to get the right answer\n"
+		RIDDLE.to_string() + "It took you 1 trial to get the right answer\n"
 	);
 }
 
@@ -45,7 +45,7 @@ fn test_more_than_one_trial_to_get_the_right_answer() {
 	// at the end
 	// So every response of the program is saved in a variable and
 	// then compared with all the lines produced in order
-	let mut expected_output = RIDDLE.to_string() + "\n";
+	let mut expected_output = RIDDLE.to_string();
 	let n_fails = 4;
 
 	// Send the wrong answer to the program
@@ -55,7 +55,7 @@ fn test_more_than_one_trial_to_get_the_right_answer() {
 			.write_all("no\n".as_bytes())
 			.expect("Failed to write to stdin");
 		// Add a new line of the output of each line
-		expected_output.push_str(&(RIDDLE.to_string() + "\n"));
+		expected_output.push_str(RIDDLE);
 	}
 
 	// Send the correct answer
