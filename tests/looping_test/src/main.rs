@@ -1,55 +1,79 @@
-//use rexpect::spawn;
+use std::io::Write;
+use std::process::{Command, Stdio};
 
 const MANIFEST_PATH: &str = "../../solutions/looping/Cargo.toml";
-
-fn set_up() -> escargot::CargoRun {
-	let temp = assert_fs::TempDir::new().unwrap();
-	let cmd = escargot::CargoBuild::new()
-		.bin("looping")
-		.current_release()
-		.current_target()
-		.manifest_path(MANIFEST_PATH)
-		.target_dir(temp.path())
-		.run()
-		.unwrap();
-	cmd
-}
+const RIDDLE: &str = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?";
+const ANSWER: &str = "The letter e\n";
 
 fn main() {
-	let _p = set_up();
 	println!("hello");
 }
 
 #[test]
-fn notication() {
-	panic!("This test is being refactored, please continue to the next exercise");
+fn test_correct_answer() {
+	let mut looping = Command::new("cargo")
+		.args(&["run", "--manifest-path", MANIFEST_PATH])
+		.stdin(Stdio::piped())
+		.stdout(Stdio::piped())
+		.spawn()
+		.expect("Failed to spawn child process");
+
+	{
+		let stdin = looping.stdin.as_mut().expect("Failed to open stdin");
+		stdin
+			.write_all(ANSWER.as_bytes())
+			.expect("Failed to write to stdin");
+	}
+
+	let output = looping.wait_with_output().expect("Failed to read stdout");
+	assert_eq!(
+		String::from_utf8_lossy(&output.stdout),
+		RIDDLE.to_string() + "\nIt took you 1 trial to get the right answer\n"
+	);
 }
-// #[test]
-// fn test_correct_answer() {
-// 	let riddle = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?";
 
-// 	let cmd = set_up();
-// 	let mut p = spawn(&cmd.path().display().to_string(), Some(2000)).unwrap();
-// 	p.exp_string(riddle).unwrap();
-// 	p.send_line("The letter e").unwrap();
-// 	p.exp_string("It took you 1 trials to get the right answer")
-// 		.unwrap();
-// }
+#[test]
+fn test_more_than_one_trial_to_get_the_right_answer() {
+	let mut looping = Command::new("cargo")
+		.args(&["run", "--manifest-path", MANIFEST_PATH])
+		.stdin(Stdio::piped())
+		.stdout(Stdio::piped())
+		.spawn()
+		.expect("Failed to spawn child process");
 
-// #[test]
-// fn test_more_than_one_fail() {
-// 	let riddle = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?";
+	// the expected output will be collected by line and only checked
+	// at the end
+	// So every response of the program is saved in a variable and
+	// then compared with all the lines produced in order
+	let mut expected_output = RIDDLE.to_string() + "\n";
+	let n_fails = 4;
 
-// 	let cmd = set_up();
-// 	let mut p = spawn(&cmd.path().display().to_string(), Some(2000)).unwrap();
-// 	p.exp_string(riddle).unwrap();
-// 	p.send_line("circle").unwrap();
-// 	p.exp_string(riddle).unwrap();
-// 	p.send_line("relativity").unwrap();
-// 	p.exp_string(riddle).unwrap();
-// 	p.send_line("the big bang").unwrap();
-// 	p.exp_string(riddle).unwrap();
-// 	p.send_line("The letter e").unwrap();
-// 	p.exp_string("It took you 4 trials to get the right answer")
-// 		.unwrap();
-// }
+	// Send the wrong answer to the program
+	for _ in 0..n_fails {
+		let stdin = looping.stdin.as_mut().expect("Failed to open stdin");
+		stdin
+			.write_all("no\n".as_bytes())
+			.expect("Failed to write to stdin");
+		// Add a new line of the output of each line
+		expected_output.push_str(&(RIDDLE.to_string() + "\n"));
+	}
+
+	// Send the correct answer
+	{
+		let stdin = looping.stdin.as_mut().expect("Failed to open stdin");
+		stdin
+			.write_all(ANSWER.as_bytes())
+			.expect("Failed to write to stdin");
+	}
+
+	let output = looping.wait_with_output().expect("Failed to read stdout");
+
+	assert_eq!(
+		String::from_utf8_lossy(&output.stdout),
+		expected_output
+			+ &format!(
+				"It took you {} trials to get the right answer\n",
+				n_fails + 1
+			)
+	);
+}

@@ -21,7 +21,7 @@ fn main() {
 	let answer = "The letter e";
 	let mut counter = 0;
 
-	let trails = loop {
+	let trials = loop {
 		println!("{}", riddle);
 
 		let mut input = String::new();
@@ -37,5 +37,9 @@ fn main() {
 		}
 	};
 
-	println!("It took you {} trials to get the right answer", trails);
+	println!(
+		"It took you {} {} to get the right answer",
+		trials,
+		if trials == 1 { "trial" } else { "trials" }
+	);
 }
