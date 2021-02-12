@@ -7,5 +7,3 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-escargot = "0.5"
-assert_fs = "1.0.0"

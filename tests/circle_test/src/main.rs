@@ -1,4 +1,3 @@
-//use raster::{Color, Image};
 use circle::{Circle, Point};
 // Create a structure that represents a circle
 // using the radius and the center point
