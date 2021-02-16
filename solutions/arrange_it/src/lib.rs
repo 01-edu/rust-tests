@@ -39,15 +39,16 @@ pub fn arrange_phrase(phrase: &str) -> String {
 
 // // example of function that works but does not pass the heap test
 // pub fn arrange_phrase(phrase: &str) -> String {
-//     let words_nbr = phrase.matches(" ").count() + 1;
-//     let mut result_vec:Vec<String> = vec!["".to_string();words_nbr];
-//     for word in phrase.split_whitespace().into_iter() {
-//         for i in 1..words_nbr+1 {
-//             if word.contains(&i.to_string()){
-//                 result_vec[i-1] = word.split(&i.to_string()).collect::<String>();
-//             }
-//         }
-//     }
-//     result_vec.join(" ")
+// 	let mut vec = vec![0; 1024];
+// 	vec.push(213);
+// 	let words_nbr = phrase.matches(" ").count() + 1;
+// 	let mut result_vec: Vec<String> = vec!["".to_string(); words_nbr];
+// 	for word in phrase.split_whitespace().into_iter() {
+// 		for i in 1..words_nbr + 1 {
+// 			if word.contains(&i.to_string()) {
+// 				result_vec[i - 1] = word.split(&i.to_string()).collect::<String>();
+// 			}
+// 		}
+// 	}
+// 	result_vec.join(" ")
 // }
-
