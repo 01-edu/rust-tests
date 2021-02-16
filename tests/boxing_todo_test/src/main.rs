@@ -73,7 +73,7 @@ mod tests {
 		let file_name = "empty_tasks.json";
 		let result = run(&new_todo(String::from("empty tasks"), vec![]), file_name).unwrap_err();
 
-		assert_eq!(result.to_string(), "Failed to parses todo");
+		assert_eq!(result.to_string(), "Fail to parses todo");
 		//assert_eq!(result.to_string(), "Todo List parse failed: ");
 		assert!(!result.source().is_some());
 	}
@@ -82,7 +82,7 @@ mod tests {
 	fn test_read() {
 		let result = TodoList::get_todo("no_file.json").unwrap_err();
 
-		assert_eq!(result.to_string(), "Failed to read todo file");
+		assert_eq!(result.to_string(), "Fail to read todo file");
 		//assert_eq!(result.to_string(), "Todo List read failed: ");
 	}
 

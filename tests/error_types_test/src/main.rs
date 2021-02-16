@@ -1,4 +1,4 @@
-use error_type::*;
+use error_types::*;
 
 #[allow(dead_code)]
 fn create_date(date: &str) -> NaiveDate {

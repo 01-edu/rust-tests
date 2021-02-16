@@ -20,17 +20,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "error_type"
+name = "error_types"
 version = "0.1.0"
 dependencies = [
  "chrono",
 ]
 
 [[package]]
-name = "error_type_test"
+name = "error_types_test"
 version = "0.1.0"
 dependencies = [
- "error_type",
+ "error_types",
 ]
 
 [[package]]
