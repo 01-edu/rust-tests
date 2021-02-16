@@ -19,31 +19,48 @@ with names and return a vector of Strings with the initials of each name.
 - https://doc.rust-lang.org/1.22.0/book/first-edition/the-stack-and-the-heap.html
 
 */
+use std::alloc::{GlobalAlloc, Layout, System};
+use std::cell::Cell;
 
-use assert_no_alloc::*;
 #[allow(unused_imports)]
 use name_initials::*;
 
+thread_local! {
+	static ALLOC_VIOLATION_COUNT: Cell<u32> = Cell::new(0);
+}
+
+#[allow(dead_code)]
+fn violation_count() -> u32 {
+	ALLOC_VIOLATION_COUNT.with(|c| c.get())
+}
+#[allow(dead_code)]
+fn reset_violation_count() {
+	ALLOC_VIOLATION_COUNT.with(|c| c.set(0));
+}
+
+struct Counter;
+
+unsafe impl GlobalAlloc for Counter {
+	unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+		ALLOC_VIOLATION_COUNT.with(|c| c.set(c.get() + 1));
+		let ret = System.alloc(layout);
+		return ret;
+	}
+
+	unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+		ALLOC_VIOLATION_COUNT.with(|c| c.set(c.get() + 1));
+		System.dealloc(ptr, layout);
+	}
+}
+
 #[global_allocator]
-static A: AllocDisabler = AllocDisabler;
+static A: Counter = Counter;
 
+// this solutions uses heap allocation but is not optimized
+// to use the less possible. The reason for this is so that
+// we give some space for the student to implement their own way
 #[allow(dead_code)]
-fn main() {
-	let mut names = vec!["Harry Potter", "Someone Else", "J. L.", "Barack Obama"];
-	println!("{:?}", initials(&mut names));
-	// output: ["H. P.", "S. E.", "J. L.", "B. O."]
-}
-
-#[allow(dead_code)]
-struct Test<'a> {
-	names: Vec<&'a str>,
-	result: Vec<&'a str>,
-}
-
-// solution that will run against the students solution
-// this function uses the less heap allocation
-#[allow(dead_code)]
-fn initials_sol(arr: &mut Vec<&str>) -> Vec<String> {
+fn initials_sol(arr: Vec<&str>) -> Vec<String> {
 	arr.iter()
 		.map(|ele| {
 			let mut names = ele.split_whitespace();
@@ -59,18 +76,26 @@ fn initials_sol(arr: &mut Vec<&str>) -> Vec<String> {
 
 #[test]
 fn test_memory_allocation() {
-	let mut test_value = vec!["Harry Potter", "Someone Else", "J. L.", "Barack Obama"];
-	assert_no_alloc(|| initials_sol(&mut test_value));
-	let sol_violations = violation_count();
-	assert_no_alloc(|| initials(&mut test_value));
-	let stu_violations = violation_count() - sol_violations;
+	let test_value = vec!["Harry Potter", "Someone Else", "J. L.", "Barack Obama"];
+	initials_sol(test_value.clone());
+	let sol_alloc = violation_count();
+	reset_violation_count();
+	initials(test_value);
+	let stu_alloc = violation_count();
+
 	assert!(
-		stu_violations <= sol_violations,
+		stu_alloc <= sol_alloc,
 		format!(
-			"You are allocating to the heap {} time, and it must be less or equal to {} times",
-			stu_violations, sol_violations
+			"You are allocating to the heap {} times, and it must be less or equal to {} times",
+			stu_alloc, sol_alloc
 		)
 	);
+}
+
+#[allow(dead_code)]
+struct Test<'a> {
+	names: Vec<&'a str>,
+	result: Vec<&'a str>,
 }
 
 #[test]
@@ -96,13 +121,20 @@ fn test_function() {
 		},
 	];
 
-	for mut v in cases {
+	for v in cases {
 		assert_eq!(
-			initials(&mut v.names),
+			initials(v.names),
 			v.result
 				.iter()
 				.map(|ele| ele.to_string())
 				.collect::<Vec<String>>()
 		);
 	}
+}
+
+#[allow(dead_code)]
+fn main() {
+	let names = vec!["Harry Potter", "Someone Else", "J. L.", "Barack Obama"];
+	println!("{:?}", initials(names));
+	// output: ["H. P.", "S. E.", "J. L.", "B. O."]
 }

@@ -25,7 +25,7 @@ fn main() {
 
 */
 
-pub fn initials(names: &mut Vec<&str>) -> Vec<String> {
+pub fn initials(names: Vec<&str>) -> Vec<String> {
 	names
 		.iter()
 		.map(|x| {
@@ -52,3 +52,18 @@ pub fn initials(names: &mut Vec<&str>) -> Vec<String> {
 		})
 		.collect()
 }
+
+// // example of solution that access the heap to many times
+// pub fn initials(arr: Vec<&str>) -> Vec<String> {
+// 	let mut new = vec![];
+// 	for v in arr.iter() {
+// 		let mut names: Vec<&str> = v.split_whitespace().collect();
+// 		let mut a = names[0].get(0..1).unwrap().to_string();
+// 		a.push_str(". ");
+// 		let mut b = names[1].get(0..1).unwrap().to_string();
+// 		b.push_str(".");
+// 		a.push_str(&b);
+// 		new.push(a.to_string());
+// 	}
+// 	new
+// }

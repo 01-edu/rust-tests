@@ -1,21 +1,20 @@
-// fn test_memory() {
-// 	assert!(assert_no_alloc(|| is_empty("")));
-// 	assert!(assert_no_alloc(|| is_ascii("rust")));
-// 	assert!(assert_no_alloc(|| contains("rust", "ru")));
-// 	assert!(("ru", "st") == assert_no_alloc(|| split_at("rust", 2)));
-// 	assert!(1 == assert_no_alloc(|| find("rust", 'u')));
-// }
+use std::alloc::{GlobalAlloc, Layout, System};
+use std::cell::Cell;
 
 #[allow(unused_imports)]
 use arrange_it::*;
-use assert_no_alloc::*;
 
-#[global_allocator]
-static A: AllocDisabler = AllocDisabler;
+thread_local! {
+	static ALLOC_VIOLATION_COUNT: Cell<u32> = Cell::new(0);
+}
 
 #[allow(dead_code)]
-fn main() {
-	println!("{:?}", arrange_phrase("is2 Thi1s T4est 3a"));
+fn violation_count() -> u32 {
+	ALLOC_VIOLATION_COUNT.with(|c| c.get())
+}
+#[allow(dead_code)]
+fn reset_violation_count() {
+	ALLOC_VIOLATION_COUNT.with(|c| c.set(0));
 }
 
 #[allow(dead_code)]
@@ -31,19 +30,37 @@ fn arrange_phrase_sol(phrase: &str) -> String {
 	m.join(" ")
 }
 
+struct Counter;
+
+unsafe impl GlobalAlloc for Counter {
+	unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+		ALLOC_VIOLATION_COUNT.with(|c| c.set(c.get() + 1));
+		let ret = System.alloc(layout);
+		return ret;
+	}
+
+	unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+		ALLOC_VIOLATION_COUNT.with(|c| c.set(c.get() + 1));
+		System.dealloc(ptr, layout);
+	}
+}
+
+#[global_allocator]
+static A: Counter = Counter;
+
 #[test]
 fn test_heap_memory_allocation() {
 	let test_value = "w7ork t3he a4rt o5f Per1formance is2 a6voiding";
-	assert_no_alloc(|| arrange_phrase_sol(test_value));
-	let sol_violations = violation_count();
-	assert_no_alloc(|| arrange_phrase(test_value));
-	let stu_violations = violation_count() - sol_violations;
-	
+	arrange_phrase_sol(test_value);
+	let sol_alloc = violation_count();
+	reset_violation_count();
+	arrange_phrase(test_value);
+	let stu_alloc = violation_count();
 	assert!(
-		stu_violations <= sol_violations,
+		stu_alloc <= sol_alloc,
 		format!(
-			"You are allocating to the heap {} time, and it must be less or equal to {} times",
-			stu_violations, sol_violations
+			"You are allocating to the heap {} times, and it must be less or equal to {} times",
+			stu_alloc, sol_alloc
 		)
 	);
 }
@@ -58,4 +75,9 @@ fn test_function() {
 	for v in cases {
 		assert_eq!(arrange_phrase(v), arrange_phrase_sol(v));
 	}
+}
+
+#[allow(dead_code)]
+fn main() {
+	println!("{:?}", arrange_phrase("is2 Thi1s T4est 3a"));
 }
