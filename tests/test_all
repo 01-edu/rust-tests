@@ -1,3 +1,44 @@
 #!/bin/sh
 
-for dir in */; do cargo test --manifest-path "$dir"Cargo.toml; done
+# -t to get a table with only the time that it takes to tests all the exercises
+ARG=$1
+echo $ARG
+
+if [ -n $ARG -a $ARG == '-h' -o $ARG == '--help' ]
+then
+	echo "Run cargo test in all the exercises
+
+	-h, --help          show this usage screen
+	-t                  show a table with the time it takes to run all the exercises";
+	exit 0;
+fi;
+
+echo "Sit tight! this can take around 5 min"
+
+printf "| %-26s| %-14s|\n" Exercise Time
+
+if [ $ARG == '-t' ]
+then
+	# Print a table with the time that took to test each exercise
+	for dir in */; do
+		exercise_name=${dir%_test/};
+		# Don't clean the folder that don't exist
+		# This are the only exercises that don't follow the
+		# pattern (1 solution -> 1 crate)
+		if [ $exercise_name != 'matrix_mult' -a $exercise_name != 'matrix_ops' -a $exercise_name != 'roman_numbers_iter' ]
+		then
+			cargo clean --manifest-path ../solutions/"$exercise_name"/Cargo.toml;
+		fi;
+		cargo clean --manifest-path "$dir"Cargo.toml;
+
+		time=$(/usr/bin/time -f '%e secs.' cargo test -q --manifest-path "$dir"Cargo.toml 2>&1 1 > /dev/null | grep secs);
+		printf "| %-26s| %-14s|\n" $exercise_name "$time"
+	done |
+		sort -rn -k4
+
+else
+	# Test every exercise rebuilding only when the solution changed
+	for dir in */; do
+		cargo test --manifest-path "$dir"Cargo.toml
+	done
+fi
