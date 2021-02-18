@@ -1,8 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 # -t to get a table with only the time that it takes to tests all the exercises
 ARG=$1
-echo $ARG
 
 if [ -n $ARG -a $ARG == '-h' -o $ARG == '--help' ]
 then
@@ -13,7 +12,7 @@ then
 	exit 0;
 fi;
 
-echo "Sit tight! this can take around 5 min"
+echo "Sit tight! This can take around 5 min"
 
 printf "| %-26s| %-14s|\n" Exercise Time
 
