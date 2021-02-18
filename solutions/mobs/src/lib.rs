@@ -56,6 +56,6 @@ pub use mob::*;
 
   */
 
-mod mob;
+mod mobs;
 
-pub use mob::*;
+pub use mobs::*;

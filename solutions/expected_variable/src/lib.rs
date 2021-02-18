@@ -24,9 +24,9 @@ fn main() {
         expected_variable("soClose", "So_Close").unwrap()
     ); // -> 88%
     println!(
-        "{} close to it",
-        expected_variable("something", "something_completely_different").unwrap()
-    ); // -> Fail
+        "{:?}",
+        expected_variable("something", "something_completely_different")
+    ); // -> None
     println!(
         "{} close to it",
         expected_variable("BenedictCumberbatch", "BeneficialCucumbersnatch").unwrap()
@@ -50,7 +50,6 @@ pub fn expected_variable(evaluated: &str, expected: &str) -> Option<String> {
     {
         let distance = edit_distance(&evaluated1, &correct1) as i64;
 
-        println!("\n{}->{}\n", evaluated, distance);
         if distance == 0 {
             return Some("100%".to_string());
         }
