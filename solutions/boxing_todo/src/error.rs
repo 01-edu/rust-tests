@@ -1,11 +1,11 @@
+use std::error::Error;
 use std::fmt;
 use std::fmt::Display;
-use std::error::Error;
 
 #[derive(Debug)]
 pub enum ParseErr {
     Malformed(Box<dyn Error>),
-    Empty
+    Empty,
 }
 
 // required by error trait
@@ -17,7 +17,7 @@ impl Display for ParseErr {
 
 #[derive(Debug)]
 pub struct ReadErr {
-    pub child_err: Box<dyn Error>
+    pub child_err: Box<dyn Error>,
 }
 
 // required by error trait
@@ -28,22 +28,16 @@ impl Display for ReadErr {
 }
 
 impl Error for ReadErr {
-    fn description(&self) -> &str {
-        "Todo List read failed: "
-    }
-    fn cause(&self) -> Option<&dyn Error> {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
         Some(&*self.child_err)
     }
 }
 
 impl Error for ParseErr {
-    fn description(&self) -> &str {
-        "Todo List parse failed: "
-    }
-    fn cause(&self) -> Option<&dyn Error> {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
         match &self {
             ParseErr::Empty => None,
-            _ => Some(&*self)
+            _ => Some(&*self),
         }
     }
 }
