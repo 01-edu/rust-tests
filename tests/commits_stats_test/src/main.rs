@@ -19,16 +19,13 @@
 // https://docs.rs/chrono/0.4.19/chrono/#modules
 // https://serde.rs/
 
-#[allow(unused_imports)]
-use commits_stats::CommitData;
-#[allow(unused_imports)]
-use commits_stats::*;
+use commits_stats::{commits_per_author, commits_per_week};
 #[allow(unused_imports)]
 use std::fs;
 
 fn main() {
 	let contents = fs::read_to_string("commits.json").unwrap();
-	let serialized: Vec<CommitData> = serde_json::from_str(&contents).unwrap();
+	let serialized = json::parse(&contents).unwrap();
 	println!("{:?}", commits_per_week(&serialized));
 	println!("{:?}", commits_per_author(&serialized));
 }
@@ -38,10 +35,9 @@ mod tests {
 	use super::*;
 	use std::collections::HashMap;
 
-	fn test_setup() -> Vec<CommitData> {
+	fn test_setup() -> json::JsonValue {
 		let contents = fs::read_to_string("commits.json").unwrap();
-		let serialized: Vec<CommitData> = serde_json::from_str(&contents).unwrap();
-		serialized
+		json::parse(&contents).unwrap()
 	}
 
 	#[test]
@@ -92,7 +88,7 @@ mod tests {
 		let mut expected = HashMap::new();
 
 		for i in 0..logins.len() {
-			expected.insert(logins[i], commits[i].to_owned());
+			expected.insert(logins[i].to_owned(), commits[i].to_owned());
 		}
 
 		let commits_per_author = commits_per_author(&serialized);

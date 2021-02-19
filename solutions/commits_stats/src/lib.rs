@@ -21,7 +21,6 @@
 
 use chrono::prelude::*;
 use chrono::IsoWeek;
-use serde::{Deserialize, Serialize};
 
 #[derive(Debug)]
 struct Week(IsoWeek);
@@ -34,30 +33,30 @@ impl fmt::Display for Week {
 	}
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug)]
 struct Tree {
 	sha: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug)]
 struct Author {
 	login: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug)]
 struct Commit {
 	message: String,
 	tree: Tree,
 	author: AuthorInfo,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug)]
 struct AuthorInfo {
 	name: String,
 	date: DateTime<Utc>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug)]
 pub struct CommitData {
 	sha: String,
 	commit: Commit,
@@ -66,20 +65,29 @@ pub struct CommitData {
 
 use std::collections::HashMap;
 
-pub fn commits_per_author<'a>(data: &'a Vec<CommitData>) -> HashMap<&'a str, u32> {
-	let mut commits_per_author: HashMap<&'a str, u32> = HashMap::new();
-	for commit in data {
-		let count = commits_per_author.entry(&commit.author.login).or_insert(0);
+pub fn commits_per_author(data: &json::JsonValue) -> HashMap<String, u32> {
+	let mut commits_per_author: HashMap<String, u32> = HashMap::new();
+	for commit in data.members() {
+		let count = commits_per_author
+			.entry(commit["author"]["login"].to_string())
+			.or_insert(0);
 		*count += 1;
 	}
 	commits_per_author
 }
 
-pub fn commits_per_week(data: &Vec<CommitData>) -> HashMap<String, u32> {
+pub fn commits_per_week(data: &json::JsonValue) -> HashMap<String, u32> {
 	let mut commits_per_week: HashMap<String, u32> = HashMap::new();
-	for commit in data {
+	for commit in data.members() {
 		let count = commits_per_week
-			.entry(Week(commit.commit.author.date.iso_week()).to_string())
+			.entry(
+				Week(
+					DateTime::parse_from_rfc3339(&commit["commit"]["author"]["date"].to_string())
+						.unwrap()
+						.iso_week(),
+				)
+				.to_string(),
+			)
 			.or_insert(0);
 		*count += 1;
 	}
@@ -91,9 +99,9 @@ mod tests {
 	use super::*;
 	use std::fs;
 
-	fn test_setup() -> Vec<CommitData> {
+	fn test_setup() -> json::JsonValue {
 		let contents = fs::read_to_string("commits.json").unwrap();
-		let serialized: Vec<CommitData> = serde_json::from_str(&contents).unwrap();
+		let serialized = json::parse(&contents).unwrap();
 		serialized
 	}
 
@@ -145,7 +153,7 @@ mod tests {
 		let mut expected = HashMap::new();
 
 		for i in 0..logins.len() {
-			expected.insert(logins[i], commits[i].to_owned());
+			expected.insert(logins[i].to_owned(), commits[i].to_owned());
 		}
 
 		let commits_per_author = commits_per_author(&serialized);
