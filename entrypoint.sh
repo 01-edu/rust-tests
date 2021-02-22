@@ -8,6 +8,12 @@ cp -a /app/tests .
 
 ln -s student solutions
 
+if test "$EXAM_MODE"; then
+	cd "student/$EXERCISE"
+	cargo init --lib
+	cd
+fi
+
 if ! test -f "tests/${EXERCISE}_test/Cargo.toml"; then
 	echo "No test file found for the exercise : $EXERCISE"
 	exit 1
