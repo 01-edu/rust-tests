@@ -21,17 +21,21 @@ mod test {
 
 	#[test]
 	fn test_f_to_c() {
-		println!("{}°F = {}°C", 20.0, fahrenheit_to_celsius(20.0));
-		assert!(eql(fahrenheit_to_celsius(20.0), -6.666666666666666));
-		println!("{}°F = {}°C", 83.0, fahrenheit_to_celsius(83.0));
-		assert!(eql(fahrenheit_to_celsius(83.0), 28.333333333333332));
+		let temp_f = 20.0;
+		println!("{}°F = {}°C", temp_f, fahrenheit_to_celsius(temp_f));
+		assert!(eql(fahrenheit_to_celsius(temp_f), -6.666666666666666));
+		let temp_f = 83.0;
+		println!("{}°F = {}°C", temp_f, fahrenheit_to_celsius(temp_f));
+		assert!(eql(fahrenheit_to_celsius(temp_f), 28.333333333333332));
 	}
 
 	#[test]
 	fn test_c_to_f() {
-		println!("{}°C = {}°F", 27.0, fahrenheit_to_celsius(27.0));
+		let temp_c = 27.0;
+		println!("{}°C = {}°F", temp_c, fahrenheit_to_celsius(temp_c));
 		assert!(eql(celsius_to_fahrenheit(27.0), 80.6));
-		println!("{}°F = {}°C", 0.0, fahrenheit_to_celsius(32.0));
-		assert!(eql(celsius_to_fahrenheit(0.0), 32.0))
+		let temp_c = 0.0;
+		println!("{}°C = {}°F", temp_c, fahrenheit_to_celsius(temp_c));
+		assert!(eql(celsius_to_fahrenheit(temp_c), 32.0))
 	}
 }
