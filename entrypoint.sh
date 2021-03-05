@@ -10,7 +10,10 @@ ln -s student solutions
 
 if test "$EXAM_MODE"; then
 	cd "student/$EXERCISE"
-	cargo init --lib
+	if test "$EXAM_RUN_ONLY"; then
+		mv src/lib.rs src/main.rs 2>&1 ||:
+	fi
+	cargo init
 	cd
 fi
 
@@ -24,4 +27,8 @@ if find student -type f -name '*.rs' -exec grep -q 'std::process' {} +; then
 	exit 1
 fi
 
-cargo test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
+if test "$EXAM_RUN_ONLY"; then
+	cargo run --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
+else
+	cargo test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
+fi
