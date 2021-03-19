@@ -12,7 +12,7 @@
 #[derive(Debug)]
 pub struct Player {
 	pub name: String,
-	pub strength: u32,
+	pub strength: f64,
 	pub score: i32,
 	pub money: i32,
 	pub weapons: Vec<String>,
@@ -55,19 +55,33 @@ impl Player {
 	}
 }
 
+use std::fmt;
+
+impl fmt::Display for Player {
+	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+		writeln!(f, "{}", self.name)?;
+		writeln!(
+			f,
+			"Strength: {}, Score: {}, Money: {}",
+			self.strength, self.score, self.money
+		)?;
+		write!(f, "Weapons: {:?}", self.weapons)
+	}
+}
+
 pub trait Food {
-	fn gives(&self) -> u32;
+	fn gives(&self) -> f64;
 }
 
 impl Food for Fruit {
-	fn gives(&self) -> u32 {
-		(self.weight_in_kg * 4.0) as u32
+	fn gives(&self) -> f64 {
+		self.weight_in_kg * 4.0
 	}
 }
 
 impl Food for Meat {
-	fn gives(&self) -> u32 {
-		(self.weight_in_kg * 4.0 + self.weight_in_kg * self.fat_content * 5.0) as u32
+	fn gives(&self) -> f64 {
+		self.weight_in_kg * 4.0 + self.weight_in_kg * self.fat_content * 5.0
 	}
 }
 
@@ -78,18 +92,30 @@ mod test {
 	#[test]
 	fn test_gives() {
 		let apple = Fruit { weight_in_kg: 1.0 };
-		assert_eq!(apple.gives(), 4);
+		assert_eq!(apple.gives(), 4.0);
 		let steak = Meat {
 			weight_in_kg: 1.0,
 			fat_content: 1.0,
 		};
-		assert_eq!(steak.gives(), 9);
+		assert_eq!(steak.gives(), 9.0);
+
+		let steak = Meat {
+			weight_in_kg: 1.0,
+			fat_content: 0.0,
+		};
+		assert_eq!(steak.gives(), 4.0);
+
+		let steak = Meat {
+			weight_in_kg: 1.5,
+			fat_content: 0.3,
+		};
+		assert_eq!(steak.gives(), 8.25);
 	}
 
 	#[test]
 	fn test_eat() {
 		let apple = Fruit { weight_in_kg: 1.0 };
-		assert_eq!(apple.gives(), 4);
+		assert_eq!(apple.gives(), 4.0);
 		let steak = Meat {
 			weight_in_kg: 1.0,
 			fat_content: 1.0,
@@ -97,14 +123,30 @@ mod test {
 
 		let mut player1 = Player {
 			name: String::from("player1"),
-			strength: 1,
+			strength: 1.0,
 			score: 0,
 			money: 0,
-			weapons: vec![String::from("knife")],
+			weapons: vec![String::from("knife"), String::from("shotgun")],
 		};
 		player1.eat(apple);
-		assert_eq!(player1.strength, 5);
+		assert_eq!(player1.strength, 5.0);
 		player1.eat(steak);
-		assert_eq!(player1.strength, 14);
+		assert_eq!(player1.strength, 14.0);
+	}
+
+	#[test]
+	fn test_display() {
+		let player1 = Player {
+			name: String::from("player1"),
+			strength: 1.0,
+			score: 0,
+			money: 0,
+			weapons: vec![String::from("knife"), String::from("shotgun")],
+		};
+		println!("{}", player1);
+		assert_eq!(
+			player1.to_string(),
+			"player1\nStrength: 1, Score: 0, Money: 0\nWeapons: [\"knife\", \"shotgun\"]"
+		)
 	}
 }

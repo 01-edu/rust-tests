@@ -10,6 +10,10 @@ pub fn fibonacci(n: u32) -> u32 {
 	fibonacci(n - 2) + fibonacci(n - 1)
 }
 
+fn main() {
+	println!("fibonacci(3) = {}", fibonacci(3));
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;

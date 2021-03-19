@@ -158,6 +158,6 @@ mod tests {
 
 		let commits_per_author = commits_per_author(&serialized);
 		println!("{:#?}", &commits_per_author);
-		assert_eq!(expected, commits_per_author);
+		assert_eq!(&expected, commits_per_author);
 	}
 }
