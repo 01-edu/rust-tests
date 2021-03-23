@@ -68,5 +68,9 @@ mod test {
         );
         assert_eq!("mv😋w", rot21("ra😋b"));
         assert_eq!("12Â nãj ábpv", rot21("12Â são água"));
+
+        assert_eq!("VWXY", rot21("ABCD"));
+        assert_eq!("GJJFDIB BJJY", rot21("LOOKING GOOD"));
+        assert_eq!("WTZ", rot21("BYE"));
     }
 }
