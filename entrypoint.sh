@@ -28,7 +28,7 @@ if find student -type f -name '*.rs' -exec grep -q 'std::process' {} +; then
 fi
 
 if test "$EXAM_RUN_ONLY"; then
-	cargo run --manifest-path "student/$EXERCISE/Cargo.toml" "$@"
+	cargo run --manifest-path "student/$EXERCISE/Cargo.toml" -- "$@"
 else
 	cargo test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
 fi
