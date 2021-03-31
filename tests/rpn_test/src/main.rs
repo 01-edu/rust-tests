@@ -3,15 +3,12 @@ fn main() {}
 #[cfg(test)]
 mod tests {
     use std::process::Command;
-	use std::env;
 
     const MANIFEST_PATH: &str = "../../solutions/rpn/Cargo.toml";
 
     fn run(s: &str) -> String {
         let output = Command::new("cargo")
             .arg("run")
-            .arg("--target-dir")
-            .arg(env::temp_dir())
             .arg("--manifest-path")
             .arg(MANIFEST_PATH)
             .arg(s)
