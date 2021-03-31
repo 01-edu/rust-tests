@@ -1,4 +1,4 @@
-FROM rust:1.49.0-buster
+FROM rust:1.51.0-buster
 
 RUN apt-get update
 RUN apt-get -y install pkg-config libssl-dev moreutils
