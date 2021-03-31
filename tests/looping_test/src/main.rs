@@ -1,5 +1,6 @@
 use std::io::Write;
 use std::process::{Command, Stdio};
+use std::env;
 
 const MANIFEST_PATH: &str = "../../solutions/looping/Cargo.toml";
 const RIDDLE: &str = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?\n";
@@ -12,7 +13,13 @@ fn main() {
 #[test]
 fn test_correct_answer() {
 	let mut looping = Command::new("cargo")
-		.args(&["run", "--manifest-path", MANIFEST_PATH])
+		.args(&[
+			"run",
+			"--target-dir",
+			&env::temp_dir().display().to_string(),
+			"--manifest-path",
+			MANIFEST_PATH,
+		])
 		.stdin(Stdio::piped())
 		.stdout(Stdio::piped())
 		.spawn()
@@ -35,7 +42,13 @@ fn test_correct_answer() {
 #[test]
 fn test_more_than_one_trial_to_get_the_right_answer() {
 	let mut looping = Command::new("cargo")
-		.args(&["run", "--manifest-path", MANIFEST_PATH])
+		.args(&[
+			"run",
+			"--target-dir",
+			&env::temp_dir().display().to_string(),
+			"--manifest-path",
+			MANIFEST_PATH,
+		])
 		.stdin(Stdio::piped())
 		.stdout(Stdio::piped())
 		.spawn()
