@@ -9,6 +9,8 @@ mod tests {
     fn run(s: &str) -> String {
         let output = Command::new("cargo")
             .arg("run")
+            .arg("--target-dir")
+            .arg("/jail/tmp")
             .arg("--manifest-path")
             .arg(MANIFEST_PATH)
             .arg(s)

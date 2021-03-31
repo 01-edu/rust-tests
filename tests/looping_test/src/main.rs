@@ -12,7 +12,13 @@ fn main() {
 #[test]
 fn test_correct_answer() {
 	let mut looping = Command::new("cargo")
-		.args(&["run", "--manifest-path", MANIFEST_PATH])
+		.args(&[
+			"run",
+			"--target-dir",
+			"/jail/tmp",
+			"--manifest-path",
+			MANIFEST_PATH,
+		])
 		.stdin(Stdio::piped())
 		.stdout(Stdio::piped())
 		.spawn()
@@ -35,7 +41,13 @@ fn test_correct_answer() {
 #[test]
 fn test_more_than_one_trial_to_get_the_right_answer() {
 	let mut looping = Command::new("cargo")
-		.args(&["run", "--manifest-path", MANIFEST_PATH])
+		.args(&[
+			"run",
+			"--target-dir",
+			"/jail/tmp",
+			"--manifest-path",
+			MANIFEST_PATH,
+		])
 		.stdin(Stdio::piped())
 		.stdout(Stdio::piped())
 		.spawn()

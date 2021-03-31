@@ -11,6 +11,8 @@ mod tests {
     fn run(s: Vec<&str>) -> Output {
         Command::new("cargo")
             .arg("run")
+            .arg("--target-dir")
+            .arg("/jail/tmp")
             .arg("--manifest-path")
             .arg(MANIFEST_PATH)
             .args(s.iter())
