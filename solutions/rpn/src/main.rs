@@ -13,7 +13,7 @@ pub fn rpn(input: &str) {
         if let Ok(x) = v.parse() {
             values.push(x);
         } else {
-            if isOp(v) && values.len() < 2 {
+            if is_op(v) && values.len() < 2 {
                 err = false;
                 break;
             }
@@ -39,6 +39,6 @@ pub fn rpn(input: &str) {
     }
 }
 
-fn isOp(s: &str) -> bool {
+fn is_op(s: &str) -> bool {
     s == "+" || s == "-" || s == "*" || s == "/" || s == "%"
 }
