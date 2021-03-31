@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-
+	use std::env;
     use rand::distributions::Alphanumeric;
     use rand::{thread_rng, Rng};
 
@@ -12,7 +12,7 @@ mod tests {
         Command::new("cargo")
             .arg("run")
             .arg("--target-dir")
-            .arg("/jail/tmp")
+            .arg(env::temp_dir())
             .arg("--manifest-path")
             .arg(MANIFEST_PATH)
             .args(s.iter())

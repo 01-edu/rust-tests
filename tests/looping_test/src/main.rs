@@ -1,5 +1,6 @@
 use std::io::Write;
 use std::process::{Command, Stdio};
+use std::env;
 
 const MANIFEST_PATH: &str = "../../solutions/looping/Cargo.toml";
 const RIDDLE: &str = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?\n";
@@ -15,7 +16,7 @@ fn test_correct_answer() {
 		.args(&[
 			"run",
 			"--target-dir",
-			"/jail/tmp",
+			&env::temp_dir().display().to_string(),
 			"--manifest-path",
 			MANIFEST_PATH,
 		])
@@ -44,7 +45,7 @@ fn test_more_than_one_trial_to_get_the_right_answer() {
 		.args(&[
 			"run",
 			"--target-dir",
-			"/jail/tmp",
+			&env::temp_dir().display().to_string(),
 			"--manifest-path",
 			MANIFEST_PATH,
 		])
