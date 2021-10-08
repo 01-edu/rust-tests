@@ -5,11 +5,10 @@ IFS='
 '
 
 cp -a /app/tests .
-
-ln -s student solutions
+cp -a student solutions
 
 if test "$EXAM_MODE"; then
-	cd "student/$EXERCISE"
+	cd "solutions/$EXERCISE"
 	if test "$EXAM_RUN_ONLY"; then
 		mv src/lib.rs src/main.rs 2>&1 ||:
 	fi
@@ -28,7 +27,7 @@ if find student -type f -name '*.rs' -exec grep -q 'std::process' {} +; then
 fi
 
 if test "$EXAM_RUN_ONLY"; then
-	cargo run --manifest-path "student/$EXERCISE/Cargo.toml" -- "$@"
+	cargo run --manifest-path "solutions/$EXERCISE/Cargo.toml" -- "$@"
 else
 	cargo test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
 fi
