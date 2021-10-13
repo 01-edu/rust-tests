@@ -29,5 +29,5 @@ fi
 if test "$EXAM_RUN_ONLY"; then
 	cargo run --manifest-path "solutions/$EXERCISE/Cargo.toml" -- "$@"
 else
-	cargo test --manifest-path "tests/${EXERCISE}_test/Cargo.toml" -- --show-output
+	cargo test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
 fi
