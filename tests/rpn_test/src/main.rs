@@ -7,20 +7,14 @@ mod tests {
     const MANIFEST_PATH: &str = "../../solutions/rpn/Cargo.toml";
 
     fn run(s: &str) -> String {
-        let mut command = Command::new("cargo");
-
-        command
+        let output = Command::new("cargo")
             .arg("run")
             .arg("--manifest-path")
             .arg(MANIFEST_PATH)
-            .arg(s);
+            .arg(s)
+            .output()
+            .expect("Failed to execute command");
 
-        // let status = command.status().expect("Failed to execute `cargo`");
-        // assert!(status.success());
-
-        let output = command.output().expect("Failed to execute command");
-
-        println!("{}", String::from_utf8(output.stderr).unwrap());
         String::from_utf8(output.stdout).unwrap()
     }
 
