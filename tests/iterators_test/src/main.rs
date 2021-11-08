@@ -37,13 +37,22 @@ fn main() {
 mod tests {
     use super::*;
 
+    type Tuple = (usize, usize, usize);
+    fn assert_eq_with_message(input: Number, actual: Tuple, expected: Tuple) {
+        assert_eq!(
+            actual, expected,
+            "\n\t`{:?}`.next().unwrap() == `{:?}`, expected `{:?}`",
+            input, actual, expected
+        )
+    }
+
     #[test]
     fn test_next() {
         let mut a = Number::new(4);
-        assert_eq!(a.next().unwrap(), (6, 5, 720));
-        assert_eq!(a.next().unwrap(), (6, 7, 5040));
-        assert_eq!(a.next().unwrap(), (8, 7, 40320));
-        assert_eq!(a.next().unwrap(), (8, 9, 362880));
-        assert_eq!(a.next().unwrap(), (10, 9, 3628800));
+        assert_eq_with_message(a.clone(), a.next().unwrap(), (6, 5, 720));
+        assert_eq_with_message(a.clone(), a.next().unwrap(), (6, 7, 5040));
+        assert_eq_with_message(a.clone(), a.next().unwrap(), (8, 7, 40320));
+        assert_eq_with_message(a.clone(), a.next().unwrap(), (8, 9, 362880));
+        assert_eq_with_message(a.clone(), a.next().unwrap(), (10, 9, 3628800));
     }
 }
