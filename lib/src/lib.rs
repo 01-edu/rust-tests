@@ -7,6 +7,7 @@ pub enum Kind {
     Method,   // Makes the message firstInput.MethodName(inputs[1], input[2], ..])
     Operator, // Makes the message inputs[0] OperatorName inputs[1] ex: 1 + 2
     Function, // Makes the message FunctionName(inputs[0], inputs[1], inputs[2], ..)
+    Value,
 }
 
 pub struct Inputs<'a>(pub &'a [Input]);
@@ -37,6 +38,7 @@ impl TestProperties {
     ) {
         let message_name = match (inputs.len(), self.kind) {
             (0, Kind::Function) => format!("{}()", self.name),
+            (0, Kind::Value) => format!("{}", self.name),
             (0, _) => String::new(),
             (1, Kind::Method) => format!("{:?}.{}()", inputs[0], self.name),
             (1, Kind::Function) => format!("{}({:?})", self.name, inputs[0]),
@@ -47,6 +49,9 @@ impl TestProperties {
             }
             (_, Kind::Method) => {
                 format!("{:?}.{}({})", inputs[0], self.name, Inputs(&inputs[1..]))
+            }
+            (_, Kind::Value) => {
+                format!("{}.{}", Inputs(&inputs), self.name)
             }
         };
         assert_eq!(

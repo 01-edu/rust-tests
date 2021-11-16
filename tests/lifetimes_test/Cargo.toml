@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 lifetimes = { path = "../../solutions/lifetimes"}
+lib = { path = "../../lib" }
