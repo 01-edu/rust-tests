@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 matrix_display = { path = "../../solutions/matrix_display"}
+lib = { path = "../../lib" }

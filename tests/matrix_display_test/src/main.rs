@@ -13,25 +13,34 @@
 use matrix_display::*;
 
 fn main() {
-	let matrix = Matrix::new(&[&[1, 2, 3], &[4, 5, 6], &[7, 8, 9]]);
-	println!("{}", matrix);
+    let matrix = Matrix::new(&[&[1, 2, 3], &[4, 5, 6], &[7, 8, 9]]);
+    println!("{}", matrix);
 }
 
 #[cfg(test)]
 mod tests {
-	use matrix_display::*;
+    use lib::{Kind, TestProperties};
+    use matrix_display::*;
 
-	#[test]
-	fn it_works() {
-		let matrix = Matrix::new(&[&[1, 2, 3], &[4, 5, 6], &[7, 8, 9]]);
-		let display = String::from("(1 2 3)\n(4 5 6)\n(7 8 9)");
-		assert_eq!(display, matrix.to_string());
-	}
+    #[test]
+    fn it_works() {
+        let matrix = Matrix::new(&[&[1, 2, 3], &[4, 5, 6], &[7, 8, 9]]);
+        let display = String::from("(1 2 3)\n(4 5 6)\n(7 8 9)");
+        let test = TestProperties {
+            kind: Kind::Method,
+            name: "to_string",
+        };
+        test.assert_with_message(&[Box::new(matrix.clone())], matrix.to_string(), display);
+    }
 
-	#[test]
-	fn test_matrix_col() {
-		let matrix = Matrix::new(&[&[1], &[2], &[3]]);
-		let display = String::from("(1)\n(2)\n(3)");
-		assert_eq!(matrix.to_string(), display);
-	}
+    #[test]
+    fn test_matrix_col() {
+        let matrix = Matrix::new(&[&[1], &[2], &[3]]);
+        let display = String::from("(1)\n(2)\n(3)");
+        let test = TestProperties {
+            kind: Kind::Method,
+            name: "to_string",
+        };
+        test.assert_with_message(&[Box::new(matrix.clone())], matrix.to_string(), display);
+    }
 }

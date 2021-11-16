@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 arrays = { path = "../../solutions/arrays"}
+lib = { path = "../../lib" }

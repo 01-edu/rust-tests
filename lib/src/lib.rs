@@ -51,7 +51,7 @@ impl TestProperties {
         };
         assert_eq!(
             actual, expected,
-            "\n\t{:?} == {:?}, expected == {:?}",
+            "\n\t`{}` == {:?}, expected == {:?}",
             message_name, actual, expected
         );
     }
