@@ -13,7 +13,7 @@ fn main() {
     println!("You're card is {:?}", your_card);
 
     // Now if the card is an Ace of Spades print "You are the winner"
-    if card_deck::winner_card(your_card) {
+    if card_deck::winner_card(&your_card) {
         println!("You are the winner!");
     }
 }
@@ -22,7 +22,7 @@ fn main() {
 fn test_winner() {
     let winner = Card {
         rank: Rank::Ace,
-        suit: Suit::Heart,
+        suit: Suit::Spade,
     };
     for rank in 1..14 {
         for suit in 1..5 {
@@ -32,15 +32,15 @@ fn test_winner() {
             };
             if card != winner {
                 assert!(
-                    !card_deck::winner_card(card.clone()),
+                    !card_deck::winner_card(&card),
                     "\n\t{:?} is not the winner",
                     card
                 );
             } else {
                 assert!(
-                    card_deck::winner_card(card.clone()),
+                    card_deck::winner_card(&card),
                     "\n\t{:?} is the winner",
-                    &card
+                    card
                 );
             }
         }

@@ -18,15 +18,15 @@ and the third will be the factorial numbers.
 
 ```rust
 fn main() {
-	let mut a = Number::new(5);
-	println!("{:?}", a.next());     // Some((6, 5, 120))
-	println!("{:?}", a.next());     // Some((8, 7, 720))
-	println!("{:?}", a.next());     // Some((10, 9, 5040))
-	println!()
-	let mut a = Number::new(18);
-	println!("{:?}", a.next());     // Some((18, 19, 6402373705728000))
-	println!("{:?}", a.next());     // Some((20, 21, 121645100408832000))
-	println!("{:?}", a.next());     // Some((22, 23, 2432902008176640000))
+    let mut a = Number::new(5);
+    println!("{:?}", a.next());     // Some((6, 5, 120))
+    println!("{:?}", a.next());     // Some((8, 7, 720))
+    println!("{:?}", a.next());     // Some((10, 9, 5040))
+    println!()
+    let mut a = Number::new(18);
+    println!("{:?}", a.next());     // Some((18, 19, 6402373705728000))
+    println!("{:?}", a.next());     // Some((20, 21, 121645100408832000))
+    println!("{:?}", a.next());     // Some((22, 23, 2432902008176640000))
 }
 ```
 
@@ -35,90 +35,92 @@ fn main() {
 - https://doc.rust-lang.org/std/iter/trait.Iterator.html
 
 fn main() {
-	let mut a = Number::new(5);
-	println!("{:?}", a.next()); // Some((6, 5, 120))
-	println!("{:?}", a.next()); // Some((8, 7, 720))
-	println!("{:?}", a.next()); // Some((10, 9, 5040))
-	println!();
-	let mut b = Number::new(18);
-	println!("{:?}", b.next()); // Some((18, 19, 6402373705728000))
-	println!("{:?}", b.next()); // Some((20, 21, 121645100408832000))
-	println!("{:?}", b.next()); // Some((22, 23, 2432902008176640000))
+    let mut a = Number::new(5);
+    println!("{:?}", a.next()); // Some((6, 5, 120))
+    println!("{:?}", a.next()); // Some((8, 7, 720))
+    println!("{:?}", a.next()); // Some((10, 9, 5040))
+    println!();
+    let mut b = Number::new(18);
+    println!("{:?}", b.next()); // Some((18, 19, 6402373705728000))
+    println!("{:?}", b.next()); // Some((20, 21, 121645100408832000))
+    println!("{:?}", b.next()); // Some((22, 23, 2432902008176640000))
 }
 */
 
+#[derive(Debug, PartialEq, Clone)]
 pub struct Number {
-	even: usize,
-	odd: usize,
-	fact: usize,
+    even: usize,
+    odd: usize,
+    fact: usize,
 }
 
 pub fn is_even(n: usize) -> bool {
-	n % 2 == 0
+    n % 2 == 0
 }
 
 pub fn factorial(n: usize) -> usize {
-	match n {
-		0 | 1 => 1,
-		_ => factorial(n - 1) * n,
-	}
+    match n {
+        0 | 1 => 1,
+        _ => factorial(n - 1) * n,
+    }
 }
 
 impl Number {
-	pub fn new(nbr: usize) -> Number {
-		if is_even(nbr) {
-			Number {
-				even: nbr,
-				odd: nbr + 1,
-				fact: nbr,
-			}
-		} else {
-			Number {
-				even: nbr + 1,
-				odd: nbr,
-				fact: nbr,
-			}
-		}
-	}
+    pub fn new(nbr: usize) -> Number {
+        if is_even(nbr) {
+            Number {
+                even: nbr,
+                odd: nbr + 1,
+                fact: nbr,
+            }
+        } else {
+            Number {
+                even: nbr + 1,
+                odd: nbr,
+                fact: nbr,
+            }
+        }
+    }
 }
 
 impl Iterator for Number {
-	//  odd   even  fact
-	type Item = (usize, usize, usize);
+    //  odd   even  fact
+    type Item = (usize, usize, usize);
 
-	fn next(&mut self) -> Option<Self::Item> {
-		self.even += 2;
-		self.odd += 2;
-		let result = factorial(self.fact);
-		self.fact += 1;
-		Some((self.even - 2, self.odd - 2, result))
-	}
+    fn next(&mut self) -> Option<Self::Item> {
+        println!("Argument: {:?}", self);
+        self.even += 2;
+        self.odd += 2;
+        let result = factorial(self.fact);
+        self.fact += 1;
+        Some((self.even - 2, self.odd - 2, result))
+    }
 }
 
 #[cfg(test)]
 mod tests {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn test_first_seven() {
-		let test_even = vec![0, 2, 4, 6, 8, 10, 12];
-		let test_odd = vec![1, 3, 5, 7, 9, 11, 13];
-		let test_fact = vec![1, 1, 2, 6, 24, 120, 720];
+    #[test]
+    fn test_first_seven() {
+        let test_even = vec![0, 2, 4, 6, 8, 10, 12];
+        let test_odd = vec![1, 3, 5, 7, 9, 11, 13];
+        let test_fact = vec![1, 1, 2, 6, 24, 120, 720];
 
-		for (i, x) in Number::new(0).take(7).enumerate() {
-			assert_eq!(x.0, test_even[i]);
-			assert_eq!(x.1, test_odd[i]);
-			assert_eq!(x.2, test_fact[i]);
-		}
-	}
+        for (i, x) in Number::new(0).take(7).enumerate() {
+            assert_eq!(x.0, test_even[i]);
+            assert_eq!(x.1, test_odd[i]);
+            assert_eq!(x.2, test_fact[i]);
+        }
+    }
 
-	#[test]
-	fn test_next() {
-		let mut a = Number::new(6);
-		assert_eq!(a.next().unwrap(), (6, 7, 720));
-		assert_eq!(a.next().unwrap(), (8, 9, 5040));
-		assert_eq!(a.next().unwrap(), (10, 11, 40320));
-		assert_eq!(a.next().unwrap(), (12, 13, 362880));
-		assert_eq!(a.next().unwrap(), (14, 15, 3628800));
-	}
+    #[test]
+    fn test_next() {
+        let mut a = Number::new(6);
+        assert_eq!(a.next().unwrap(), (6, 7, 720));
+        assert_eq!(a.next().unwrap(), (8, 9, 5040));
+        assert_eq!(a.next().unwrap(), (10, 11, 40320));
+        assert_eq!(a.next().unwrap(), (12, 13, 362880));
+        assert_eq!(a.next().unwrap(), (14, 15, 3628800));
+    }
 }

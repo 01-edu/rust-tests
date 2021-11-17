@@ -33,7 +33,6 @@ impl<T: Scalar<Item = T>> Matrix<T> {
 
 impl<T: Scalar<Item = T> + std::iter::Sum<<T as std::ops::Mul>::Output>> Mul for Matrix<T> {
     type Output = Option<Self>;
-
     fn mul(self, rhs: Self) -> Self::Output {
         // If the number of columns of self match don't match the number of
         // number_of_rows of self don't match return None
