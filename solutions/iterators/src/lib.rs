@@ -44,7 +44,7 @@ mod tests {
 		assert_eq!(Some(0), collatz(1));
 		assert_eq!(Some(4), collatz(16));
 		assert_eq!(Some(9), collatz(12));
-		assert_eq!(Some(152), collatz(1_000_000));
+		assert_eq!(Some(152), collatz(1000000));
 		assert_eq!(None, collatz(0));
 	}
     
