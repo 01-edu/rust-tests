@@ -1,124 +1,55 @@
-/*
-## even_iterator
-
-### Instructions
-
-Create a method `new` that takes one number `usize` and initializes the `Number` struct.
-This method will have to determinate if the given number is even or odd,
-if it is even you will have to increment one to the odd number and
-if it is odd you have to increment one to the even number.
-
-After that you will implement an iterator for the struct `Number` that returns a tuple (usize,usize,usize).
-containing each field of the struct Number.
-The first position of the tuple will be the even numbers,
-the second will be the odd numbers,
-and the third will be the factorial numbers.
-
-### Examples
-
-```rust
-fn main() {
-	let mut a = Number::new(5);
-	println!("{:?}", a.next());     // Some((6, 5, 120))
-	println!("{:?}", a.next());     // Some((8, 7, 720))
-	println!("{:?}", a.next());     // Some((10, 9, 5040))
-	println!()
-	let mut a = Number::new(18);
-	println!("{:?}", a.next());     // Some((18, 19, 6402373705728000))
-	println!("{:?}", a.next());     // Some((20, 21, 121645100408832000))
-	println!("{:?}", a.next());     // Some((22, 23, 2432902008176640000))
-}
-```
-
-### Notions
-
-- https://doc.rust-lang.org/std/iter/trait.Iterator.html
-
-fn main() {
-	let mut a = Number::new(5);
-	println!("{:?}", a.next()); // Some((6, 5, 120))
-	println!("{:?}", a.next()); // Some((8, 7, 720))
-	println!("{:?}", a.next()); // Some((10, 9, 5040))
-	println!();
-	let mut b = Number::new(18);
-	println!("{:?}", b.next()); // Some((18, 19, 6402373705728000))
-	println!("{:?}", b.next()); // Some((20, 21, 121645100408832000))
-	println!("{:?}", b.next()); // Some((22, 23, 2432902008176640000))
-}
-*/
-
-pub struct Number {
-	even: usize,
-	odd: usize,
-	fact: usize,
+pub struct Collatz {
+    v: u64,
 }
 
-pub fn is_even(n: usize) -> bool {
-	n % 2 == 0
+impl Iterator for Collatz {
+
+ type Item = u64;
+ fn next(&mut self) -> Option<Self::Item> {
+     match self.v {
+         0...1 => None,
+         v if v % 2 == 0 => {
+             self.v /= 2;
+             Some(self.v)
+         },
+         v => {
+             self.v = 3 * v + 1;
+             Some(self.v)
+         }
+     }
+ }
 }
 
-pub fn factorial(n: usize) -> usize {
-	match n {
-		0 | 1 => 1,
-		_ => factorial(n - 1) * n,
-	}
+pub fn collatz(n: u64) -> Option<u64> {
+ match n {
+     0 => None,
+     _ => Some(Collatz { v: n }.into_iter().count() as u64)
+ }
 }
 
-impl Number {
-	pub fn new(nbr: usize) -> Number {
-		if is_even(nbr) {
-			Number {
-				even: nbr,
-				odd: nbr + 1,
-				fact: nbr,
-			}
-		} else {
-			Number {
-				even: nbr + 1,
-				odd: nbr,
-				fact: nbr,
-			}
-		}
-	}
-}
-
-impl Iterator for Number {
-	//  odd   even  fact
-	type Item = (usize, usize, usize);
-
-	fn next(&mut self) -> Option<Self::Item> {
-		self.even += 2;
-		self.odd += 2;
-		let result = factorial(self.fact);
-		self.fact += 1;
-		Some((self.even - 2, self.odd - 2, result))
-	}
-}
+// fn main() {
+//  println!("{:?}", collatz(4));
+//  println!("{:?}", collatz(5));
+//  println!("{:?}", collatz(6));
+//  println!("{:?}", collatz(7));
+//  println!("{:?}", collatz(12));
+// }
 
 #[cfg(test)]
+
 mod tests {
-	use super::*;
-
-	#[test]
-	fn test_first_seven() {
-		let test_even = vec![0, 2, 4, 6, 8, 10, 12];
-		let test_odd = vec![1, 3, 5, 7, 9, 11, 13];
-		let test_fact = vec![1, 1, 2, 6, 24, 120, 720];
-
-		for (i, x) in Number::new(0).take(7).enumerate() {
-			assert_eq!(x.0, test_even[i]);
-			assert_eq!(x.1, test_odd[i]);
-			assert_eq!(x.2, test_fact[i]);
-		}
+    use super::*;
+	
+	fn test() {
+		assert_eq!(Some(0), collatz(1));
+		assert_eq!(Some(4), collatz(16));
+		assert_eq!(Some(9), collatz(12));
+		assert_eq!(Some(152), collatz(1_000_000));
+		assert_eq!(None, collatz(0));
 	}
-
-	#[test]
-	fn test_next() {
-		let mut a = Number::new(6);
-		assert_eq!(a.next().unwrap(), (6, 7, 720));
-		assert_eq!(a.next().unwrap(), (8, 9, 5040));
-		assert_eq!(a.next().unwrap(), (10, 11, 40320));
-		assert_eq!(a.next().unwrap(), (12, 13, 362880));
-		assert_eq!(a.next().unwrap(), (14, 15, 3628800));
-	}
+    
+    #[test]
+    fn test_none() {
+        assert_eq!(None, collatz(0));
+    }
 }
