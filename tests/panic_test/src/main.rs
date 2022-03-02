@@ -14,7 +14,7 @@ mod tests {
 	use super::*;
 
 	#[test]
-	#[should_panic]
+	#[should_panic(expected = "File not found")]
 	fn test_opening() {
 		open_file("file.txt");
 	}
