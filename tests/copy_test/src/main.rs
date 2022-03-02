@@ -57,7 +57,7 @@ fn ownership_nbr_test() {
 	);
 	assert_eq!(nbr_function(1), (1, 2.718281828459045, 0.0));
 	assert_eq!(nbr_function(0), (0, 1.0, std::f64::INFINITY));
-	assert_eq!(nbr_function(0), (0, 1.0, std::f64::NEG_INFINITY));
+	assert_eq!(nbr_function(0), (0, 1.0, std::f64::INFINITY));
 }
 
 #[test]
