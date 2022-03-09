@@ -130,7 +130,7 @@ mod tests {
         let form_cases = TestForm::new();
 
         for v in form_cases {
-            assert_eq!(v.form.validate(), v.validation);
+            assert_eq!(v.form.validate(), v.validation, "Tested with {:?}", v.validation.as_ref().err().unwrap().form_values);
         }
     }
 }
