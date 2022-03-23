@@ -68,7 +68,7 @@ fn main() {
 
 */
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Store {
     pub products: Vec<(String, f32)>,
 }
@@ -79,7 +79,7 @@ impl Store {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Cart {
     pub items: Vec<(String, f32)>,
     pub receipt: Vec<f32>
@@ -101,15 +101,15 @@ impl Cart {
 
     pub fn generate_receipt(&mut self) -> Vec<f32> {
         let mut prices = self.get_prices();
-        let cal = self.items.len()/3;
+        let cal = self.items.len() / 3;
         prices.sort_by(|a, b| a.partial_cmp(b).unwrap());
 
-        let v: Vec<Vec<f32>> = vec![prices[..cal].to_vec(), prices[cal..].to_vec()];
-        let percentage = round_two(
-            round_two(v[1].iter().sum()) * 100.0 / round_two(prices.iter().sum())
-        );
+        let v: Vec<f32> = prices[cal..].to_vec();
 
-        self.receipt = prices.iter()
+        let percentage: f32 = (v.iter().sum::<f32>()*100.0) as f32 / prices.iter().sum::<f32>() as f32;
+
+        self.receipt = prices
+            .iter()
             .map(|price| round_two(price * percentage / 100.0))
             .collect::<Vec<f32>>();
 
@@ -159,7 +159,7 @@ mod tests {
             let mut c2 = Cart::new();
             let mut c3 = Cart::new();
             add_items(&store, vec!["product A", "product B", "product C"], &mut c);
-            let sol = vec![1.17, 2.98, 22.07];
+            let sol = vec![1.17, 2.98, 22.06];
             add_items(
                 &store,
                 vec![
@@ -209,7 +209,7 @@ mod tests {
                 &mut c3,
             );
             let sol3 = vec![
-                1.18, 1.58, 1.69, 2.02, 2.65, 3.01, 9.39, 14.67, 22.25, 22.88, 42.38, 52.89,
+                1.18, 1.58, 1.69, 2.02, 2.65, 3.01, 9.39, 14.67, 22.25, 22.88, 42.38, 52.9,
             ];
 
             Tests {
