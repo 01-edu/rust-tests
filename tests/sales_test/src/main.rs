@@ -24,6 +24,7 @@ fn main() {
     // output:
     // Cart { items: [("product A", 1.23), ("product B", 23.1), ("product C", 3.12)], receipt: [1.17, 2.98, 22.07] }
 }
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -62,7 +63,7 @@ mod tests {
             let mut c2 = Cart::new();
             let mut c3 = Cart::new();
             add_items(&store, vec!["product A", "product B", "product C"], &mut c);
-            let sol = vec![1.17, 2.98, 22.07];
+            let sol = vec![1.17, 2.98, 22.06];
             add_items(
                 &store,
                 vec![
@@ -112,7 +113,7 @@ mod tests {
                 &mut c3,
             );
             let sol3 = vec![
-                1.18, 1.58, 1.69, 2.02, 2.65, 3.01, 9.39, 14.67, 22.25, 22.88, 42.38, 52.89,
+                1.18, 1.58, 1.69, 2.02, 2.65, 3.01, 9.39, 14.67, 22.25, 22.88, 42.38, 52.9,
             ];
 
             Tests {
@@ -126,10 +127,9 @@ mod tests {
     fn test_generate_receipt() {
         let cases = Tests::new();
 
-        // for (mut c, sol) in cases.carts.into_iter() {
-        //     assert_eq!(c.generate_receipt(), sol);
-        //     assert_eq!(c.receipt, sol);
-        // }
-        assert_eq!(2, 1 + 1);
+        for (mut c, sol) in cases.carts.into_iter() {
+            assert_eq!(c.generate_receipt(), sol);
+            assert_eq!(c.receipt, sol);
+        }
     }
 }
