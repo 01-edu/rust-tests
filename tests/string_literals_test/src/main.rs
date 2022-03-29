@@ -69,10 +69,8 @@ fn test_memory() {
 	let stu_alloc = violation_count();
 	assert!(
 		stu_alloc < no_alloc,
-		format!(
-			"You are allocating to the heap {} times, you must not allocate to the heap",
-			stu_alloc
-		)
+		"You are allocating to the heap {} times, you must not allocate to the heap",
+		stu_alloc
 	);
 }
 
