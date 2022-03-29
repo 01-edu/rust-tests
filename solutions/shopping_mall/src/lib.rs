@@ -145,7 +145,7 @@ pub fn nbr_of_employees(mall: mall::Mall) -> usize {
 
 pub fn fire_old_securities(mall: &mut mall::Mall) {
 	for sec in mall.clone().securities {
-		if sec.age > 50 {
+		if sec.age >= 50 {
 			mall.fire_security(sec.name);
 		}
 	}

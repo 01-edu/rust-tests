@@ -323,7 +323,7 @@ mod tests {
         assert_eq!(2, shopping_mall.securities.len());
 
         shopping_mall.securities.append(&mut vec![
-            mall::security::Security::new("Chris Esparza", 54, 12),
+            mall::security::Security::new("Chris Esparza", 50, 12),
             mall::security::Security::new("Kane Holloway", 53, 20),
             mall::security::Security::new("Connor Wardle", 22, 1),
             mall::security::Security::new("Louis Pickett", 26, 3),
