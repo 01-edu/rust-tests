@@ -199,6 +199,10 @@ mod test {
 		b.steal(&mut a, 10000);
 		assert_eq!(a.wealth, 90000);
 		assert_eq!(b.wealth, 80000);
+
+		b.steal(&mut a, 100000);
+		assert_eq!(a.wealth, 0);
+		assert_eq!(b.wealth, 170000);
 	}
 	#[test]
 	fn mob_attack() {
