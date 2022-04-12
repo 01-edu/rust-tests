@@ -104,7 +104,6 @@ pub fn collatz(n: u64) -> Option<u64> {
     let mut aux = Collatz::new(n);
 
     while aux.v != 1 {
-        println!("{}", aux.v);
         num += 1;
         aux.next();
     }
