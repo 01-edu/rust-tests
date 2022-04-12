@@ -41,15 +41,15 @@ mod tests {
         );
         assert!(
             middle_day(1892).is_none(),
-            format!("1892 was a leap year!",)
+            "1892 was a leap year!",
         );
         assert!(
             middle_day(1904).is_none(),
-            format!("1904 was a leap year!",)
+            "1904 was a leap year!",
         );
         assert!(
             middle_day(2012).is_none(),
-            format!("2012 was a leap year!",)
+            "2012 was a leap year!",
         );
     }
 

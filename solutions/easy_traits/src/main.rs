@@ -19,9 +19,8 @@ impl AppendStr for String {
     //Add your code here
     fn append_str(self) -> Self {
         let hello = String::from("Bar");
-return hello
+        return hello;
     }
-
 }
 
 impl AppendVec for Vec<String> {
@@ -36,12 +35,10 @@ fn main() {
     let s = s.append_str();
     println!("s: {}", s);
 
-    let l = vec!["-w", "60", "arg"];
+    let mut l = vec![String::from("-w"), String::from("60"), String::from("arg")];
     let l = l.append_vec();
 
     println!("vector: {:?}", l);
-
-
 }
 
 #[cfg(test)]
@@ -68,4 +65,3 @@ fn is_vec_pop_eq_bar() {
     assert_eq!(foo.pop().unwrap(), String::from("Bar"));
     assert_eq!(foo.pop().unwrap(), String::from("Foo"));
 }
-
