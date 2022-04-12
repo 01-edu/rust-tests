@@ -8,4 +8,4 @@ edition = "2021"
 
 [dependencies]
 matrix = { path = "../../solutions/matrix"}
-lib = { path = "../../lib" }
+lib = { path = "../lib" }
