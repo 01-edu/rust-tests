@@ -85,10 +85,9 @@ fn test_memory_allocation() {
 
 	assert!(
 		stu_alloc <= sol_alloc,
-		format!(
 			"You are allocating to the heap {} times, and it must be less or equal to {} times",
 			stu_alloc, sol_alloc
-		)
+		
 	);
 }
 

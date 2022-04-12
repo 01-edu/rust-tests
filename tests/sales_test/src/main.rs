@@ -126,10 +126,10 @@ mod tests {
     fn test_generate_receipt() {
         let cases = Tests::new();
 
-        // for (mut c, sol) in cases.carts.into_iter() {
-        //     assert_eq!(c.generate_receipt(), sol);
-        //     assert_eq!(c.receipt, sol);
-        // }
+        for (mut c, sol) in cases.carts.into_iter() {
+            assert_eq!(c.generate_receipt(), sol);
+            assert_eq!(c.receipt, sol);
+        }
         assert_eq!(2, 1 + 1);
     }
 }
