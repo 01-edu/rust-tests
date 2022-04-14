@@ -12,7 +12,8 @@ fn main() {
         create_date("2015-09-05"),
         SexType::Male,
         String::from("Africa"),
-        String::from("qwqwsa1dty_"));
+        String::from("qwqwsa1dty_"),
+    );
 
     println!("{:?}", form_output);
     println!("{:?}", form_output.validate().unwrap());
@@ -38,10 +39,10 @@ mod tests {
     #[derive(Debug)]
     struct TestForm<'a> {
         form: Form,
-        validation: Result<Vec<&'a str>, FErr>
+        validation: Result<Vec<&'a str>, FErr>,
     }
 
-    impl <'a> TestForm<'_> {
+    impl<'a> TestForm<'_> {
         // all test cases
         fn new() -> Vec<TestForm<'a>> {
             vec![
@@ -130,7 +131,12 @@ mod tests {
         let form_cases = TestForm::new();
 
         for v in form_cases {
-            assert_eq!(v.form.validate(), v.validation, "Tested with {:?}", v.validation.as_ref().err().unwrap().form_values);
+            assert_eq!(
+                v.form.validate(),
+                v.validation,
+                "Tested with {:?}",
+                v.validation.as_ref().err().unwrap().form_values
+            );
         }
     }
 }
