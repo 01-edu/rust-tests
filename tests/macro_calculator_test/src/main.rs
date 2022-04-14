@@ -6,7 +6,7 @@ fn main() {
         Food {
             name: String::from("big mac"),
             calories: ["2133.84kJ".to_string(), "510kcal".to_string()],
-            protein: 27.0,
+            proteins: 27.0,
             fats: 26.0,
             carbs: 41.0,
             nbr_of_portions: 2.0,
@@ -14,7 +14,7 @@ fn main() {
         Food {
             name: "pizza margherita".to_string(),
             calories: ["1500.59kJ".to_string(), "358.65kcal".to_string()],
-            protein: 13.89,
+            proteins: 13.89,
             fats: 11.21,
             carbs: 49.07,
             nbr_of_portions: 4.9,
@@ -33,7 +33,7 @@ mod test {
         let a = Food {
             name: "light milk".to_string(),
             calories: ["148kJ".to_string(), "35kcal".to_string()],
-            protein: 3.5,
+            proteins: 3.5,
             fats: 0.1,
             carbs: 5.0,
             nbr_of_portions: 0.7,
@@ -41,7 +41,7 @@ mod test {
         let b = Food {
             name: "oat cookies".to_string(),
             calories: ["1996kJ".to_string(), "477kcal".to_string()],
-            protein: 8.2,
+            proteins: 8.2,
             fats: 21.0,
             carbs: 60.4,
             nbr_of_portions: 1.2,
@@ -71,7 +71,7 @@ mod test {
             Food {
                 name: "big mac".to_string(),
                 calories: ["2133.84kJ".to_string(), "510kcal".to_string()],
-                protein: 27.0,
+                proteins: 27.0,
                 fats: 26.0,
                 carbs: 41.0,
                 nbr_of_portions: 2.0,
@@ -79,7 +79,7 @@ mod test {
             Food {
                 name: "pizza margherita".to_string(),
                 calories: ["1500.59kJ".to_string(), "358.65kcal".to_string()],
-                protein: 13.89,
+                proteins: 13.89,
                 fats: 11.21,
                 carbs: 49.07,
                 nbr_of_portions: 4.9,
