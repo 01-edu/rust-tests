@@ -51,7 +51,6 @@ fn main() {
     cart.insert_item(&store, String::from("product A"));
     cart.insert_item(&store, String::from("product B"));
     cart.insert_item(&store, String::from("product C"));
-    
     println!("{:?}", cart.generate_receipt());
     // output:
     // [1.17, 2.98, 22.07]
@@ -82,12 +81,15 @@ impl Store {
 #[derive(Debug, Clone, PartialEq)]
 pub struct Cart {
     pub items: Vec<(String, f32)>,
-    pub receipt: Vec<f32>
+    pub receipt: Vec<f32>,
 }
 
 impl Cart {
     pub fn new() -> Cart {
-        Cart { items: vec![], receipt: vec![] }
+        Cart {
+            items: vec![],
+            receipt: vec![],
+        }
     }
 
     pub fn insert_item(&mut self, s: &Store, ele: String) {
@@ -106,7 +108,8 @@ impl Cart {
 
         let v: Vec<f32> = prices[cal..].to_vec();
 
-        let percentage: f32 = (v.iter().sum::<f32>()*100.0) as f32 / prices.iter().sum::<f32>() as f32;
+        let percentage: f32 =
+            (v.iter().sum::<f32>() * 100.0) as f32 / prices.iter().sum::<f32>() as f32;
 
         self.receipt = prices
             .iter()
@@ -118,7 +121,7 @@ impl Cart {
 }
 
 fn round_two(nbr: f32) -> f32 {
-    (nbr*100.0).round() / 100.0
+    (nbr * 100.0).round() / 100.0
 }
 
 #[cfg(test)]
