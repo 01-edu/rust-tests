@@ -133,4 +133,11 @@ mod tests {
 
         assert!(obj.next().is_none(), "{:?} instead of None", obj);
     }
+
+    #[test]
+    fn test_with_zero() {
+        let mut obj = ThrowObject::new(Object { x: 0.0, y: 0.0 }, Object { x: 0.0, y: 0.0 });
+
+        assert_eq!(obj.next(), None);
+    }
 }
