@@ -33,7 +33,7 @@ fn main() {
 fn test_nonexistent_alias() {
 	let mut lights = Vec::new();
 	for i in 0..5 {
-		let alias = format!("light-{}", i);
+		let alias = format!("light-{i}");
 		lights.push(Light::new(&alias));
 	}
 	let copy = lights.clone();
@@ -45,7 +45,7 @@ fn test_nonexistent_alias() {
 fn test_alias() {
 	let mut lights = Vec::new();
 	for i in 0..5 {
-		let alias = format!("light-{}", i);
+		let alias = format!("light-{i}");
 		lights.push(Light::new(&alias));
 	}
 	let alias = "light-3";

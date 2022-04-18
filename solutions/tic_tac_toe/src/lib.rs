@@ -60,9 +60,9 @@ pub fn tic_tac_toe(table: Vec<Vec<&str>>) -> String {
 	let player1 = "X";
 	let player2 = "O";
 	if check(player2, &table) {
-		return format!("player {} won", player2);
+		return format!("player {player2} won");
 	} else if check(player1, &table) {
-		return format!("player {} won", player1);
+		return format!("player {player1} won");
 	} else {
 		return "Tie".to_string();
 	}
