@@ -10,7 +10,7 @@ fn main() {
         String::from("Lee"),
         String::from("Silva"),
         create_date("2015-09-05"),
-        SexType::Male,
+        Color::Red,
         String::from("Africa"),
         String::from("qwqwsa1dty_"),
     );
@@ -51,7 +51,7 @@ mod tests {
                     String::from("Katy"),
                     String::from("Silva"),
                     create_date("2015-09-05"),
-                    SexType::Female,
+                    Color::Red,
                     String::from("Africa"),
                     String::from("qwTw12&%$3sa1dty_")),
                     validation: Ok(vec!["Valid first name", "Valid password"]),
@@ -61,7 +61,7 @@ mod tests {
                     String::from(""),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Male,
+                    Color::Blue,
                     String::from("Africa"),
                     String::from("qwTw12&%$3sa1dty_")),
                     validation: Err(FErr {
@@ -75,7 +75,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Male,
+                    Color::Green,
                     String::from("Africa"),
                     String::from("12345")),
                     validation: Err(FErr {
@@ -88,7 +88,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Male,
+                    Color::Red,
                     String::from("Africa"),
                     String::from("sdASDsrW")),
                     validation: Err(FErr {
@@ -101,7 +101,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Female,
+                    Color::Blue,
                     String::from("Africa"),
                     String::from("dsGE1SAD213")),
                     validation: Err(FErr {
@@ -114,7 +114,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Female,
+                    Color::Green,
                     String::from("Africa"),
                     String::from("dsaSD&%DF!?=")),
                     validation: Err(FErr {
