@@ -58,7 +58,6 @@ fn main() {
     println!("{:?}", form_output.validate().unwrap());
     // output:
     // ["Valid password", "Valid first name"]
-    
     form_output.first_name = String::from("");
     println!("{:?}", form_output.validate().unwrap_err());
     // output:
@@ -90,7 +89,7 @@ fn main() {
 - https://docs.rs/chrono/0.4.19/chrono/naive/struct.NaiveDate.html
 
 */
-pub use chrono::{Utc, NaiveDate};
+pub use chrono::{NaiveDate, Utc};
 // use chrono::format::ParseError;
 use std::fmt;
 
@@ -104,20 +103,29 @@ pub struct FErr {
 
 impl FErr {
     pub fn new(name: String, error: String, err: String) -> FErr {
-        FErr { form_values: (name, error), date: Utc::now().format("%Y-%m-%d %H:%M:%S").to_string(), err}
+        FErr {
+            form_values: (name, error),
+            date: Utc::now().format("%Y-%m-%d %H:%M:%S").to_string(),
+            err,
+        }
     }
 }
 
 impl fmt::Display for FErr {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} - form values: {:?}, err: {}", &self.date, &self.form_values, &self.err)
+        write!(
+            f,
+            "{} - form values: {:?}, err: {}",
+            &self.date, &self.form_values, &self.err
+        )
     }
 }
 
 #[derive(Debug, Eq, PartialEq)]
-pub enum SexType {
-    Male,
-    Female,
+pub enum Color {
+    Red,
+    Green,
+    Blue,
 }
 
 // first name -> must be mandatory
@@ -130,27 +138,28 @@ pub struct Form {
     pub first_name: String,
     pub last_name: String,
     pub birth: NaiveDate,
-    pub sex: SexType,
+    pub fav_colour: Color,
     pub birth_location: String,
     pub password: String,
 }
 
 impl Form {
-    pub fn new(first_name: String,
-           last_name: String,
-           birth: NaiveDate,
-           sex: SexType,
-           birth_location: String,
-           password: String) -> Form {
-
-         Form {
+    pub fn new(
+        first_name: String,
+        last_name: String,
+        birth: NaiveDate,
+        fav_colour: Color,
+        birth_location: String,
+        password: String,
+    ) -> Form {
+        Form {
             first_name,
             last_name,
             birth,
-            sex,
+            fav_colour,
             birth_location,
             password,
-         }
+        }
     }
 
     // this will validate the form, it does not validate if
@@ -165,18 +174,26 @@ impl Form {
                 x if x.len() < 8 => Err(self.has_eight_char()),
                 _ if !self.validate_ascii_char() => Err(self.has_diff_ascii_char()),
                 _ => Ok("Valid password"),
-            }?
+            }?,
         ];
         Ok(v)
     }
 
     fn user_name(&self) -> FErr {
-        FErr::new(String::from("first_name"), self.first_name.clone(), String::from("No user name"))
+        FErr::new(
+            String::from("first_name"),
+            self.first_name.clone(),
+            String::from("No user name"),
+        )
     }
 
     // all this is the part to validate all the parts of the form
     fn has_eight_char(&self) -> FErr {
-        FErr::new(String::from("password"), self.password.clone(), String::from("At least 8 characters"))
+        FErr::new(
+            String::from("password"),
+            self.password.clone(),
+            String::from("At least 8 characters"),
+        )
     }
 
     fn has_diff_ascii_char(&self) -> FErr {
@@ -185,10 +202,8 @@ impl Form {
 
     fn validate_ascii_char(&self) -> bool {
         let chars: Vec<char> = self.password.chars().collect();
-        chars.iter().any(|c| c.is_digit(10)) &&
-        chars.iter().any(|c| !c.is_alphanumeric())
+        chars.iter().any(|c| c.is_digit(10)) && chars.iter().any(|c| !c.is_alphanumeric())
     }
-
 }
 
 #[allow(dead_code)]
@@ -207,10 +222,10 @@ mod tests {
     #[derive(Debug)]
     struct TestForm<'a> {
         form: Form,
-        validation: Result<Vec<&'a str>, FErr>
+        validation: Result<Vec<&'a str>, FErr>,
     }
 
-    impl <'a> TestForm<'_> {
+    impl<'a> TestForm<'_> {
         // all test cases
         fn new() -> Vec<TestForm<'a>> {
             vec![
@@ -219,7 +234,7 @@ mod tests {
                     String::from("Katy"),
                     String::from("Silva"),
                     create_date("2015-09-05"),
-                    SexType::Female,
+                    Color::Red,
                     String::from("Africa"),
                     String::from("qwTw12&%$3sa1dty_")),
                     validation: Ok(vec!["Valid first name", "Valid password"]),
@@ -229,7 +244,7 @@ mod tests {
                     String::from(""),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Male,
+                    Color::Blue,
                     String::from("Africa"),
                     String::from("qwTw12&%$3sa1dty_")),
                     validation: Err(FErr {
@@ -243,7 +258,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Male,
+                    Color::Green,
                     String::from("Africa"),
                     String::from("12345")),
                     validation: Err(FErr {
@@ -256,7 +271,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Male,
+                    Color::Red,
                     String::from("Africa"),
                     String::from("sdASDsrW")),
                     validation: Err(FErr {
@@ -269,7 +284,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Female,
+                    Color::Blue,
                     String::from("Africa"),
                     String::from("dsGE1SAD213")),
                     validation: Err(FErr {
@@ -282,7 +297,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Female,
+                    Color::Green,
                     String::from("Africa"),
                     String::from("dsaSD&%DF!?=")),
                     validation: Err(FErr {
