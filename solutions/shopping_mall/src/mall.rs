@@ -1,16 +1,16 @@
 #[derive(Debug, Clone, PartialEq)]
 pub struct Mall {
     pub name: String,
-    pub securities: Vec<security::Security>,
+    pub guards: Vec<guard::Guard>,
     pub floors: Vec<floor::Floor>,
 }
 
 impl Mall {
     #[allow(dead_code)]
-    pub fn new(name: &str, securities: Vec<security::Security>, floors: Vec<floor::Floor>) -> Mall {
+    pub fn new(name: &str, guards: Vec<guard::Guard>, floors: Vec<floor::Floor>) -> Mall {
         Mall {
             name: name.to_string(),
-            securities: securities,
+            guards: guards,
             floors: floors,
         }
     }
@@ -21,29 +21,29 @@ impl Mall {
     }
 
     #[allow(dead_code)]
-    pub fn hire_security(&mut self, security: security::Security) {
-        self.securities.push(security);
+    pub fn hire_guards(&mut self, guard: guard::Guard) {
+        self.guards.push(guard);
     }
 
     #[allow(dead_code)]
-    pub fn fire_security(&mut self, name: String) {
-        self.securities.retain(|x| x.name != name);
+    pub fn fire_guards(&mut self, name: String) {
+        self.guards.retain(|x| x.name != name);
     }
 }
 
-pub mod security {
+pub mod guard {
 
     #[derive(Debug, Clone, PartialEq)]
-    pub struct Security {
+    pub struct Guard {
         pub name: String,
         pub age: u8,
         pub years_experience: u8,
     }
 
-    impl Security {
+    impl Guard {
         #[allow(dead_code)]
-        pub fn new(name: &str, age: u8, years_experience: u8) -> Security {
-            Security {
+        pub fn new(name: &str, age: u8, years_experience: u8) -> Guard {
+            Guard {
                 name: name.to_string(),
                 age: age,
                 years_experience: years_experience,
