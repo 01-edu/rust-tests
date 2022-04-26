@@ -146,7 +146,7 @@ pub fn nbr_of_employees(mall: mall::Mall) -> usize {
 pub fn fire_old_securities(mall: &mut mall::Mall) {
 	for sec in mall.clone().guards {
 		if sec.age >= 50 {
-			mall.fire_guards(sec.name);
+			mall.fire_guard(sec.name);
 		}
 	}
 }
@@ -159,7 +159,7 @@ pub fn check_for_securities(mall: &mut mall::Mall, available_sec: Vec<guard::Gua
 
 	let mut i = 0;
 	while (mall.guards.len() as f64) < size as f64 / 200.0 {
-		mall.hire_guards(available_sec[i].clone());
+		mall.hire_guard(available_sec[i].clone());
 		i += 1;
 	}
 }
