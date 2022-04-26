@@ -195,8 +195,7 @@ fn main() {
     println!("{:?}", &mall_la_vie);
 }
 
-use mall::*;
-use shopping_mall as mall;
+use shopping_mall::*;
 
 mod tests {
     use super::*;
