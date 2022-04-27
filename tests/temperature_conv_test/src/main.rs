@@ -2,6 +2,11 @@ use temperature_conv::*;
 
 use std::f64::EPSILON;
 
+fn main() {
+	println!("{} F = {} C", -459.67, fahrenheit_to_celsius(-459.67));
+	println!("{} C = {} F", 0.0, celsius_to_fahrenheit(0.0));
+}
+
 fn eql(a: f64, b: f64) -> bool {
 	(b - a).abs() < EPSILON
 }

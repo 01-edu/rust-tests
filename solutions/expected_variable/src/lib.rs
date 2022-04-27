@@ -82,6 +82,7 @@ mod tests {
             result.is_none(),
             "Should have been None and not, {:?}",
             result
+
         );
     }
 

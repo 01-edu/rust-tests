@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "previousprime"
+name = "lastup"
 version = "0.1.0"

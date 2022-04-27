@@ -96,9 +96,9 @@ mod tests {
                     suit: Suit::translate(suit),
                 };
                 if card != winner {
-                    assert!(!winner_card(card));
+                    assert!(!winner_card(&card));
                 } else {
-                    assert!(winner_card(card));
+                    assert!(winner_card(&card));
                 }
             }
         }

@@ -58,9 +58,7 @@ fn test_heap_memory_allocation() {
 	let stu_alloc = violation_count();
 	assert!(
 		stu_alloc <= sol_alloc,
-		"You are allocating to the heap {} times, and it must be less or equal to {} times",
-		stu_alloc,
-		sol_alloc
+		"You are allocating to the heap {stu_alloc} times, and it must be less or equal to {sol_alloc} times"
 	);
 }
 
