@@ -3,14 +3,14 @@
 
 ### Instructions
 
-You will have to create several functions to help run a shopping mall, with the help of the `mall` module provided:
+Using the `mall` module provided create the following **functions** to help run a shopping mall:
 
 - `biggest_store`: receives a `mall::Mall` and returns the `Store` with the biggest `square_meters`;
 - `highest_paid_employees`: receives a `mall::Mall` and returns a vector containing the `Employee`(s) with the highest salaries;
-- `nbr_of_employees`: receives a `mall::Mall` and returns the number of employees and securities, as an `usize`, in that mall.
-- `fire_old_securities`: receives a `mall::Mall` and removes from the `mall::Mall.securities` all securities who are 50 years old or older.
-- `check_securities`: receives a `mall::Mall` and a vector of `Security` and if there are not at least 1 security for every 200 square meters of floor size, there should be added a security to the `mall::Mall.securities`
-- `cut_or_raise`: receives a `mall::Mall and raises or cuts the salary  of every employee in the mall by 10% depending if the employee works for more than 10 hours
+- `nbr_of_employees`: receives a `mall::Mall` and returns the number of employees and guards, as a `usize`, in that mall;
+- `fire_old_guards`: receives a `mall::Mall` and removes from the `mall::Mall.guards` all guards who are 50 years old or older;
+- `check_for_guards`: receives a `mall::Mall` and a vector of `Guard` and, if there is not at least 1 guard for every 200 square meters of floor size, a guard should be added to the `mall::Mall.guards`;
+- `cut_or_raise`: receives a `mall::Mall` and raises or cuts, the salary of every employee in the mall by 10%, if the employee works for more than 10 hours (consider that the guards are not employees from the mall).
 
 
 ### Example
@@ -18,9 +18,9 @@ You will have to create several functions to help run a shopping mall, with the 
 ```rust
 fn main() {
 	let secs = vec![
-		mall::security::Security::new("John Oliver", 34, 7),
-		mall::security::Security::new("Logan West", 23, 2),
-		mall::security::Security::new("Bob Schumacher", 53, 15),
+		mall::security::Guard::new("John Oliver", 34, 7),
+		mall::security::Guard::new("Logan West", 23, 2),
+		mall::security::Guard::new("Bob Schumacher", 53, 15),
 	];
 
 	let footzo_emp = vec![
@@ -97,7 +97,7 @@ pub mod mall;
 
 pub use floor::store;
 pub use mall::floor;
-pub use mall::security;
+pub use mall::guard;
 pub use mall::*;
 pub use store::employee;
 
@@ -140,26 +140,26 @@ pub fn nbr_of_employees(mall: mall::Mall) -> usize {
 		}
 	}
 
-	res + mall.securities.len()
+	res + mall.guards.len()
 }
 
 pub fn fire_old_securities(mall: &mut mall::Mall) {
-	for sec in mall.clone().securities {
+	for sec in mall.clone().guards {
 		if sec.age >= 50 {
-			mall.fire_security(sec.name);
+			mall.fire_guard(sec.name);
 		}
 	}
 }
 
-pub fn check_for_securities(mall: &mut mall::Mall, available_sec: Vec<security::Security>) {
+pub fn check_for_securities(mall: &mut mall::Mall, available_sec: Vec<guard::Guard>) {
 	let mut size = 0;
 	for floor in mall.floors.iter() {
 		size += floor.size_limit;
 	}
 
 	let mut i = 0;
-	while (mall.securities.len() as f64) < size as f64 / 200.0 {
-		mall.hire_security(available_sec[i].clone());
+	while (mall.guards.len() as f64) < size as f64 / 200.0 {
+		mall.hire_guard(available_sec[i].clone());
 		i += 1;
 	}
 }
@@ -184,9 +184,9 @@ mod tests {
 
 	fn create_mall() -> mall::Mall {
 		let secs = vec![
-			mall::security::Security::new("John Oliver", 34, 7),
-			mall::security::Security::new("Logan West", 23, 2),
-			mall::security::Security::new("Bob Schumacher", 53, 15),
+			mall::guard::Guard::new("John Oliver", 34, 7),
+			mall::guard::Guard::new("Logan West", 23, 2),
+			mall::guard::Guard::new("Bob Schumacher", 53, 15),
 		];
 
 		let footzo_emp = vec![
@@ -297,21 +297,21 @@ mod tests {
 		let mut shopping_mall = create_mall();
 
 		fire_old_securities(&mut shopping_mall);
-		assert_eq!(2, shopping_mall.securities.len());
+		assert_eq!(2, shopping_mall.guards.len());
 
-		shopping_mall.securities.append(&mut vec![
-			mall::security::Security::new("Chris Esparza", 54, 12),
-			mall::security::Security::new("Kane Holloway", 53, 20),
-			mall::security::Security::new("Connor Wardle", 22, 1),
-			mall::security::Security::new("Louis Pickett", 26, 3),
-			mall::security::Security::new("Olly Middleton", 36, 9),
+		shopping_mall.guards.append(&mut vec![
+			mall::guard::Guard::new("Chris Esparza", 54, 12),
+			mall::guard::Guard::new("Kane Holloway", 53, 20),
+			mall::guard::Guard::new("Connor Wardle", 22, 1),
+			mall::guard::Guard::new("Louis Pickett", 26, 3),
+			mall::guard::Guard::new("Olly Middleton", 36, 9),
 		]);
 
-		assert_eq!(7, shopping_mall.securities.len());
+		assert_eq!(7, shopping_mall.guards.len());
 
 		fire_old_securities(&mut shopping_mall);
 
-		assert_eq!(5, shopping_mall.securities.len());
+		assert_eq!(5, shopping_mall.guards.len());
 	}
 
 	#[test]
@@ -336,25 +336,25 @@ mod tests {
 	fn check_for_securities_test() {
 		let mut shopping_mall = create_mall();
 
-		assert_eq!(3, shopping_mall.securities.len());
+		assert_eq!(3, shopping_mall.guards.len());
 
 		check_for_securities(
 			&mut shopping_mall,
 			vec![
-				security::Security::new("Peter Solomons", 45, 20),
-				security::Security::new("William Charles", 32, 10),
-				security::Security::new("Leonardo Changretta", 23, 0),
-				security::Security::new("Vlad Levi", 38, 8),
-				security::Security::new("Faruk Berkai", 40, 15),
-				security::Security::new("Chritopher Smith", 35, 9),
-				security::Security::new("Jason Mackie", 26, 2),
-				security::Security::new("Kenzie Mair", 34, 8),
-				security::Security::new("Bentley Larson", 33, 10),
-				security::Security::new("Ray Storey", 37, 12),
+				guard::Guard::new("Peter Solomons", 45, 20),
+				guard::Guard::new("William Charles", 32, 10),
+				guard::Guard::new("Leonardo Changretta", 23, 0),
+				guard::Guard::new("Vlad Levi", 38, 8),
+				guard::Guard::new("Faruk Berkai", 40, 15),
+				guard::Guard::new("Chritopher Smith", 35, 9),
+				guard::Guard::new("Jason Mackie", 26, 2),
+				guard::Guard::new("Kenzie Mair", 34, 8),
+				guard::Guard::new("Bentley Larson", 33, 10),
+				guard::Guard::new("Ray Storey", 37, 12),
 			],
 		);
 
-		assert_eq!(9, shopping_mall.securities.len());
+		assert_eq!(9, shopping_mall.guards.len());
 	}
 
 	#[test]
