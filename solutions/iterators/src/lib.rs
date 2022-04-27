@@ -1,100 +1,114 @@
 /*
-## even_iterator
+## iterators
 
 ### Instructions
 
-Create a method `new` that takes one number `usize` and initializes the `Number` struct.
-This method will have to determinate if the given number is even or odd,
-if it is even you will have to increment one to the odd number and
-if it is odd you have to increment one to the even number.
+The Collatz Conjecture or 3x+1 problem can be summarized as follows:
 
-After that you will implement an iterator for the struct `Number` that returns a tuple (usize,usize,usize).
-containing each field of the struct Number.
-The first position of the tuple will be the even numbers,
-the second will be the odd numbers,
-and the third will be the factorial numbers.
+Take any positive integer `n`.
 
-### Examples
+- If `n` is even, you will divide `n` by 2 to get `n / 2`.
+- If `n` is odd, you will multiply `n` by 3 and add 1 to get `3n + 1`.
 
-```rust
-fn main() {
-    let mut a = Number::new(5);
-    println!("{:?}", a.next());     // Some((6, 5, 120))
-    println!("{:?}", a.next());     // Some((8, 7, 720))
-    println!("{:?}", a.next());     // Some((10, 9, 5040))
-    println!()
-    let mut a = Number::new(18);
-    println!("{:?}", a.next());     // Some((18, 19, 6402373705728000))
-    println!("{:?}", a.next());     // Some((20, 21, 121645100408832000))
-    println!("{:?}", a.next());     // Some((22, 23, 2432902008176640000))
-}
-```
+Repeat the process indefinitely. The conjecture states that no matter which number you start with, you will always reach 1 eventually.
+
+But sometimes the number grow significantly before it reaches 1. This can lead to an integer overflow and makes the algorithm unsolvable within the range of a number in u64. You will not have to worry about that in this exercise.
+
+Given a number `n`, return the number of steps required to reach 1.
+
+Examples:
+
+Starting with n = 16, the steps would be as follows:
+
+0- 16
+1- 8
+2- 4
+3- 2
+4- 1
+
+Resulting in 4 steps. So for input n = 16, the return value would be 4.
 
 ### Notions
 
-- https://doc.rust-lang.org/std/iter/trait.Iterator.html
+- [Trait Iterator](https://doc.rust-lang.org/std/iter/trait.Iterator.html)
+- [Collatz Conjecture](https://pt.wikipedia.org/wiki/Conjectura_de_Collatz)
+
+### Expected functions
+
+```rust
+
+struct Collatz {
+    v: u64,
+    }
+
+impl Iterator for Collatz {}
+
+pub fn collatz(n: u64) -> Option<u64> {}
+```
+
+### Usage
+
+Here is a program to test your function.
+
+```rust
+use iterators::*;
 
 fn main() {
-    let mut a = Number::new(5);
-    println!("{:?}", a.next()); // Some((6, 5, 120))
-    println!("{:?}", a.next()); // Some((8, 7, 720))
-    println!("{:?}", a.next()); // Some((10, 9, 5040))
-    println!();
-    let mut b = Number::new(18);
-    println!("{:?}", b.next()); // Some((18, 19, 6402373705728000))
-    println!("{:?}", b.next()); // Some((20, 21, 121645100408832000))
-    println!("{:?}", b.next()); // Some((22, 23, 2432902008176640000))
+    println!("{:?}", collatz(4));
+    println!("{:?}", collatz(5));
+    println!("{:?}", collatz(6));
+    println!("{:?}", collatz(7));
+    println!("{:?}", collatz(12));
 }
+```
+
+And its output:
+
+```console
+$ cargo run
+Some(2)
+Some(5)
+Some(8)
+Some(16)
+Some(9)
+$
+```
+
 */
-
-#[derive(Debug, PartialEq, Clone)]
-pub struct Number {
-    even: usize,
-    odd: usize,
-    fact: usize,
+pub struct Collatz {
+    pub v: u64,
 }
 
-pub fn is_even(n: usize) -> bool {
-    n % 2 == 0
-}
-
-pub fn factorial(n: usize) -> usize {
-    match n {
-        0 | 1 => 1,
-        _ => factorial(n - 1) * n,
+impl Collatz {
+    pub fn new(aux: u64) -> Self {
+        Collatz { v: aux }
     }
 }
 
-impl Number {
-    pub fn new(nbr: usize) -> Number {
-        if is_even(nbr) {
-            Number {
-                even: nbr,
-                odd: nbr + 1,
-                fact: nbr,
-            }
-        } else {
-            Number {
-                even: nbr + 1,
-                odd: nbr,
-                fact: nbr,
-            }
-        }
-    }
-}
-
-impl Iterator for Number {
-    //  odd   even  fact
-    type Item = (usize, usize, usize);
+impl Iterator for Collatz {
+    type Item = Collatz;
 
     fn next(&mut self) -> Option<Self::Item> {
-        println!("Argument: {:?}", self);
-        self.even += 2;
-        self.odd += 2;
-        let result = factorial(self.fact);
-        self.fact += 1;
-        Some((self.even - 2, self.odd - 2, result))
+        if self.v % 2 == 0 {
+            self.v = self.v / 2;
+        } else {
+            self.v = 3 * self.v + 1;
+        }
+        Some(Collatz { v: self.v })
     }
+}
+
+pub fn collatz(n: u64) -> Option<u64> {
+    let mut num = 0;
+
+    let mut aux = Collatz::new(n);
+
+    while aux.v != 1 {
+        num += 1;
+        aux.next();
+    }
+
+    Some(num)
 }
 
 #[cfg(test)]
@@ -103,24 +117,47 @@ mod tests {
 
     #[test]
     fn test_first_seven() {
-        let test_even = vec![0, 2, 4, 6, 8, 10, 12];
-        let test_odd = vec![1, 3, 5, 7, 9, 11, 13];
-        let test_fact = vec![1, 1, 2, 6, 24, 120, 720];
+        let test_value = vec![1, 2, 3, 4, 5, 6, 7];
+        let test_result = vec![0, 1, 7, 2, 5, 8, 16];
 
-        for (i, x) in Number::new(0).take(7).enumerate() {
-            assert_eq!(x.0, test_even[i]);
-            assert_eq!(x.1, test_odd[i]);
-            assert_eq!(x.2, test_fact[i]);
+        for i in 0..test_value.len() {
+            assert_eq!(
+                test_result[i],
+                collatz(test_value[i]).unwrap(),
+                "collatz({})",
+                test_value[i]
+            );
         }
     }
 
     #[test]
-    fn test_next() {
-        let mut a = Number::new(6);
-        assert_eq!(a.next().unwrap(), (6, 7, 720));
-        assert_eq!(a.next().unwrap(), (8, 9, 5040));
-        assert_eq!(a.next().unwrap(), (10, 11, 40320));
-        assert_eq!(a.next().unwrap(), (12, 13, 362880));
-        assert_eq!(a.next().unwrap(), (14, 15, 3628800));
+    fn test_big_numbers() {
+        let test_value = vec![54, 888, 4372, 9999];
+        let test_result = vec![112, 72, 33, 91];
+
+        for i in 0..test_value.len() {
+            assert_eq!(
+                test_result[i],
+                collatz(test_value[i]).unwrap(),
+                "collatz({})",
+                test_value[i]
+            );
+        }
+    }
+
+    #[test]
+    fn test_iterator() {
+        let mut aux = Collatz::new(133);
+        let mut num = 0;
+        let sequence = vec![
+            133, 400, 200, 100, 50, 25, 76, 38, 19, 58, 29, 88, 44, 22, 11, 34, 17, 52, 26, 13, 40,
+            20, 10, 5, 16, 8, 4, 2, 1,
+        ];
+
+        while aux.v != 1 {
+            assert_eq!(aux.v, sequence[num]);
+            aux.next();
+            num += 1;
+        }
     }
 }

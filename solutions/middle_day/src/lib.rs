@@ -35,10 +35,6 @@ mod tests {
 
     #[test]
     fn leap_years() {
-        println!(
-            "{:?}",
-            (middle_day(1892), middle_day(1904), middle_day(2012))
-        );
         assert!(
             middle_day(1892).is_none(),
             "1892 was a leap year!",

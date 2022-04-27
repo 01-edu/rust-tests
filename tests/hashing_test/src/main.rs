@@ -32,6 +32,12 @@ fn test_mean() {
 fn test_median() {
 	let v = vec![4, 7, 5, 2, 5, 1, 3];
 	assert_eq!(median(&v), 4);
+
+	let aux1 = vec![2,1,5,2,7,4];
+	assert_eq!(median(&aux1), 3, "tested with {:?}", aux1);
+
+	let aux2 = vec![1,7,5,5,6,4];
+	assert_eq!(median(&aux2), 5, "tested with {:?}", aux2);
 }
 
 #[test]

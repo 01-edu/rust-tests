@@ -72,7 +72,7 @@ pub struct Food {
     #[allow(dead_code)]
     pub name: String,
     pub calories: [String; 2],
-    pub protein: f64,
+    pub proteins: f64,
     pub fats: f64,
     pub carbs: f64,
     pub nbr_of_portions: f64,
@@ -91,7 +91,7 @@ pub fn calculate_macros(foods: Vec<Food>) -> json::JsonValue {
             .unwrap();
 
         cals += cal * food.nbr_of_portions;
-        prot += food.protein * food.nbr_of_portions;
+        prot += food.proteins * food.nbr_of_portions;
         carbs += food.carbs * food.nbr_of_portions;
         fats += food.fats * food.nbr_of_portions;
     }
@@ -113,7 +113,7 @@ mod test {
         let a = Food {
             name: "light milk".to_string(),
             calories: ["148kJ".to_string(), "35kcal".to_string()],
-            protein: 3.5,
+            proteins: 3.5,
             fats: 0.1,
             carbs: 5.0,
             nbr_of_portions: 0.7,
@@ -121,7 +121,7 @@ mod test {
         let b = Food {
             name: "oat cookies".to_string(),
             calories: ["1996kJ".to_string(), "477kcal".to_string()],
-            protein: 8.2,
+            proteins: 8.2,
             fats: 21.0,
             carbs: 60.4,
             nbr_of_portions: 1.2,
@@ -151,7 +151,7 @@ mod test {
             Food {
                 name: "big mac".to_string(),
                 calories: ["2133.84kJ".to_string(), "510kcal".to_string()],
-                protein: 27.0,
+                proteins: 27.0,
                 fats: 26.0,
                 carbs: 41.0,
                 nbr_of_portions: 2.0,
@@ -159,16 +159,16 @@ mod test {
             Food {
                 name: "pizza margherita".to_string(),
                 calories: ["1500.59kJ".to_string(), "358.65kcal".to_string()],
-                protein: 13.89,
+                proteins: 13.89,
                 fats: 11.21,
                 carbs: 49.07,
                 nbr_of_portions: 4.9,
             },
         ]);
 
-        assert_eq!(macros["cals"], 2777.39);
-        assert_eq!(macros["carbs"], 322.44);
-        assert_eq!(macros["proteins"], 122.06);
-        assert_eq!(macros["fats"], 106.9);
+        assert_eq!(macros["cals"].as_f64().unwrap(), 2777.39);
+        assert_eq!(macros["carbs"].as_f64().unwrap(), 322.44);
+        assert_eq!(macros["proteins"].as_f64().unwrap(), 122.06);
+        assert_eq!(macros["fats"].as_f64().unwrap(), 106.93);
     }
 }

@@ -10,9 +10,10 @@ fn main() {
         String::from("Lee"),
         String::from("Silva"),
         create_date("2015-09-05"),
-        SexType::Male,
+        Color::Red,
         String::from("Africa"),
-        String::from("qwqwsa1dty_"));
+        String::from("qwqwsa1dty_"),
+    );
 
     println!("{:?}", form_output);
     println!("{:?}", form_output.validate().unwrap());
@@ -38,10 +39,10 @@ mod tests {
     #[derive(Debug)]
     struct TestForm<'a> {
         form: Form,
-        validation: Result<Vec<&'a str>, FErr>
+        validation: Result<Vec<&'a str>, FErr>,
     }
 
-    impl <'a> TestForm<'_> {
+    impl<'a> TestForm<'_> {
         // all test cases
         fn new() -> Vec<TestForm<'a>> {
             vec![
@@ -50,7 +51,7 @@ mod tests {
                     String::from("Katy"),
                     String::from("Silva"),
                     create_date("2015-09-05"),
-                    SexType::Female,
+                    Color::Red,
                     String::from("Africa"),
                     String::from("qwTw12&%$3sa1dty_")),
                     validation: Ok(vec!["Valid first name", "Valid password"]),
@@ -60,7 +61,7 @@ mod tests {
                     String::from(""),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Male,
+                    Color::Blue,
                     String::from("Africa"),
                     String::from("qwTw12&%$3sa1dty_")),
                     validation: Err(FErr {
@@ -74,7 +75,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Male,
+                    Color::Green,
                     String::from("Africa"),
                     String::from("12345")),
                     validation: Err(FErr {
@@ -87,7 +88,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Male,
+                    Color::Red,
                     String::from("Africa"),
                     String::from("sdASDsrW")),
                     validation: Err(FErr {
@@ -100,7 +101,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Female,
+                    Color::Blue,
                     String::from("Africa"),
                     String::from("dsGE1SAD213")),
                     validation: Err(FErr {
@@ -113,7 +114,7 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    SexType::Female,
+                    Color::Green,
                     String::from("Africa"),
                     String::from("dsaSD&%DF!?=")),
                     validation: Err(FErr {
@@ -130,7 +131,12 @@ mod tests {
         let form_cases = TestForm::new();
 
         for v in form_cases {
-            assert_eq!(v.form.validate(), v.validation);
+            assert_eq!(
+                v.form.validate(),
+                v.validation,
+                "Tested with {:?}",
+                v.validation.as_ref().err().unwrap().form_values
+            );
         }
     }
 }

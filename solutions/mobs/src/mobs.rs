@@ -40,8 +40,13 @@ impl Mob {
     }
 
     pub fn steal(&mut self, target: &mut Mob, value: u32) {
-        self.wealth += value;
-        target.wealth -= value;
+        if target.wealth >= value {
+            self.wealth += value;
+            target.wealth -= value;
+        } else {
+            self.wealth += target.wealth;
+            target.wealth = 0;
+        }
     }
 
     pub fn conquer_city(&mut self, mobs: Vec<Mob>, wanted_city: String, value: u8) {

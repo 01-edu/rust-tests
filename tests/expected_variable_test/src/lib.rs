@@ -45,14 +45,16 @@ mod tests {
 	fn no_variable_case() {
 		let mut result = expected_variable("It is simply not a variable case", "gonnaFail");
 		assert!(
-			result.is_none(),
-			"Should have been None and not, {:?}", result
+			result.is_none()
+			"Should have been None and not, {:?}",
+			result
 		);
 
 		result = expected_variable("do-not-use-dashes", "do-not-use-dashes");
 		assert!(
 			result.is_none(),
-			"Should have been None and not, {:?}", result
+			"Should have been None and not, {:?}",
+			result
 		);
 	}
 
@@ -61,13 +63,15 @@ mod tests {
 		let mut result = expected_variable("it_is_done", "almost_there");
 		assert!(
 			result.is_none(),
-			"Should have been None and not, {:?}", result
+			"Should have been None and not, {:?}",
+			result
 		);
 
 		result = expected_variable("frankenstein", "Dracula");
 		assert!(
 			result.is_none(),
-			"Should have been None and not, {:?}", result
+			"Should have been None and not, {:?}",
+			result
 		);
 	}
 
