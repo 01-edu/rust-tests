@@ -31,7 +31,6 @@ mod tests {
 
     #[derive(Debug)]
     struct Tests {
-        store: Store,
         carts: Vec<(Cart, Vec<f32>)>,
     }
 
@@ -117,7 +116,6 @@ mod tests {
             ];
 
             Tests {
-                store,
                 carts: vec![(c, sol), (c1, sol1), (c2, sol2), (c3, sol3)],
             }
         }
