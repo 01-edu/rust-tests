@@ -29,7 +29,7 @@ trait AppendStr {
 }
 
 impl AppendStr for StringValue {
-}
+ }
 ```
 */
 
