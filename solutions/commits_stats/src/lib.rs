@@ -33,36 +33,6 @@ impl fmt::Display for Week {
 	}
 }
 
-#[derive(Debug)]
-struct Tree {
-	sha: String,
-}
-
-#[derive(Debug)]
-struct Author {
-	login: String,
-}
-
-#[derive(Debug)]
-struct Commit {
-	message: String,
-	tree: Tree,
-	author: AuthorInfo,
-}
-
-#[derive(Debug)]
-struct AuthorInfo {
-	name: String,
-	date: DateTime<Utc>,
-}
-
-#[derive(Debug)]
-pub struct CommitData {
-	sha: String,
-	commit: Commit,
-	author: Author,
-}
-
 use std::collections::HashMap;
 
 pub fn commits_per_author(data: &json::JsonValue) -> HashMap<String, u32> {
@@ -158,6 +128,6 @@ mod tests {
 
 		let commits_per_author = commits_per_author(&serialized);
 		println!("{:#?}", &commits_per_author);
-		assert_eq!(&expected, commits_per_author);
+		assert_eq!(expected, commits_per_author);
 	}
 }

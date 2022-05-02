@@ -45,7 +45,7 @@ mod tests {
 	fn no_variable_case() {
 		let mut result = expected_variable("It is simply not a variable case", "gonnaFail");
 		assert!(
-			result.is_none()
+			result.is_none(),
 			"Should have been None and not, {:?}",
 			result
 		);
