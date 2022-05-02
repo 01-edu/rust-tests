@@ -14,7 +14,7 @@ fn main() {
     let vector_1: Vector<i64> = Vector(vec![1, 3, -5]);
     let vector_2: Vector<i64> = Vector(vec![4, -2, -1]);
     println!("{:?}", vector_1.dot(&vector_2));
-    println!("{:?}", vector_1 + &vector_2);
+    println!("{:?}", vector_1 + vector_2);
 }
 
 #[cfg(test)]
@@ -56,7 +56,7 @@ mod tests {
         };
         test_meta.assert_with_message(
             &[Box::new(vector_1.clone()), Box::new(vector_2.clone())],
-            vector_1 + &vector_2,
+            vector_1 + vector_2,
             Some(Vector(vec![5i64, 1, -6])),
         );
 
@@ -64,7 +64,7 @@ mod tests {
         let vector_2: Vector<i64> = Vector(vec![2, 4, -2, -1]);
         test_meta.assert_with_message(
             &[Box::new(vector_1.clone()), Box::new(vector_2.clone())],
-            vector_1 + &vector_2,
+            vector_1 + vector_2,
             None,
         );
     }

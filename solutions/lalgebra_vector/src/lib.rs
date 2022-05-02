@@ -15,9 +15,9 @@ pub struct Vector<T: Scalar<Item = T>>(pub Vec<T>);
 
 use std::ops::Add;
 
-impl<T: Scalar<Item = T> + Add<Output = T>> Add<&Self> for Vector<T> {
+impl<T: Scalar<Item = T> + Add<Output = T>> Add<Self> for Vector<T> {
     type Output = Option<Self>;
-    fn add(self, other: &Self) -> Self::Output {
+    fn add(self, other: Self) -> Self::Output {
         if self.0.len() != other.0.len() {
             return None;
         }
