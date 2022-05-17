@@ -1,85 +1,100 @@
-// # Instructions
-// Implement the IntoIterator trait for the `RomanNumber` type to
-// enable using a for loop notation.
-// This implementation must allow taking ownership,
-// borrowing and borrowing mutably
+// ## roman_numbers_iter
 
-// I.e. this three constructions must be possible
+// ### Instructions
+
+// Implement the `Iterator` trait for the `RomanNumber` type. You should use the code from the previous exercise roman_numbers.
+
+// ### Notions
+
+// - [Trait Iterator](https://doc.rust-lang.org/std/iter/trait.Iterator.html)
+
+// ### Expected Functions
+
 // ```rust
-// let number = RomanNumber::from(23);
+// //...
 
-// 1. Taking ownership (this consumes the RomanNumber)
-// for digit in number {
-// 	...
+// impl Iterator for RomanNumber {}
+// ```
+
+// ### Usage
+
+// Here is a program to test your function.
+
+// ```rust
+// use roman_numbers::RomanNumber;
+
+// fn main() {
+// 	let mut number = RomanNumber::from(15);
+
+// 	println!("{:?}", number);
+// 	println!("{:?}", number.next());
 // }
+// ```
 
-// 2. Borrowing immutably (this preserves the RomanNumber)
-// 	for digit in &number {
+// And its output
 
-// 	}
+// ```console
+// $ cargo run
+// RomanNumber([X, V])
+// Some(RomanNumber([X, V, I]))
+// $
+// ```
 
-// 3. Borrowing mutably (this allow you to modify the RomanNumber
-// without having to return the ownership)
-// 	for digit in &mut number {
-
-// 	}
-
-// Start with your research See https://doc.rust-lang.org/std/iter/trait.IntoIterator.html
-// https://doc.rust-lang.org/std/iter/index.html
-
-use roman_numbers::{RomanDigit, RomanNumber};
+pub use crate::RomanDigit::*;
+use roman_numbers_iterator::{RomanDigit, RomanNumber};
 
 fn main() {
-	let number = RomanNumber::from(15);
+	let mut number = RomanNumber::from(15);
 
-	for digit in &number {
-		println!("{:?}", digit);
-	}
 	println!("{:?}", number);
+	println!("{:?}", number.next());
 }
 
-#[allow(dead_code)]
-fn into_u32(n: RomanDigit) -> u32 {
-	use RomanDigit::*;
-	match n {
-		Nulla => 0,
-		I => 1,
-		V => 5,
-		X => 10,
-		L => 50,
-		C => 100,
-		D => 500,
-		M => 1000,
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[test]
+	fn roman_numbers_iterator_test() {
+		assert_eq!(
+			RomanNumber::from(1).0,
+			RomanNumber::from(0).next().unwrap().0
+		);
+		assert_eq!(
+			RomanNumber::from(9).0,
+			RomanNumber::from(8).next().unwrap().0
+		);
+		assert_eq!(
+			RomanNumber::from(6).0,
+			RomanNumber::from(5).next().unwrap().0
+		);
+		assert_eq!(
+			RomanNumber::from(14).0,
+			RomanNumber::from(13).next().unwrap().0
+		);
+		assert_eq!(
+			RomanNumber::from(34).0,
+			RomanNumber::from(33).next().unwrap().0
+		);
+		assert_eq!(
+			RomanNumber::from(50).0,
+			RomanNumber::from(49).next().unwrap().0
+		);
+		assert_eq!(
+			RomanNumber::from(200).0,
+			RomanNumber::from(199).next().unwrap().0
+		);
+		assert_eq!(
+			RomanNumber::from(500).0,
+			RomanNumber::from(499).next().unwrap().0
+		);
+		assert_eq!(
+			RomanNumber::from(1533).0,
+			RomanNumber::from(1532).next().unwrap().0
+		);
+		assert_eq!(
+			RomanNumber::from(2349).0,
+			RomanNumber::from(2348).next().unwrap().0
+		);
 	}
-}
-
-#[test]
-fn test_iter() {
-	let number = RomanNumber::from(15);
-
-	for digit in &number {
-		println!("{:?}", digit);
-	}
-	println!("{:?}", number);
-}
-
-#[test]
-fn test_into_iter() {
-	let number = RomanNumber::from(37);
-	let value: u32 = number.into_iter().map(|digit| into_u32(digit)).sum();
-	println!("value: {}", value);
-}
-
-#[test]
-fn test_iter_mut() {
-	let mut number = RomanNumber::from(22);
-
-	for digit in &mut number {
-		let value = into_u32(*digit);
-		*digit = dbg!(RomanNumber::from(value - 1)).0[0];
-	}
-	println!(
-		"Roman Number after increasing the each digit by 1 = {:?}",
-		number
-	);
 }
