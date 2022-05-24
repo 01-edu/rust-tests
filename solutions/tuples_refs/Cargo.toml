@@ -1,5 +1,5 @@
 [package]
-name = "tuples_test"
+name = "tuples_refs"
 version = "0.1.0"
 authors = ["Augusto <aug.ornelas@gmail.com>"]
 edition = "2021"
@@ -7,4 +7,3 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tuples = { path = "../../solutions/tuples"}

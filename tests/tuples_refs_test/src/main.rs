@@ -3,7 +3,7 @@
 // Its name and its last name as a string
 // Print the content of the tuple to stdout
 
-use tuples::*;
+use tuples_refs::*;
 
 fn main() {
 	let student = Student(20, "Pedro".to_string(), "Domingos".to_string());
