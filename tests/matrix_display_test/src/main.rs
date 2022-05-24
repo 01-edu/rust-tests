@@ -55,7 +55,6 @@ mod tests {
         test.assert_with_message(&[Box::new(matrix.clone())], matrix.to_string(), display);
     }
 
-
     #[test]
     fn test_m_by_n_matrix() {
         let matrix = Matrix::new(&[&[1, 2, 3, 4, 5], &[6, 7, 8, 9, 10], &[11, 12, 13, 14, 15]]);
