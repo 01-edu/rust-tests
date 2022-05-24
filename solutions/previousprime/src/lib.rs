@@ -1,11 +1,17 @@
 pub fn prev_prime(nbr: u64) -> u64 {
-    if is_prime(nbr) {
-        return nbr;
-    }
-    if nbr <= 0 {
+    if nbr <= 2 {
         return 0;
     }
-    prev_prime(nbr - 1)
+
+    let mut min_number = 2;
+
+    for i in 2..nbr {
+        if is_prime(i) {
+            min_number = i;
+        }
+    }
+
+    min_number
 }
 
 fn is_prime(nbr: u64) -> bool {
