@@ -69,4 +69,10 @@ mod tests {
             assert_eq!(String::from_utf8_lossy(&output.stdout), t.arguments.1);
         }
     }
+
+    #[test]
+    fn tests_with_nothing() {
+        let output = run(vec![]);
+        assert_eq!(String::from_utf8_lossy(&output.stdout), "");
+    }
 }
