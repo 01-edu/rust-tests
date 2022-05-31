@@ -36,7 +36,7 @@ fn match_brackets(s: &str) -> bool {
 
 fn main() {
     let arg1: Vec<String> = env::args().collect();
-    if arg1.len() == 1 {
+    if arg1.len() == 0 {
         println!("");
     } else {
         for (i, v) in arg1.iter().enumerate() {
