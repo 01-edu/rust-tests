@@ -2,30 +2,23 @@ use display_table::Table;
 
 fn main() {
 	let mut table = Table::new();
-	println!("{}", table);
 	table.headers = vec![
-		String::from("Model"),
-		String::from("Piece N°"),
-		String::from("In Stock"),
-		String::from("Description"),
+		"ID".to_string(),
+		"Car Brand".to_string(),
+		"Model".to_string(),
+		"Is Electric".to_string(),
 	];
 	table.add_row(&[
-		String::from("model 1"),
-		String::from("43-EWQE304"),
-		String::from("30"),
-		String::from("Piece for x"),
+		"1".to_string(),
+		"Tesla".to_string(),
+		"Model 3".to_string(),
+		"True".to_string(),
 	]);
 	table.add_row(&[
-		String::from("model 2"),
-		String::from("98-QCVX5433"),
-		String::from("100000000"),
-		String::from("-"),
-	]);
-	table.add_row(&[
-		String::from("model y"),
-		String::from("78-NMNH"),
-		String::from("60"),
-		String::from("nothing"),
+		"2".to_string(),
+		"Ford".to_string(),
+		"Focus".to_string(),
+		"False".to_string(),
 	]);
 	println!("{}", table);
 }
@@ -65,8 +58,49 @@ mod tests {
 
 	// An empty table must not display anything
 	#[test]
-	fn display_empty() {
+	fn display_table_with_no_headers() {
 		let table = Table::new();
 		assert_eq!(table.to_string(), "");
+	}
+
+	#[test]
+	fn display_table_with_headers_only() {
+		let mut table = Table::new();
+		table.headers = vec![
+			"Name".to_string(),
+			"Last Name".to_string(),
+			"ID Number".to_string(),
+		];
+		assert_eq!(
+			table.to_string(),
+			"| Name | Last Name | ID Number |\n|------+-----------+-----------|"
+		);
+	}
+
+	#[test]
+	fn display_second() {
+		let mut table = Table::new();
+		table.headers = vec![
+			"ID".to_string(),
+			"Car Brand".to_string(),
+			"Model".to_string(),
+			"Is Electric".to_string(),
+		];
+		table.add_row(&[
+			"1".to_string(),
+			"Tesla".to_string(),
+			"Model 3".to_string(),
+			"True".to_string(),
+		]);
+		table.add_row(&[
+			"2".to_string(),
+			"Ford".to_string(),
+			"Focus".to_string(),
+			"False".to_string(),
+		]);
+		assert_eq!(
+			table.to_string(),
+			"| ID | Car Brand |  Model  | Is Electric |\n|----+-----------+---------+-------------|\n| 1  |   Tesla   | Model 3 |    True     |\n| 2  |   Ford    |  Focus  |    False    |\n"
+		);
 	}
 }

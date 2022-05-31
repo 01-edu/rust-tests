@@ -43,7 +43,10 @@ impl fmt::Display for Table {
 		}
 
 		write!(f, "{:->1$}", "|", cols_len[cols_len.len() - 1] + 3)?;
-		write!(f, "\n")?;
+
+		if self.body.len() != 0 {
+			write!(f, "\n")?;
+		}
 		// |-------+--------+-------| for example for a table with
 		// three columns
 
