@@ -1,5 +1,5 @@
-mod error;
-pub use error::{ParseErr, ReadErr};
+mod err;
+pub use err::{ParseErr, ReadErr};
 pub use std::error::Error;
 
 use json::{parse, stringify};
