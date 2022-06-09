@@ -69,7 +69,7 @@ mod tests {
 			value: Rc::new(115),
 			ms: RefCell::new(vec![]),
 			correct: vec![
-				String::from("Info: you are using up too 40% of your quote"),
+				String::from("Info: you are using up to 40% of your quota"),
 				String::from(
 					"Warning: you have used up over 80% of your quota! Proceeds with precaution",
 				),
@@ -124,7 +124,7 @@ mod tests {
 		track.peek(&log.track_value);
 		assert_eq!(
 			log.mapped_messages.borrow().get("Info").unwrap(),
-			"you are using up too 83% of your quote"
+			"you are using up to 83% of your quota"
 		);
 
 		let _clone_test9 = log.track_value.clone();
@@ -132,7 +132,7 @@ mod tests {
 		track.peek(&log.track_value);
 		assert_eq!(
 			log.mapped_messages.borrow().get("Info").unwrap(),
-			"you are using up too 91% of your quote"
+			"you are using up to 91% of your quota"
 		);
 
 		let _clone_test10 = log.track_value.clone();
@@ -147,9 +147,9 @@ mod tests {
 	#[test]
 	fn test_module_usage_vector() {
 		let correct = vec![
-			"Info: you are using up too 40% of your quote",
+			"Info: you are using up to 40% of your quota",
 			"Warning: you have used up over 80% of your quota! Proceeds with precaution",
-			"Info: you are using up too 80% of your quote",
+			"Info: you are using up to 80% of your quota",
 			"Error: you are over your quota!",
 		];
 		let log = Worker::new(1);
