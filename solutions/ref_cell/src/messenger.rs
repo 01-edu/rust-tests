@@ -42,7 +42,7 @@ where
     pub fn peek(&self, value: &Rc<usize>) {
         let percentage_of_max = convert_percentage(self.max, Rc::strong_count(&value));
         self.logger.info(&format!(
-            "Info: you are using up too {percentage_of_max}% of your quote"
+            "Info: you are using up to {percentage_of_max}% of your quota"
         ))
     }
 }

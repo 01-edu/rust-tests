@@ -1,111 +1,123 @@
 /*
-## RefCell
+## ref_cell
 
 ### Instructions
 
-### 1º part
+#### First part (messenger.rs)
 
-Create a module called `messenger`. This module will be able to inform a user of how much references of a given value he is using.
-The main objective for this module is to limit how many times a value is referenced.
+Create a module named `messenger`. This module will be able to inform a user of how many references of a given value they are using.
+The main objective of this module is to limit how many times a value is referenced.
 
-For the module you must create the following:
+For this module the following must be created:
 
-- A trait `Logger` that implements three functions: `warning`, `info`, `error`. All function should receive a reference to themselves and a string literal.
+Implement `Logger`: a trait which implements the following three functions:
 
 ```rust
-    fn warning(&self, msg: &str);
-    fn info(&self, msg: &str);
-    fn error(&self, msg: &str);
+fn warning(&self, msg: &str);
+fn info(&self, msg: &str);
+fn error(&self, msg: &str);
 ```
 
-- A structure called `Tracker`, that must have the fields: `logger` being a reference to the Logger, `value` being the count of how many times the value was referenced,
-  `max` being the max count of references the actual value can achieve.
+Implement the `Tracker` structure with the following fields:
 
-- An implementation of three functions that are associated to the `Tracker` structure:
-  - `new` that will initialize the structure
-  - `set_value` that sets the value to the `Tracker` structure and writes to the trait functions. This should be done comparing the **max** and the number of referenced of the actual value.
-    If the percentage is equal or greater to 100% of the limit usage, it should write "Error: you are over your quota!" to the `error` function
-    If the percentage is equal or greater to 70% of the limit usage, it should write ("Warning: you have used up over {}% of your quota! Proceeds with precaution", <calculated_percentage>)" to the `warning` function
-  - `peek` that will take a peek of how much usage the variable already has. It should write ("Info: you are using up too {}% of your quote", <calculated_percentage>) to the `info` function
+- `logger`: a reference to `Logger`.
+- `value`: the count of how many times the value was referenced. It should not exceed `max`.
+- `max`: the max count of references.
 
-### 2ª part
+Add the following associated functions to `Tracker`:
 
-Afterwards you must use the module `messenger` and create the following:
+- `new`: that initializes the structure.
+- `set_value`: that sets the `value`. It should compare the number of references to `value` and `max` to work out the percentage used. It should write to the following traits if it exceeds the specified usage percentage:
+  - percentage >= 100%: `"Error: you are over your quota!"` should be written to `error`.
+  - percentage >= 70% and percentage < 100%: `"Warning: you have used up over X% of your quota! Proceeds with precaution"` should be written to `warning`, where `X` should be replaced with the calculated percentage.
+- `peek`: that will take a peek at how much usage the variable already has. It should write `"Info: you are using up to X% of your quota"` to the `info` trait function. `X` should be replaced with the calculated percentage.
 
-- A structure `Worker` that has the fields:
-  -`track_value` this will be the value that will be tracked by the tracker.
-  - `mapped_messages` that will have the latest messages. This must be a HashMap with the key being the type of message
-  sent by the logger (info, error or warning) and the value being the message
-  - `all_messages` that will be a vector of all messages sent.
+### Second part (lib.rs)
 
-- A `new` function that initializes the structure `Worker`
+Now that you've created `messenger`, you can now create the following:
 
-- To use the trait `Logger` you must implement it for the Worker structure. Each function (warning, error and info) must insert the message to the
-  respective fields of the structure Worker.
+Create the `Worker` structure with the following fields:
 
-You must use **interior mutability**, this means it must be able to mutate data even when there are immutable references to that data.
+- `track_value`: which is the value that will be tracked by the tracker.
+- `mapped_messages`: that will store the latest messages from the `Logger` trait functions. This will be a HashMap. The key will represent the type of message (`info`, `error` or `warning`), and the value will be the actual message.
+- `all_messages`: that will be a vector of **all** messages sent.
 
-So the user doesn't need to use the keyword `mut` (tip: RefCell)
+Create the following associated functions for `Worker`:
 
-### Example
+- `new`: that initializes a `Worker` structure.
+- `Logger`: to use the trait `Logger`, you must implement it for the `Worker` structure. Each function (`warning`, `error` and `info`) must insert the message to the respective field of the `Worker` structure.
+
+You must use **interior mutability**, this means it must be possible to mutate data, even when there are immutable references to that data. Consequently, the user will not need to use the keyword `mut`. _tip:_ RefCell.
+
+### Usage
+
+Here is a program to test your function,
 
 ```rust
+use ref_cell::*;
+
 fn main() {
     // initialize the worker
-    let Logger = Worker::new(1);
+    let logger = Worker::new(1);
 
     // initialize the tracker, with the max number of
     // called references as 10
-    let track = Tracker::new(&Logger, 10);
+    let track = Tracker::new(&logger, 10);
 
-    let _a = Logger.track_value.clone();    // |\
-    let _a1 = Logger.track_value.clone();   // | -> increase the Rc to 4 references
-    let _a2 = Logger.track_value.clone();   // |/
+    let _a = logger.track_value.clone();    // |\
+    let _a1 = logger.track_value.clone();   // | -> increase the Rc to 4 references
+    let _a2 = logger.track_value.clone();   // |/
 
     // take a peek of how much we already used from our quota
-    track.peek(&Logger.track_value);
+    track.peek(&logger.track_value);
 
-    let _b = Logger.track_value.clone();  // |\
-    let _b1 = Logger.track_value.clone(); // |  -> increase the Rc to 8 references
-    let _b2 = Logger.track_value.clone(); // | /
-    let _b3 = Logger.track_value.clone(); // |/
-
-    // this will set the value and making a verification of
-    // how much we already used of our quota
-    track.set_value(&Logger.track_value);
-
-    let _c = Logger.track_value.clone(); // | -> increase the Rc to 9 references
+    let _b = logger.track_value.clone();  // |\
+    let _b1 = logger.track_value.clone(); // |  -> increase the Rc to 8 references
+    let _b2 = logger.track_value.clone(); // | /
+    let _b3 = logger.track_value.clone(); // |/
 
     // this will set the value and making a verification of
     // how much we already used of our quota
-    track.set_value(&Logger.track_value);
+    track.set_value(&logger.track_value);
 
-    let _c1 = Logger.track_value.clone(); // | -> increase the Rc to 10 references, this will be the limit
+    let _c = logger.track_value.clone(); // | -> increase the Rc to 9 references
 
-    track.set_value(&Logger.track_value);
+    // this will set the value and making a verification of
+    // how much we already used of our quota
+    track.set_value(&logger.track_value);
 
-    for (k ,v) in Logger.mapped_messages.into_inner() {
+    let _c1 = logger.track_value.clone(); // | -> increase the Rc to 10 references, this will be the limit
+
+    track.set_value(&logger.track_value);
+
+    for (k ,v) in logger.mapped_messages.into_inner() {
         println!("{:?}", (k ,v));
     }
-    // output:
-    // ("Info", "you are using up too 40% of your quote")
-    // ("Warning", "you have used up over 90% of your quota! Proceeds with precaution")
-    // ("Error", "you are over your quota!")
-
-    println!("{:?}", Logger.all_messages.into_inner());
-    // [
-    //   "Info: you are using up too 40% of your quote",
-    //   "Warning: you have used up over 80% of your quota! Proceeds with precaution",
-    //   "Warning: you have used up over 90% of your quota! Proceeds with precaution",
-    //   "Error: you are over your quota!"
-    // ]
-
+    println!("{:?}", logger.all_messages.into_inner());
 }
 ```
+
+And its output:
+
+```console
+$ cargo run
+("Info", "you are using up to 40% of your quota")
+("Warning", "you have used up over 90% of your quota! Proceeds with precaution")
+("Error", "you are over your quota!")
+[
+  "Info: you are using up to 40% of your quota",
+  "Warning: you have used up over 80% of your quota! Proceeds with precaution",
+  "Warning: you have used up over 90% of your quota! Proceeds with precaution",
+  "Error: you are over your quota!"
+]
+$
+```
+
 ### Notions
 
-- https://doc.rust-lang.org/std/cell/struct.RefCell.html
-- https://doc.rust-lang.org/std/rc/struct.Rc.html
+- [std::cell::RefCell](https://doc.rust-lang.org/std/cell/struct.RefCell.html)
+- [Struct std::rc::Rc](https://doc.rust-lang.org/std/rc/struct.Rc.html)
+
 
 */
 
@@ -177,7 +189,7 @@ mod tests {
             value: Rc::new(115),
             ms: RefCell::new(vec![]),
             correct: vec![
-              String::from("Info: you are using up too 40% of your quote"),
+              String::from("Info: you are using up to 40% of your quota"),
               String::from("Warning: you have used up over 80% of your quota! Proceeds with precaution"),
               String::from("Error: you are over your quota!")
             ],
@@ -222,12 +234,12 @@ mod tests {
 
         // info: 83%
         track.peek(&log.track_value);
-        assert_eq!(log.mapped_messages.borrow().get("Info").unwrap(), "you are using up too 83% of your quote");
+        assert_eq!(log.mapped_messages.borrow().get("Info").unwrap(), "you are using up to 83% of your quota");
 
         let _clone_test9 = log.track_value.clone();
         // info: 91%
         track.peek(&log.track_value);
-        assert_eq!(log.mapped_messages.borrow().get("Info").unwrap(), "you are using up too 91% of your quote");
+        assert_eq!(log.mapped_messages.borrow().get("Info").unwrap(), "you are using up to 91% of your quota");
 
         let _clone_test10 = log.track_value.clone();
         // error: passed the quota
@@ -238,9 +250,9 @@ mod tests {
     #[test]
     fn test_module_usage_vector() {
         let correct = vec![
-            "Info: you are using up too 40% of your quote",
+            "Info: you are using up to 40% of your quota",
             "Warning: you have used up over 80% of your quota! Proceeds with precaution",
-            "Info: you are using up too 80% of your quote", "Error: you are over your quota!"
+            "Info: you are using up to 80% of your quota", "Error: you are over your quota!"
         ];
         let log = Worker::new(1);
         let track = Tracker::new(&log, 5);
