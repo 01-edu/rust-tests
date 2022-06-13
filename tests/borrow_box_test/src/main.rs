@@ -1,7 +1,7 @@
 use borrow_box::*;
 
 fn main() {
-    let mut game = Game::new(0, String::from("Joao"), String::from("Susana"), 5);
+    let mut game = GameSession::new(0, String::from("Joao"), String::from("Susana"), 5);
     println!("{:?}", game.read_winner());
     // output : ("Same score! tied", 0)
 
@@ -30,20 +30,20 @@ fn main() {
 mod tests {
     use super::*;
 
-    fn create_games() -> Vec<Box<Game>> {
+    fn create_games() -> Vec<Box<GameSession>> {
         vec![
-            Game::new(0, String::from("player1"), String::from("player2"), 1),
-            Game::new(1, String::from("Alice"), String::from("Mark"), 3),
-            Game::new(2, String::from("Jack"), String::from("Miller"), 5)
+            GameSession::new(0, String::from("player1"), String::from("player2"), 1),
+            GameSession::new(1, String::from("Alice"), String::from("Mark"), 3),
+            GameSession::new(2, String::from("Jack"), String::from("Miller"), 5)
         ]
     }
 
     #[test]
     fn test_create() {
         let games = create_games();
-        assert_eq!(*games[0], Game {id: 0, p1: (String::from("player1"), 0), p2: (String::from("player2"), 0), nbr_of_games: 1});
-        assert_eq!(*games[1], Game {id: 1, p1: (String::from("Alice"), 0), p2: (String::from("Mark"), 0), nbr_of_games: 3});
-        assert_eq!(*games[2], Game {id: 2, p1: (String::from("Jack"), 0), p2: (String::from("Miller"), 0), nbr_of_games: 5});
+        assert_eq!(*games[0], GameSession {id: 0, p1: (String::from("player1"), 0), p2: (String::from("player2"), 0), nbr_of_games: 1});
+        assert_eq!(*games[1], GameSession {id: 1, p1: (String::from("Alice"), 0), p2: (String::from("Mark"), 0), nbr_of_games: 3});
+        assert_eq!(*games[2], GameSession {id: 2, p1: (String::from("Jack"), 0), p2: (String::from("Miller"), 0), nbr_of_games: 5});
     }
 
     #[test]
@@ -70,13 +70,25 @@ mod tests {
 
     #[test]
     fn test_delete() {
-        let game = Game::new(0, String::from("Alice"), String::from("Mark"), 3);
-        let game1 = Game::new(23, String::from("Jack"), String::from("Miller"), 1);
+        let game = GameSession::new(0, String::from("Alice"), String::from("Mark"), 3);
+        let game1 = GameSession::new(23, String::from("Jack"), String::from("Miller"), 1);
 
         assert_eq!(game.delete(), String::from("game deleted: id -> 0"));
         assert_eq!(game1.delete(), String::from("game deleted: id -> 23"));
     }
 
+
+    #[test]
+    fn test_different_name() {
+        let mut game = GameSession::new(0, String::from("Alice"), String::from("Mark"), 3);
+
+        game.update_score(String::from("Mark"));
+        assert_eq!(game.read_winner(), (String::from("Mark"), 1));
+
+        game.update_score(String::from("Miller"));
+        assert_eq!(game.read_winner(), (String::from("Mark"), 1));
+    }
+    
     // #[test]
     // #[should_panic]
     // fn test_delete_ownership() {

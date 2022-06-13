@@ -3,20 +3,19 @@
 
 ### Instructions
 
-You will have to create a **CRUD** functionality. Therefore creating the following functions :
+Game time.
 
-- `new`, that receives two players and initializes them with a name and a score. This functions should
-  return the structure wrapped in a Box.
+You will implement some **CRUD** functionality for a game session. You will need to implement the `GameSession` structure with the following associated functions:
 
-- `read_winner`, returns a tuple with the name and the score of the player who is winning.
-  In case none of the players are winning, it should return the same tuple with the string "Same score! tied" and the tied score.
+- `new`: which initializes a game session state with player names and some other information. This function returns the structure wrapped in a `Box`.
 
-  - `update_score`, that receives the name of a player.
-  This function should increment the score of the player. The score should only be increased if it does not pass the `nbr_of_games`.
-  Example: if the nbr_of_games is 3 then the game should be best out of three. So if one play as 2 wins then
-  he is the winner and the function should not increase the score anymore for either players.
+- `read_winner`: which returns a tuple with the name and score of the player who is currently winning. In the case that no player is winning, it should return the same tuple with the string `"Same score! tied"` and the tied score.
 
-- `delete`, that takes the ownership of the boxed game and returning a string : "Game deleted: id -> 0".
+- `update_score`: which receives the name of a player, and increments their score. The `nbr_of_games` should also be incremented. This function should **do nothing** if the the game is already finished.
+
+- `delete`: which takes ownership of the boxed game and returns a string: `"game deleted: id -> 0"`.
+
+> If `nbr_of_games` is 5, then it is "best out of 5", and no more than 5 games can be played. If some player has a score of 3, then the game is also finished. This is because there is an insufficient number of remaining games for the trailing player to catch up.
 
 ### Notions
 
@@ -25,17 +24,17 @@ You will have to create a **CRUD** functionality. Therefore creating the followi
 */
 
 #[derive(Debug, Clone, Eq, PartialEq)]
-pub struct Game {
+pub struct GameSession {
     pub id: u32,
     pub p1: (String, u16),
     pub p2: (String, u16),
     pub nbr_of_games: u16
 }
 
-impl Game {
+impl GameSession {
     // create the box
-    pub fn new(i: u32, pl1: String, pl2: String, n: u16) -> Box<Game> {
-        Box::new(Game { id: i, p1: (pl1, 0), p2: (pl2, 0), nbr_of_games: n })
+    pub fn new(i: u32, pl1: String, pl2: String, n: u16) -> Box<GameSession> {
+        Box::new(GameSession { id: i, p1: (pl1, 0), p2: (pl2, 0), nbr_of_games: n })
     }
 
     // read from the box using the reference `&`
@@ -98,20 +97,20 @@ fn main() {
 mod tests {
     use super::*;
 
-    fn create_games() -> Vec<Box<Game>> {
+    fn create_games() -> Vec<Box<GameSession>> {
         vec![
-            Game::new(0, String::from("player1"), String::from("player2"), 1),
-            Game::new(1, String::from("Alice"), String::from("Mark"), 3),
-            Game::new(2, String::from("Jack"), String::from("Miller"), 5)
+            GameSession::new(0, String::from("player1"), String::from("player2"), 1),
+            GameSession::new(1, String::from("Alice"), String::from("Mark"), 3),
+            GameSession::new(2, String::from("Jack"), String::from("Miller"), 5)
         ]
     }
 
     #[test]
     fn test_create() {
         let games = create_games();
-        assert_eq!(*games[0], Game {id: 0, p1: (String::from("player1"), 0), p2: (String::from("player2"), 0), nbr_of_games: 1});
-        assert_eq!(*games[1], Game {id: 1, p1: (String::from("Alice"), 0), p2: (String::from("Mark"), 0), nbr_of_games: 3});
-        assert_eq!(*games[2], Game {id: 2, p1: (String::from("Jack"), 0), p2: (String::from("Miller"), 0), nbr_of_games: 5});
+        assert_eq!(*games[0], GameSession {id: 0, p1: (String::from("player1"), 0), p2: (String::from("player2"), 0), nbr_of_games: 1});
+        assert_eq!(*games[1], GameSession {id: 1, p1: (String::from("Alice"), 0), p2: (String::from("Mark"), 0), nbr_of_games: 3});
+        assert_eq!(*games[2], GameSession {id: 2, p1: (String::from("Jack"), 0), p2: (String::from("Miller"), 0), nbr_of_games: 5});
     }
 
     #[test]
@@ -138,8 +137,8 @@ mod tests {
 
     #[test]
     fn test_delete() {
-        let game = Game::new(0, String::from("Alice"), String::from("Mark"), 3);
-        let game1 = Game::new(23, String::from("Jack"), String::from("Miller"), 1);
+        let game = GameSession::new(0, String::from("Alice"), String::from("Mark"), 3);
+        let game1 = GameSession::new(23, String::from("Jack"), String::from("Miller"), 1);
 
         assert_eq!(game.delete(), String::from("game deleted: id -> 0"));
         assert_eq!(game1.delete(), String::from("game deleted: id -> 23"));
