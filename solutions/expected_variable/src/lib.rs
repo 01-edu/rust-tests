@@ -3,13 +3,12 @@
 
 ### Instructions
 
-Create a function `expected_variable` that receives two strings: one to be evaluated and the other to be compared to (expected) and returns an Option. Every comparison should be case insensitive.
+Create a **function** named `expected_variable` that receives a string to compare and an expected string. It should return an `Option`. Every comparison should be case `insensitive`.
 
-If the evaluated string is not in camel case or in snake case according to the `case` crate that you should use, `expected_variable` returns None.
-Otherwise the evaluated string should be compared to the expected string using the `edit_distance` function that you did in one of the previous quests.
+If the compared string is **not** in camel case or snake case, `expected_variable` returns `None`. You can use the `case` crate to figure that out. Otherwise, the compared string should be compared to the expected string using the `edit_distance` **function** that you have already created.
 
-If the result of `edit_distance` has more than 50% of 'alikeness' to the expected string, considering the length of the expected string and the result of `edit_distance`, return that same percentage with a '%' symbol in front of the number.
-Otherwise `expected_value` should return None.
+If the result of `edit_distance` has more than 50% alikeness to the expected string, considering the length of the expected string and the result of `edit_distance`, the function should return that value with a `'%'` symbol after the number.
+Otherwise `expected_value` should return `None`.
 
 Example:
 
@@ -80,6 +79,27 @@ mod tests {
         );
 
         result = expected_variable("do-not-use-dashes", "do-not-use-dashes");
+        assert!(
+            result.is_none(),
+            "Should have been None and not, {:?}",
+            result
+        );
+
+        result = expected_variable("Not a variable case", "needs to fail");
+        assert!(
+            result.is_none(),
+            "Should have been None and not, {:?}",
+            result
+        );
+
+        result = expected_variable("This should be None", "needs to fail");
+        assert!(
+            result.is_none(),
+            "Should have been None and not, {:?}",
+            result
+        );
+
+        result = expected_variable("Do not use spaces", "Do not use spaces");
         assert!(
             result.is_none(),
             "Should have been None and not, {:?}",
