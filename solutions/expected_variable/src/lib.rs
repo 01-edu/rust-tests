@@ -39,20 +39,21 @@ fn main() {
 use case::CaseExt;
 use edit_distance::edit_distance;
 
-pub fn expected_variable(evaluated: &str, expected: &str) -> Option<String> {
-    let (evaluated1, correct1) = (evaluated.to_lowercase(), expected.to_lowercase());
+pub fn expected_variable(compare: &str, expected: &str) -> Option<String> {
+    let compare_aux = compare.to_lowercase();
+    let expected_aux = expected.to_lowercase();
 
-    if (evaluated == evaluated.to_camel_lowercase()
-        || evaluated == evaluated.to_camel()
-        || evaluated1 == evaluated1.to_snake())
-        && !evaluated1.contains("-")
-        && !evaluated1.contains(" ")
+    if (compare_aux.to_ascii_lowercase() == compare_aux
+        || compare_aux.to_camel_lowercase() == compare_aux)
+        && !compare_aux.contains("-")
+        && !compare_aux.contains(" ")
     {
-        let distance = edit_distance(&evaluated1, &correct1) as i64;
+        let distance = edit_distance(&compare_aux, &expected_aux) as i64;
 
         if distance == 0 {
             return Some("100%".to_string());
         }
+
         let percentage = 100 - (distance * 100 / expected.len() as i64);
         if percentage >= 50 {
             let mut res = percentage.to_string();
@@ -60,6 +61,7 @@ pub fn expected_variable(evaluated: &str, expected: &str) -> Option<String> {
             return Some(res);
         }
     }
+
     None
 }
 
@@ -82,7 +84,6 @@ mod tests {
             result.is_none(),
             "Should have been None and not, {:?}",
             result
-
         );
     }
 
