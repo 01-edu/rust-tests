@@ -56,6 +56,27 @@ mod tests {
 			"Should have been None and not, {:?}",
 			result
 		);
+
+		result = expected_variable("Not a variable case", "needs to fail");
+		assert!(
+			result.is_none(),
+			"Should have been None and not, {:?}",
+			result
+		);
+
+		result = expected_variable("This should be None", "needs to fail");
+		assert!(
+			result.is_none(),
+			"Should have been None and not, {:?}",
+			result
+		);
+
+		result = expected_variable("Do not use spaces", "Do not use spaces");
+		assert!(
+			result.is_none(),
+			"Should have been None and not, {:?}",
+			result
+		);
 	}
 
 	#[test]
