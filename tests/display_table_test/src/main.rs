@@ -52,7 +52,7 @@ mod tests {
 		]);
 		assert_eq!(
 			table.to_string(),
-			"|   Name   | Last Name |   ID Number   |\n|----------+-----------+---------------|\n| Ackerley |  Fillips  |   123456789   |\n| Adamaris |  Fillips  | 1111123456789 |\n| Ackerley |  Fillips  |   123456789   |"
+			"|   Name   | Last Name |   ID Number   |\n|----------+-----------+---------------|\n| Ackerley |  Fillips  |   123456789   |\n| Adamaris |  Fillips  | 1111123456789 |\n| Ackerley |  Fillips  |   123456789   |\n"
 		);
 	}
 
@@ -73,7 +73,7 @@ mod tests {
 		];
 		assert_eq!(
 			table.to_string(),
-			"| Name | Last Name | ID Number |\n|------+-----------+-----------|"
+			"| Name | Last Name | ID Number |\n|------+-----------+-----------|\n"
 		);
 	}
 
