@@ -1,12 +1,7 @@
 use unwrap_or_expect::*;
 
 fn main() {
-    println!("{:?}", unwrap_or(vec![1, 3, 2, 5]));
-    println!("{:?}", unwrap_or(vec![1, 3, 5]));
-    println!("{:?}", unwrap_err(vec![1, 3, 2, 5]));
-    println!("{:?}", unwrap(vec![1, 3, 5]));
-    println!("{:?}", unwrap_or_else(vec![1, 3, 5]));
-    println!("{:?}", unwrap_or_else(vec![3, 2, 6, 5]));
+
 }
 
 #[cfg(test)]
@@ -14,36 +9,51 @@ mod tests {
     use super::*;
 
     #[test]
-    #[should_panic(expected = "ERROR : (\"There is a even value in the vector!\", [2])")]
+    #[should_panic(expected = "ERROR: program stops")]
     fn test_expect() {
-        expect(vec![1, 3, 2, 5]);
+        fetch_data(Err(String::new()), Security::High);
     }
     #[test]
-    #[should_panic(expected = "called `Result::unwrap()` on an `Err` value: (\"There is a even value in the vector!\", [2])")]
+    #[should_panic(expected = "called `Result::unwrap()` on an `Err` value: \"ERROR CRITICAL\"")]
     fn test_unwrap() {
-        unwrap(vec![1, 3, 2, 5]);
+        fetch_data(Err("ERROR CRITICAL".to_string()), Security::Unknown);
     }
     #[test]
-    #[should_panic]
+    #[should_panic(expected = "malicious_server.com")]
     fn test_unwrap_err() {
-        unwrap_err(vec![1, 3, 5]);
+        fetch_data(Ok("malicious_server.com".to_string()), Security::BlockServer);
     }
     #[test]
     fn test_unwrap_or() {
-        assert_eq!(unwrap_or(vec![1, 3, 2, 5]), vec![]);
+        assert_eq!(
+            fetch_data(Err(String::new()), Security::Medium),
+            "WARNING: check the server".to_string()
+        );
     }
     #[test]
     fn test_unwrap_or_else() {
-        assert_eq!(unwrap_or_else(vec![1, 3, 5]), vec![2, 4, 6]);
-        assert_eq!(unwrap_or_else(vec![6, 8, 3, 2, 5, 4]), vec![6, 8, 2, 4]);
+        assert_eq!(
+            fetch_data(Err("another_server.com".to_string()), Security::Low),
+            "Not found: another_server.com".to_string()
+        );
     }
     #[test]
     fn test_ok() {
-        assert_eq!(expect(vec![1, 3, 5]), vec![2, 4, 6]);
-        assert_eq!(unwrap_or(vec![1, 3, 5]), vec![2, 4, 6]);
-        assert_eq!(unwrap_or_else(vec![1, 3, 5]), vec![2, 4, 6]);
-        assert_eq!(unwrap(vec![1, 3, 5]), vec![2, 4, 6]);
-        assert_eq!(unwrap_err(vec![1, 2, 3, 4, 5]).0, "There is a even value in the vector!");
-        assert_eq!(unwrap_err(vec![1, 2, 3, 4, 5]).1, vec![2, 4]);
+        assert_eq!(
+            fetch_data(Ok("server.com".to_string()), Security::Low),
+            "server.com"
+        );
+        assert_eq!(
+            fetch_data(Ok("server.com".to_string()), Security::Medium),
+            "server.com"
+        );
+        assert_eq!(
+            fetch_data(Ok("server.com".to_string()), Security::High),
+            "server.com"
+        );
+        assert_eq!(
+            fetch_data(Ok("server.com".to_string()), Security::Unknown),
+            "server.com"
+        );
     }
 }
