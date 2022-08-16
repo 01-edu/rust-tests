@@ -38,8 +38,7 @@ fn main() {
 	};
 
 	println!(
-		"It took you {} {} to get the right answer",
-		trials,
-		if trials == 1 { "trial" } else { "trials" }
+		"Number of trials: {}",
+		trials
 	);
 }
