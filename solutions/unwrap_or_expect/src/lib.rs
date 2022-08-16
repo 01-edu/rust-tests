@@ -1,79 +1,93 @@
 /*
-## unwrap
+## unwrap_or_expect
 
 ### Instructions
 
-It will be given a function called **odd_to_even**, that returns an `Result`. If its an error it will
-return a tuple with a string, indicating the error, and a vector with the elements that justifies the error
+Create a **function** named **fetch_data** which has two arguments:
+- `server`: Which is a `Result` having the server url or an error message inside.
+- `security_level`: Which is an `enum` defining the behavior of the function in case of errors.
 
-The objective is to execute the `odd_to_even` function and handle the error given by it
+The `security_level` will work as follow:
+- `Unknown`: The function panics without printing any custom message.
+- `High`: The function panics and prints the error message `ERROR: program stops`.
+- `Medium`: The function returns the string `WARNING: check the server`.
+- `Low`: The function returns the string `Not found: [SERVER_URL]`.
+- `BlockServer`: The function will panic only if the `Result` value is `Ok` and the error message will be the string contained in `Ok`.
 
-Create the following functions that receives a vector :
+To return from **fetch_data** you must use `expect`, `unwrap_or`, `unwrap_err`, `unwrap` and `unwrap_or_else`.
 
-  - `expect` that returns the error adding the sting "ERROR "
-  - `unwrap_or` that in case of error returns an empty vector
-  - `unwrap_err` that returns error if its `Ok` and returns the
-     string containing the error in case of `Err`
-  - `unwrap` that unwraps the `Result`
-  - `unwrap_or_else` that in case of error returns a the 
-    vector that justifies the error
-
-### Example
+### Expected Functions
 
 ```rust
-fn main() {
-    // println!("{:?}", expect(vec![1, 3, 2, 5]));
-    println!("{:?}", unwrap_or(vec![1, 3, 2, 5]));
-    // output : []
-    println!("{:?}", unwrap_or(vec![1, 3, 5]));
-    // output : [2, 4, 6]
-    println!("{:?}", unwrap_err(vec![1, 3, 2, 5]));
-    // output : ("There is a even value in the vector!", [2])
-    // println!("{:?}", unwrap_err(vec![1, 3, 5]));
-    println!("{:?}", unwrap(vec![1, 3, 5]));
-    // output : [2, 4, 6]
-    // println!("{:?}", unwrap(vec![1, 3, 2, 5]));
-    println!("{:?}", unwrap_or_else(vec![1, 3, 5]));
-    // output : [2, 4, 6]
-    println!("{:?}", unwrap_or_else(vec![3, 2, 6, 5]));
-    // output : [2, 6]
+pub enum Security {
+	Unknown,
+	High,
+	Medium,
+	Low,
+	BlockServer,
+}
+
+pub fn fetch_data(server: Result<String, String>, security_level: Security) -> String {
+
 }
 ```
+
+### Usage
+
+Here is a program to test your function:
+
+```rust
+use unwrap_or_expect::*;
+
+fn main() {
+    println!("{}", fetch_data(Ok("server1.com".to_string()), Security::Medium));
+    println!("{}", fetch_data(Err(String::new()), Security::Medium));
+    println!("{}", fetch_data(Err("server2.com".to_string()), Security::Low));
+
+    // Panics with no custom message
+    // fetch_data(Err("ERROR CRITICAL".to_string()), Security::Unknown);
+
+    // Panics with the message "ERROR: program stops"
+    // fetch_data(Err(String::new()), Security::High);
+
+    // Panics with the message "malicious_server.com"
+    // fetch_data(Ok("malicious_server.com".to_string()), Security::BlockServer);
+}
+```
+
+And its output:
+
+```console
+server1.com
+WARNING: check the server
+Not found: server2.com
+$
+```
+
 ### Notions
 
-- https://doc.rust-lang.org/std/?search=unwrap
+- [Error Handling](https://doc.rust-lang.org/book/ch09-00-error-handling.html)
+- [Unwrap keywords](https://doc.rust-lang.org/std/?search=unwrap)
 */
 
-pub fn odd_to_even(data: Vec<u32>) -> Result<Vec<u32>, (String, Vec<u32>)> {
-    let mut a = Vec::new();
-    a.extend(data.iter().filter(|&value| value % 2 == 0));
-    if a.len() != 0 {
-        return Err(("There is a even value in the vector!".to_string(), a));
+pub enum Security {
+	Unknown,
+	High,
+	Medium,
+	Low,
+	BlockServer,
+}
+
+pub fn fetch_data(server: Result<String, String>, security_level: Security) -> String {
+    match security_level {
+        Security::Unknown => server.unwrap(),
+        Security::High => server.expect("ERROR: program stops"),
+        Security::Medium => server.unwrap_or("WARNING: check the server".to_string()),
+        Security::Low => server.unwrap_or_else(|url| {
+            "Not found: ".to_string() + url.as_str()
+        }),
+        Security::BlockServer => server.unwrap_err()
     }
-    a.extend(data.iter().map(|&value| {
-        value + 1
-    }));
-    Ok(a)
-}
-
-pub fn expect(v: Vec<u32>) -> Vec<u32> {
-      odd_to_even(v).expect("ERROR ")
-}
-
-pub fn unwrap_or(v: Vec<u32>) -> Vec<u32> {
-        odd_to_even(v).unwrap_or(vec![])
-}
-
-pub fn unwrap_err(v: Vec<u32>) -> (String, Vec<u32>) {
-        odd_to_even(v).unwrap_err()
-}
-
-pub fn unwrap(v: Vec<u32>) -> Vec<u32> {
-        odd_to_even(v).unwrap()
-}
-
-pub fn unwrap_or_else(v: Vec<u32>) -> Vec<u32> {
-        odd_to_even(v).unwrap_or_else(|(_, x)| x)
 }
 
 #[cfg(test)]
@@ -81,36 +95,51 @@ mod tests {
     use super::*;
 
     #[test]
-    #[should_panic(expected = "ERROR : (\"There is a even value in the vector!\", [2])")]
+    #[should_panic(expected = "ERROR: program stops")]
     fn test_expect() {
-        expect(vec![1, 3, 2, 5]);
+        fetch_data(Err(String::new()), Security::High);
     }
     #[test]
-    #[should_panic(expected = "called `Result::unwrap()` on an `Err` value: (\"There is a even value in the vector!\", [2])")]
+    #[should_panic(expected = "called `Result::unwrap()` on an `Err` value: \"ERROR CRITICAL\"")]
     fn test_unwrap() {
-        unwrap(vec![1, 3, 2, 5]);
+        fetch_data(Err("ERROR CRITICAL".to_string()), Security::Unknown);
     }
     #[test]
-    #[should_panic]
+    #[should_panic(expected = "malicious_server.com")]
     fn test_unwrap_err() {
-        unwrap_err(vec![1, 3, 5]);
+        fetch_data(Ok("malicious_server.com".to_string()), Security::BlockServer);
     }
     #[test]
     fn test_unwrap_or() {
-        assert_eq!(unwrap_or(vec![1, 3, 2, 5]), vec![]);
+        assert_eq!(
+            fetch_data(Err(String::new()), Security::Medium),
+            "WARNING: check the server".to_string()
+        );
     }
     #[test]
     fn test_unwrap_or_else() {
-        assert_eq!(unwrap_or_else(vec![1, 3, 5]), vec![2, 4, 6]);
-        assert_eq!(unwrap_or_else(vec![6, 8, 3, 2, 5, 4]), vec![6, 8, 2, 4]);
+        assert_eq!(
+            fetch_data(Err("another_server.com".to_string()), Security::Low),
+            "Not found: another_server.com".to_string()
+        );
     }
     #[test]
     fn test_ok() {
-        assert_eq!(expect(vec![1, 3, 5]), vec![2, 4, 6]);
-        assert_eq!(unwrap_or(vec![1, 3, 5]), vec![2, 4, 6]);
-        assert_eq!(unwrap_or_else(vec![1, 3, 5]), vec![2, 4, 6]);
-        assert_eq!(unwrap(vec![1, 3, 5]), vec![2, 4, 6]);
-        assert_eq!(unwrap_err(vec![1, 2, 3, 4, 5]).0, "There is a even value in the vector!");
-        assert_eq!(unwrap_err(vec![1, 2, 3, 4, 5]).1, vec![2, 4]);
+        assert_eq!(
+            fetch_data(Ok("server.com".to_string()), Security::Low),
+            "server.com"
+        );
+        assert_eq!(
+            fetch_data(Ok("server.com".to_string()), Security::Medium),
+            "server.com"
+        );
+        assert_eq!(
+            fetch_data(Ok("server.com".to_string()), Security::High),
+            "server.com"
+        );
+        assert_eq!(
+            fetch_data(Ok("server.com".to_string()), Security::Unknown),
+            "server.com"
+        );
     }
 }
