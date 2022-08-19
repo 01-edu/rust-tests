@@ -29,7 +29,7 @@ mod tests {
         let output = looping.wait_with_output().expect("Failed to read stdout");
         assert_eq!(
             String::from_utf8_lossy(&output.stdout),
-            RIDDLE.to_string() + "It took you 1 trial to get the right answer\n"
+            RIDDLE.to_string() + "Number of trials: 1\n"
         );
     }
 
@@ -73,7 +73,7 @@ mod tests {
             String::from_utf8_lossy(&output.stdout),
             expected_output
                 + &format!(
-                    "It took you {} trials to get the right answer\n",
+                    "Number of trials: {}\n",
                     n_fails + 1
                 )
         );
