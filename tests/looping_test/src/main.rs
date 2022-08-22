@@ -11,7 +11,7 @@ mod tests {
     const ANSWER: &str = "The letter e\n";
 
     #[test]
-    fn test_correct_answer() {
+    fn test_correct_answer_on_first_try() {
         let mut looping = Command::new("cargo")
             .args(&["run", "--manifest-path", MANIFEST_PATH])
             .stdin(Stdio::piped())
