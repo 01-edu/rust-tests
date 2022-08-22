@@ -7,7 +7,7 @@ name = "roman_numbers"
 version = "0.1.0"
 
 [[package]]
-name = "roman_numbers_iterator"
+name = "roman_numbers_iter"
 version = "0.1.0"
 dependencies = [
  "roman_numbers",
@@ -17,5 +17,5 @@ dependencies = [
 name = "roman_numbers_test"
 version = "0.1.0"
 dependencies = [
- "roman_numbers_iterator",
+ "roman_numbers_iter",
 ]
