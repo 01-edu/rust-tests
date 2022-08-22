@@ -41,7 +41,7 @@
 // ```
 
 pub use crate::RomanDigit::*;
-use roman_numbers_iterator::{RomanDigit, RomanNumber};
+use roman_numbers_iter::{RomanDigit, RomanNumber};
 
 fn main() {
 	let mut number = RomanNumber::from(15);
