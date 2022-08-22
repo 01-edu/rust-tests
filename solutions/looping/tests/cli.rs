@@ -9,7 +9,7 @@ fn test_right_answer_first_try() {
 		.timeout(std::time::Duration::from_millis(3))
 		.write_stdin("The letter e\n")
 		.assert()
-		.stdout(riddle.to_string() + "It took you 1 trials to get the right answer\n");
+		.stdout(riddle.to_string() + "Number of trials: 1\n");
 }
 
 #[test]
@@ -37,7 +37,7 @@ fn test_rigth_answer_after_the_first_try() {
 		.stdout(
 			output
 				+ &format!(
-					"It took you {} trials to get the right answer\n",
+					"Number of trials: {}\n",
 					tried.len()
 				),
 		);
