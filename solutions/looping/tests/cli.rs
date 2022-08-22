@@ -13,7 +13,7 @@ fn test_right_answer_first_try() {
 }
 
 #[test]
-fn test_rigth_answer_after_the_first_try() {
+fn test_right_answer_after_the_first_try() {
 	let mut cmd = Command::cargo_bin("looping").unwrap();
 	let ref tried = [
 		"circle",
