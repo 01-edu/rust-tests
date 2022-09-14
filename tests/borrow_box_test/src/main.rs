@@ -13,7 +13,7 @@ fn main() {
     // output : ("Same score! tied", 2)
 
     game.update_score(String::from("Joao"));
-    // this one will not count because it already 5 games played, the nbr_of_games
+    // this one will not count because it already 5 games played, the nb_games
     game.update_score(String::from("Susana"));
     
     println!("{:?}", game.read_winner());
@@ -41,9 +41,9 @@ mod tests {
     #[test]
     fn test_create() {
         let games = create_games();
-        assert_eq!(*games[0], GameSession {id: 0, p1: (String::from("player1"), 0), p2: (String::from("player2"), 0), nbr_of_games: 1});
-        assert_eq!(*games[1], GameSession {id: 1, p1: (String::from("Alice"), 0), p2: (String::from("Mark"), 0), nbr_of_games: 3});
-        assert_eq!(*games[2], GameSession {id: 2, p1: (String::from("Jack"), 0), p2: (String::from("Miller"), 0), nbr_of_games: 5});
+        assert_eq!(*games[0], GameSession {id: 0, p1: (String::from("player1"), 0), p2: (String::from("player2"), 0), nb_games: 1});
+        assert_eq!(*games[1], GameSession {id: 1, p1: (String::from("Alice"), 0), p2: (String::from("Mark"), 0), nb_games: 3});
+        assert_eq!(*games[2], GameSession {id: 2, p1: (String::from("Jack"), 0), p2: (String::from("Miller"), 0), nb_games: 5});
     }
 
     #[test]
@@ -53,7 +53,7 @@ mod tests {
         assert_eq!(games[0].read_winner(), (String::from("player1"), 1));
 
         games[0].update_score(String::from("player2"));
-        // this will stay the same because the nbr_of_games is 1 so if one
+        // this will stay the same because the nb_games is 1 so if one
         // of the players wins just once it will no longer increment the score
         assert_eq!(games[0].read_winner(), (String::from("player1"), 1));
 
