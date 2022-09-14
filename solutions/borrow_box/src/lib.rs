@@ -1,28 +1,3 @@
-/*
-## borrow box
-
-### Instructions
-
-Game time.
-
-You will implement some **CRUD** functionality for a game session. You will need to implement the `GameSession` structure with the following associated functions:
-
-- `new`: which initializes a game session state with player names and some other information. This function returns the structure wrapped in a `Box`.
-
-- `read_winner`: which returns a tuple with the name and score of the player who is currently winning. In the case that no player is winning, it should return the same tuple with the string `"Same score! tied"` and the tied score.
-
-- `update_score`: which receives the name of a player, and increments their score. The `nbr_of_games` should also be incremented. This function should **do nothing** if the the game is already finished.
-
-- `delete`: which takes ownership of the boxed game and returns a string: `"game deleted: id -> 0"`.
-
-> If `nbr_of_games` is 5, then it is "best out of 5", and no more than 5 games can be played. If some player has a score of 3, then the game is also finished. This is because there is an insufficient number of remaining games for the trailing player to catch up.
-
-### Notions
-
-- https://doc.rust-lang.org/book/ch15-01-box.html
-
-*/
-
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct GameSession {
     pub id: u32,
@@ -50,11 +25,14 @@ impl GameSession {
     }
 
     pub fn update_score(&mut self, user_name: String) {
-        let total = self.p1.1 + self.p2.1;
-        if self.p1.0 == user_name && total != self.nbr_of_games {
-            self.p1.1 += 1;
-        } else if self.p2.0 == user_name && total != self.nbr_of_games {
-            self.p2.1 += 1;
+        if self.p1.1 + self.p2.1 < self.nbr_of_games
+            && self.p1.1 * 2 <= self.nbr_of_games
+            && self.p2.1 * 2 <= self.nbr_of_games {
+            if self.p1.0 == user_name {
+                self.p1.1 += 1;
+            } else if self.p2.0 == user_name {
+                self.p2.1 += 1;
+            }
         }
     }
 
@@ -62,36 +40,6 @@ impl GameSession {
         String::from(format!("game deleted: id -> {:?}", self.id))
     }
 }
-
-/*
-fn main() {
-    let mut game = Game::create_game(0, String::from("Joao"), String::from("Susana"), 5);
-    println!("{:?}", game.read_winner());
-    // output : ("Same score! tied", 0)
-
-    game.update_score(String::from("Joao"));
-    game.update_score(String::from("Joao"));
-    game.update_score(String::from("Susana"));
-    game.update_score(String::from("Susana"));
-    println!("{:?}", game.read_winner());
-    // output : ("Same score! tied", 2)
-
-    game.update_score(String::from("Joao"));
-    // this one will not count because it already 5 games played, the nbr_of_games
-    game.update_score(String::from("Susana"));
-    
-    println!("{:?}", game.read_winner());
-    // output : ("Joao", 3)
-
-    game.delete();
-    println!("{:?}", game.delete());
-    // output : "game deleted: id -> 0"
-
-    // game.read_winner();
-    // this will give error
-    // because the game was dropped, no longer exists on the heap
-}
-*/
 
 #[cfg(test)]
 mod tests {
