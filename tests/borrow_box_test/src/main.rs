@@ -69,6 +69,22 @@ mod tests {
     }
 
     #[test]
+    fn test_stop_updating() {
+        let mut games = create_games();
+        games[0].update_score(String::from("player1"));
+        games[0].update_score(String::from("player1"));
+        assert_eq!(games[0].read_winner(), (String::from("player1"), 1));
+
+        games[2].update_score(String::from("Jack"));
+        games[2].update_score(String::from("Jack"));
+        games[2].update_score(String::from("Jack"));
+        games[2].update_score(String::from("Jack"));
+        games[2].update_score(String::from("Jack"));
+        assert_eq!(games[2].read_winner(), (String::from("Jack"), 3));
+    }
+
+
+    #[test]
     fn test_delete() {
         let game = GameSession::new(0, String::from("Alice"), String::from("Mark"), 3);
         let game1 = GameSession::new(23, String::from("Jack"), String::from("Miller"), 1);
