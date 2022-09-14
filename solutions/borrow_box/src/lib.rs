@@ -3,13 +3,13 @@ pub struct GameSession {
     pub id: u32,
     pub p1: (String, u16),
     pub p2: (String, u16),
-    pub nbr_of_games: u16
+    pub nb_games: u16
 }
 
 impl GameSession {
     // create the box
-    pub fn new(i: u32, pl1: String, pl2: String, n: u16) -> Box<GameSession> {
-        Box::new(GameSession { id: i, p1: (pl1, 0), p2: (pl2, 0), nbr_of_games: n })
+    pub fn new(id: u32, p1_name: String, p2_name: String, nb_games: u16) -> Box<GameSession> {
+        Box::new(GameSession { id, p1: (p1_name, 0), p2: (p2_name, 0), nb_games })
     }
 
     // read from the box using the reference `&`
@@ -25,9 +25,9 @@ impl GameSession {
     }
 
     pub fn update_score(&mut self, user_name: String) {
-        if self.p1.1 + self.p2.1 < self.nbr_of_games
-            && self.p1.1 * 2 <= self.nbr_of_games
-            && self.p2.1 * 2 <= self.nbr_of_games {
+        if self.p1.1 + self.p2.1 < self.nb_games
+            && self.p1.1 * 2 <= self.nb_games
+            && self.p2.1 * 2 <= self.nb_games {
             if self.p1.0 == user_name {
                 self.p1.1 += 1;
             } else if self.p2.0 == user_name {
@@ -56,9 +56,9 @@ mod tests {
     #[test]
     fn test_create() {
         let games = create_games();
-        assert_eq!(*games[0], GameSession {id: 0, p1: (String::from("player1"), 0), p2: (String::from("player2"), 0), nbr_of_games: 1});
-        assert_eq!(*games[1], GameSession {id: 1, p1: (String::from("Alice"), 0), p2: (String::from("Mark"), 0), nbr_of_games: 3});
-        assert_eq!(*games[2], GameSession {id: 2, p1: (String::from("Jack"), 0), p2: (String::from("Miller"), 0), nbr_of_games: 5});
+        assert_eq!(*games[0], GameSession {id: 0, p1: (String::from("player1"), 0), p2: (String::from("player2"), 0), nb_games: 1});
+        assert_eq!(*games[1], GameSession {id: 1, p1: (String::from("Alice"), 0), p2: (String::from("Mark"), 0), nb_games: 3});
+        assert_eq!(*games[2], GameSession {id: 2, p1: (String::from("Jack"), 0), p2: (String::from("Miller"), 0), nb_games: 5});
     }
 
     #[test]
@@ -68,7 +68,7 @@ mod tests {
         assert_eq!(games[0].read_winner(), (String::from("player1"), 1));
 
         games[0].update_score(String::from("player2"));
-        // this will stay the same because the nbr_of_games is 1 so if one
+        // this will stay the same because the nb_games is 1 so if one
         // of the players wins just once it will no longer increment the score
         assert_eq!(games[0].read_winner(), (String::from("player1"), 1));
 
