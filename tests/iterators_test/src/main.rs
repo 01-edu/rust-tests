@@ -19,10 +19,7 @@ mod tests {
         let test_result = vec![0, 1, 7, 2, 5, 8, 16];
 
         for i in 0..test_value.len() {
-            assert_eq!(
-                test_result[i],
-                collatz(test_value[i]).unwrap()
-            );
+            assert_eq!(test_result[i], collatz(test_value[i]));
         }
     }
 
@@ -32,10 +29,7 @@ mod tests {
         let test_result = vec![112, 72, 33, 91];
 
         for i in 0..test_value.len() {
-            assert_eq!(
-                test_result[i],
-                collatz(test_value[i]).unwrap()
-            );
+            assert_eq!(test_result[i], collatz(test_value[i]));
         }
     }
 
