@@ -16,25 +16,32 @@ ARG=$1
 IS_VERBOSE=false
 CARGO_FORMAT=false
 CARGO_CLIPPY=false
+TEST_EXERCISES=true
 
 run_test () {
 	exercise_dir=$1
-	printf "  ${BLU}[Test]${NC} %s\n" ${exercise_dir%_test/}
+	exercise_name=${exercise_dir%_test/}
 	if [[ $CARGO_FORMAT == true ]]
 	then
+		printf "  ${GRN}[FORMAT]${NC} %s\n" $exercise_name
 		cargo fmt --manifest-path "$exercise_dir"Cargo.toml
 		cargo fmt --manifest-path ../solutions/"${exercise_dir%_test/}"/Cargo.toml
 	fi
 	if [[ $CARGO_CLIPPY == true ]]
 	then
+		printf "  ${YEL}[CLIPPY]${NC} %s\n" $exercise_name
 		cargo clippy -q --manifest-path "$exercise_dir"Cargo.toml
 		cargo clippy -q --manifest-path ../solutions/"${exercise_dir%_test/}"/Cargo.toml
 	fi
-	if [[ $IS_VERBOSE == true ]]
+	if [[ $TEST_EXERCISES == true ]]
 	then
-		cargo test --manifest-path "$exercise_dir"Cargo.toml
-	else
-		cargo test -q --manifest-path "$exercise_dir"Cargo.toml >/dev/null
+		printf "  ${BLU}[TEST  ]${NC} %s\n" $exercise_name
+		if [[ $IS_VERBOSE == true ]]
+		then
+			cargo test --manifest-path "$exercise_dir"Cargo.toml
+		else
+			cargo test -q --manifest-path "$exercise_dir"Cargo.toml >/dev/null
+		fi
 	fi
 }
 
@@ -47,6 +54,7 @@ then
 	-v                  show more details for each test
 	-f                  apply \"cargo fmt\" to the exercises
 	-c                  run \"cargo clippy\" to the exercises
+	-n                  do NOT run \"cargo test\" on the exercises
 	[exercise_name]+    test one or more selected exercises
 	[NO ARGUMENTS]      test all exercises in test directory"
 elif [[ $ARG == '-t' ]]
@@ -84,6 +92,10 @@ else
 			;;
 			-c)
 			CARGO_CLIPPY=true
+			shift
+			;;
+			-n)
+			TEST_EXERCISES=false
 			shift
 			;;
 			*)
