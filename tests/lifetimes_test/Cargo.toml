@@ -8,4 +8,4 @@ edition = "2021"
 
 [dependencies]
 lifetimes = { path = "../../solutions/lifetimes"}
-lib = { path = "../lib" }
+lib = { path = "../../tests_utility/lib" }

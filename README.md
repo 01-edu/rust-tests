@@ -10,6 +10,8 @@ root
  ├ tests
  | ├ [exercise_name]_test  # This is a Cargo project
  | └ test_exercises.sh
+ ├ tests_utility
+ | └ *                     # Resources needed by some tests to run
  ├ Dockerfile
  └ entrypoint.sh
 ```
@@ -17,7 +19,7 @@ root
 > This structure should be preserved to ensure the `Dockerfile` and the `test_exercises.sh` work properly.
 
 ## How does it works
-- The `Dockerfile` will copy both `solutions` and `tests` into the image.
+- The `Dockerfile` will copy `solutions`, `tests` and `tests_utility` into the image.
 - It will then download all the necessary crates to run the `solutions` into the `tests`.
 - Finally it removes `solutions` since they're not needed anymore.
 - When running, the container will execute `entrypoint.sh` which will test the student solution:
