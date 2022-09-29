@@ -4,14 +4,33 @@ IFS='
 '
 cd -P "$(dirname "$0")"
 
+NC="\033[0m"
+WHT="\033[0;37m"
+BLK="\033[0;30m"
+RED="\033[0;31m"
+YEL="\033[0;33m"
+BLU="\033[0;34m"
+GRN="\033[0;32m"
+
 ARG=$1
 IS_VERBOSE=false
+CARGO_FORMAT=false
+CARGO_CLIPPY=false
 
 run_test () {
 	exercise_dir=$1
-	is_verbose=$2
-	printf "  Test: %s\n" ${exercise_dir%_test/}
-	if [[ $is_verbose == true ]]
+	printf "  ${BLU}[Test]${NC} %s\n" ${exercise_dir%_test/}
+	if [[ $CARGO_FORMAT == true ]]
+	then
+		cargo fmt --manifest-path "$exercise_dir"Cargo.toml
+		cargo fmt --manifest-path ../solutions/"${exercise_dir%_test/}"/Cargo.toml
+	fi
+	if [[ $CARGO_CLIPPY == true ]]
+	then
+		cargo clippy -q --manifest-path "$exercise_dir"Cargo.toml
+		cargo clippy -q --manifest-path ../solutions/"${exercise_dir%_test/}"/Cargo.toml
+	fi
+	if [[ $IS_VERBOSE == true ]]
 	then
 		cargo test --manifest-path "$exercise_dir"Cargo.toml
 	else
@@ -26,6 +45,8 @@ then
 	-h, --help          show this usage screen
 	-t                  show a table with the time it takes to run each exercise
 	-v                  show more details for each test
+	-f                  apply \"cargo fmt\" to the exercises
+	-c                  run \"cargo clippy\" to the exercises
 	[exercise_name]+    test one or more selected exercises
 	[NO ARGUMENTS]      test all exercises in test directory"
 elif [[ $ARG == '-t' ]]
@@ -50,23 +71,37 @@ then
 		sort -rn -k4
 else
 	# Arguments parsing
-	if [[ $# -gt 0 ]] && [[ $1 = '-v' ]]
-	then
-		IS_VERBOSE=true
-		shift
-	fi
+	while [[ $# -gt 0 ]]
+	do
+		case $1 in
+			-v)
+			IS_VERBOSE=true
+			shift
+			;;
+			-f)
+			CARGO_FORMAT=true
+			shift
+			;;
+			-c)
+			CARGO_CLIPPY=true
+			shift
+			;;
+			*)
+			break
+		esac
+	done
 
 	if [[ $# -gt 0 ]]
 	then
 		while [[ $# -gt 0 ]]
 		do
 			exercise="${1}_test/"
-			run_test $exercise $IS_VERBOSE
+			run_test $exercise
 			shift # past argument
 		done
 	else
 		for dir in */; do
-			run_test $dir $IS_VERBOSE
+			run_test $dir
 		done
 	fi
 fi
