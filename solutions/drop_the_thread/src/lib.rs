@@ -42,12 +42,12 @@ You must create a Drop checker API. For this you must create:
 
 */
 
-use std::cell::{RefCell, Cell};
+use std::cell::{Cell, RefCell};
 
 #[derive(Debug, Default, Clone, Eq, PartialEq)]
 pub struct Workers {
     pub drops: Cell<usize>,
-    pub states: RefCell<Vec<bool>>
+    pub states: RefCell<Vec<bool>>,
 }
 
 impl Workers {
@@ -76,20 +76,22 @@ impl Workers {
         self.states.borrow_mut()[id] = true;
         self.drops.set(self.drops.get() + 1);
     }
-
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct Thread<'a> {
     pub pid: usize,
     pub cmd: String,
-    pub // time: (String, u16),
-    parent: &'a Workers,
+    pub parent: &'a Workers,
 }
 
 impl<'a> Thread<'a> {
     pub fn new_thread(p: usize, c: String, t: &'a Workers) -> Thread {
-        Thread { pid: p, cmd: c , parent: t }
+        Thread {
+            pid: p,
+            cmd: c,
+            parent: t,
+        }
     }
 
     pub fn skill(self) {
@@ -145,39 +147,47 @@ mod tests {
         let (pid1, thread1) = worker.new_worker(String::from("shell"));
         let (pid2, thread2) = worker.new_worker(String::from("spotify"));
 
-       thread.skill();
-       assert_eq!(worker.drops.get(), 1_usize);
-       thread0.skill();
+        thread.skill();
+        assert_eq!(worker.drops.get(), 1_usize);
+        thread0.skill();
 
-       assert!(worker.is_dropped(pid), "{} should have been dropped", pid);
-       assert!(worker.is_dropped(pid0), "{} should have been dropped", pid0);
-       assert!(!worker.is_dropped(pid1), "{} should not have been dropped", pid1);
-       assert!(!worker.is_dropped(pid2), "{} should not have been dropped", pid2);
+        assert!(worker.is_dropped(pid), "{} should have been dropped", pid);
+        assert!(worker.is_dropped(pid0), "{} should have been dropped", pid0);
+        assert!(
+            !worker.is_dropped(pid1),
+            "{} should not have been dropped",
+            pid1
+        );
+        assert!(
+            !worker.is_dropped(pid2),
+            "{} should not have been dropped",
+            pid2
+        );
 
-       assert_eq!(worker.drops.get(), 2_usize);
+        assert_eq!(worker.drops.get(), 2_usize);
 
-       thread1.skill();
-       thread2.skill();
+        thread1.skill();
+        thread2.skill();
 
-       assert_eq!(worker.drops.get(), 4_usize);
+        assert_eq!(worker.drops.get(), 4_usize);
     }
 
     #[test]
     fn test_using_rc() {
-      // will create a new reference to the thread
-      // this will test the following
-      // if we drop the cloned value the RC will decrease
-      // but the thread will not be dropped! 
-      let worker = Workers::new();
-      let (_, thread) = worker.new_worker(String::from("Xorg"));
-      let thread = Rc::new(thread);
-      let thread_clone = thread.clone();
+        // will create a new reference to the thread
+        // this will test the following
+        // if we drop the cloned value the RC will decrease
+        // but the thread will not be dropped!
+        let worker = Workers::new();
+        let (_, thread) = worker.new_worker(String::from("Xorg"));
+        let thread = Rc::new(thread);
+        let thread_clone = thread.clone();
 
-      assert_eq!(Rc::strong_count(&thread), 2);
+        assert_eq!(Rc::strong_count(&thread), 2);
 
-      drop(thread_clone);
+        drop(thread_clone);
 
-      assert_eq!(Rc::strong_count(&thread), 1);
+        assert_eq!(Rc::strong_count(&thread), 1);
     }
 
     #[test]

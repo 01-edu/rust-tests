@@ -57,10 +57,7 @@ mod tests {
     #[test]
     fn test_question_yelling() {
         assert_eq!(talking("WHAT'S GOING ON?"), "Quiet, I am thinking!");
-        assert_eq!(
-            talking("ARE YOU FINISHED?"),
-            "Quiet, I am thinking!"
-        );
+        assert_eq!(talking("ARE YOU FINISHED?"), "Quiet, I am thinking!");
         assert_eq!(talking("WHAT DID I DO?"), "Quiet, I am thinking!");
         assert_eq!(talking("ARE YOU COMING?"), "Quiet, I am thinking!");
     }

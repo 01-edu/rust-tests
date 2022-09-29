@@ -10,8 +10,8 @@ Each word will have a number that indicates the position of that word
 
 ```rust
 fn main() {
-	println!("{:?}", initials("is2 Thi1s T4est 3a"));
-	// output: This is a Test
+    println!("{:?}", initials("is2 Thi1s T4est 3a"));
+    // output: This is a Test
 }
 ```
 
@@ -26,15 +26,15 @@ fn main() {
 */
 
 pub fn arrange_phrase(phrase: &str) -> String {
-	let nbrs: Vec<&str> = phrase.matches(char::is_numeric).collect();
-	let a = &phrase.replace(char::is_numeric, "");
-	let mut m: Vec<&str> = a.split_whitespace().collect();
+    let nbrs: Vec<&str> = phrase.matches(char::is_numeric).collect();
+    let a = &phrase.replace(char::is_numeric, "");
+    let mut m: Vec<&str> = a.split_whitespace().collect();
 
-	for (i, ele) in nbrs.iter().enumerate() {
-		let strs: Vec<&str> = a.split_whitespace().collect();
-		m[ele.parse::<usize>().unwrap() - 1] = strs[i];
-	}
-	m.join(" ")
+    for (i, ele) in nbrs.iter().enumerate() {
+        let strs: Vec<&str> = a.split_whitespace().collect();
+        m[ele.parse::<usize>().unwrap() - 1] = strs[i];
+    }
+    m.join(" ")
 }
 
 // // example of function that works but does not pass the heap test

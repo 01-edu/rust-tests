@@ -34,7 +34,6 @@ Here is a program to test your function.
 use rot::*;
 
 fn main() {
-
     println!("The letter \"a\" becomes: {}", rotate("a", 26));
     println!("The letter \"m\" becomes: {}", rotate("m", 0));
     println!("The letter \"m\" becomes: {}", rotate("m", 13));

@@ -24,7 +24,7 @@ fn convert(s: &str) -> u32 {
 }
 
 pub fn transform_and_save_on_heap(s: String) -> Box<Vec<u32>> {
-    let mut v :Vec<u32> = Vec::new();
+    let mut v: Vec<u32> = Vec::new();
 
     for token in s.split_whitespace() {
         if token.contains("k") {
@@ -50,7 +50,7 @@ fn main() {
     let a_h = transform_and_save_on_heap(new_str);
     println!("Box value : {:?}", &a_h);
     println!("size occupied in the stack : {:?} bytes", (std::mem::size_of_val(&a_h)));
-    
+
     let a_b_v = take_value_ownership(a_h);
     println!("value : {:?}", &a_b_v);
     println!("size occupied in the stack : {:?} bytes", (std::mem::size_of_val(&a_b_v)));

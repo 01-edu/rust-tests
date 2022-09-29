@@ -4,14 +4,14 @@
 use std::collections::HashMap;
 
 pub fn contain(h: &HashMap<&str, i32>, s: &str) -> bool {
-	match h.get(s) {
-		Some(_hash) => true,
-		None => false,
-	}
+    match h.get(s) {
+        Some(_hash) => true,
+        None => false,
+    }
 }
 
 pub fn remove(h: &mut HashMap<&str, i32>, s: &str) {
-	h.remove(s);
+    h.remove(s);
 }
 
 // fn main() {
@@ -35,36 +35,36 @@ pub fn remove(h: &mut HashMap<&str, i32>, s: &str) {
 
 #[cfg(test)]
 mod tests {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn test_contains() {
-		let mut s = HashMap::new();
+    #[test]
+    fn test_contains() {
+        let mut s = HashMap::new();
 
-		s.insert("Pedro", 43);
-		s.insert("Ralph", 12);
-		s.insert("Johnny", 546);
-		s.insert("Albert", 12323214);
+        s.insert("Pedro", 43);
+        s.insert("Ralph", 12);
+        s.insert("Johnny", 546);
+        s.insert("Albert", 12323214);
 
-		assert_eq!(true, contain(&s, "Pedro"));
-		assert_eq!(true, contain(&s, "Ralph"));
-		assert_eq!(true, contain(&s, "Johnny"));
-		assert_eq!(true, contain(&s, "Albert"));
-		assert_eq!(false, contain(&s, "Marco"));
-		assert_eq!(false, contain(&s, "Joan"));
-		assert_eq!(false, contain(&s, "Louise"));
-	}
+        assert_eq!(true, contain(&s, "Pedro"));
+        assert_eq!(true, contain(&s, "Ralph"));
+        assert_eq!(true, contain(&s, "Johnny"));
+        assert_eq!(true, contain(&s, "Albert"));
+        assert_eq!(false, contain(&s, "Marco"));
+        assert_eq!(false, contain(&s, "Joan"));
+        assert_eq!(false, contain(&s, "Louise"));
+    }
 
-	#[test]
-	fn test_remove() {
-		let mut n = HashMap::new();
-		n.insert("Dani Sordo", 37);
-		n.insert("Sébastien Loeb", 46);
-		n.insert("Ott Tanak", 32);
-		n.insert("Thierry Neuville", 32);
+    #[test]
+    fn test_remove() {
+        let mut n = HashMap::new();
+        n.insert("Dani Sordo", 37);
+        n.insert("Sébastien Loeb", 46);
+        n.insert("Ott Tanak", 32);
+        n.insert("Thierry Neuville", 32);
 
-		remove(&mut n, "Dani Sordo");
-		assert_eq!(true, contain(&n, "Ott Tanak"));
-		assert_eq!(false, contain(&n, "Dani Ŝordo"))
-	}
+        remove(&mut n, "Dani Sordo");
+        assert_eq!(true, contain(&n, "Ott Tanak"));
+        assert_eq!(false, contain(&n, "Dani Ŝordo"))
+    }
 }

@@ -6,7 +6,7 @@
 In this exercise you will have to reuse your `add_curry` function
 Then you have to complete the function `twice` using closures, this function will
 take a function f(x) as parameter and return a function f(f(x))
-So, the purpose of this function is to add two times the value in `add_curry` 
+So, the purpose of this function is to add two times the value in `add_curry`
 to the original value.
 
  ### Notions
@@ -35,7 +35,6 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-
 
     #[test]
     fn test_zero_twice() {

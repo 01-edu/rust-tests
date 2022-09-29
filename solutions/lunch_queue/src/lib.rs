@@ -43,7 +43,7 @@ impl Queue {
         return Some(result);
     }
 
-    pub fn search(&self, s :&str) -> Option<(String, u32)> {
+    pub fn search(&self, s: &str) -> Option<(String, u32)> {
         recursion(&self.clone().node, s.to_string())
     }
 }
@@ -61,7 +61,7 @@ fn recursion(node: &Link, s: String) -> Option<(String, u32)> {
 
 fn recursion_rm(node: &Link, q: &mut Queue) -> (String, u32) {
     let a = node.as_ref().unwrap();
-    if !a.next_person.is_none() { 
+    if !a.next_person.is_none() {
         q.add(a.name.clone(), a.discount.clone());
         return recursion_rm(&node.as_ref().unwrap().next_person, q);
     } else {
@@ -72,7 +72,7 @@ fn recursion_rm(node: &Link, q: &mut Queue) -> (String, u32) {
 fn recursion_inv(node: &Link, q: &mut Queue) {
     let a = node.as_ref();
     if !a.is_none() {
-        q.add(a.unwrap().name.clone(),a.unwrap().discount.clone());
+        q.add(a.unwrap().name.clone(), a.unwrap().discount.clone());
         return recursion_inv(&node.as_ref().unwrap().next_person, q);
     }
 }

@@ -10,9 +10,9 @@ with names and return a vector of Strings with the initials of each name.
 
 ```rust
 fn main() {
-	let names = vec!["Harry Potter", "Someone Else", "J. L.", "Barack Obama"]
-	println!("{:?}", initials(names));
-	// output: ["H. P.", "S. E.", "J. L.", "B. O."]
+    let names = vec!["Harry Potter", "Someone Else", "J. L.", "Barack Obama"]
+    println!("{:?}", initials(names));
+    // output: ["H. P.", "S. E.", "J. L.", "B. O."]
 }
 ```
 
@@ -26,31 +26,31 @@ fn main() {
 */
 
 pub fn initials(names: Vec<&str>) -> Vec<String> {
-	names
-		.iter()
-		.map(|x| {
-			let mut two_names = x.split_whitespace();
-			let mut a = two_names
-				.next()
-				.unwrap()
-				.chars()
-				.nth(0)
-				.unwrap()
-				.to_string();
-			a.push_str(". ");
-			a.push_str(
-				&two_names
-					.next()
-					.unwrap()
-					.chars()
-					.nth(0)
-					.unwrap()
-					.to_string(),
-			);
-			a.push_str(".");
-			a
-		})
-		.collect()
+    names
+        .iter()
+        .map(|x| {
+            let mut two_names = x.split_whitespace();
+            let mut a = two_names
+                .next()
+                .unwrap()
+                .chars()
+                .nth(0)
+                .unwrap()
+                .to_string();
+            a.push_str(". ");
+            a.push_str(
+                &two_names
+                    .next()
+                    .unwrap()
+                    .chars()
+                    .nth(0)
+                    .unwrap()
+                    .to_string(),
+            );
+            a.push_str(".");
+            a
+        })
+        .collect()
 }
 
 // // example of solution that access the heap to many times

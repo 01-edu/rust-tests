@@ -4,21 +4,21 @@
 //}
 
 pub fn fibonacci(n: u32) -> u32 {
-	if n < 2 {
-		return n;
-	}
-	fibonacci(n - 2) + fibonacci(n - 1)
+    if n < 2 {
+        return n;
+    }
+    fibonacci(n - 2) + fibonacci(n - 1)
 }
 
 #[cfg(test)]
 mod tests {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn it_works() {
-		assert_eq!(fibonacci(0), 0);
-		assert_eq!(fibonacci(1), 1);
-		assert_eq!(fibonacci(22), 17711);
-		assert_eq!(fibonacci(20), 6765);
-	}
+    #[test]
+    fn it_works() {
+        assert_eq!(fibonacci(0), 0);
+        assert_eq!(fibonacci(1), 1);
+        assert_eq!(fibonacci(22), 17711);
+        assert_eq!(fibonacci(20), 6765);
+    }
 }

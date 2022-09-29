@@ -2,15 +2,15 @@
 // substitutes every white-space with '%20'
 
 pub fn to_url(s: &str) -> String {
-	let mut s_r = String::new();
-	for c in s.chars() {
-		if c == ' ' {
-			s_r.push_str("%20");
-			continue;
-		}
-		s_r.push(c);
-	}
-	s_r
+    let mut s_r = String::new();
+    for c in s.chars() {
+        if c == ' ' {
+            s_r.push_str("%20");
+            continue;
+        }
+        s_r.push(c);
+    }
+    s_r
 }
 
 // fn main() {
@@ -20,10 +20,10 @@ pub fn to_url(s: &str) -> String {
 
 #[cfg(test)]
 mod test {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn test_url() {
-		assert_eq!(to_url("this is my search"), "this%20is%20my%20search");
-	}
+    #[test]
+    fn test_url() {
+        assert_eq!(to_url("this is my search"), "this%20is%20my%20search");
+    }
 }

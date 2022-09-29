@@ -17,28 +17,25 @@
 use std::io;
 
 fn main() {
-	let riddle = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?";
-	let answer = "The letter e";
-	let mut counter = 0;
+    let riddle = "I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?";
+    let answer = "The letter e";
+    let mut counter = 0;
 
-	let trials = loop {
-		println!("{}", riddle);
+    let trials = loop {
+        println!("{}", riddle);
 
-		let mut input = String::new();
+        let mut input = String::new();
 
-		io::stdin()
-			.read_line(&mut input)
-			.expect("Failed to read line");
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read line");
 
-		counter += 1;
+        counter += 1;
 
-		if answer.to_owned() + "\n" == input {
-			break counter;
-		}
-	};
+        if answer.to_owned() + "\n" == input {
+            break counter;
+        }
+    };
 
-	println!(
-		"Number of trials: {}",
-		trials
-	);
+    println!("Number of trials: {}", trials);
 }

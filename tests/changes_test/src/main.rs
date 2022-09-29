@@ -18,37 +18,37 @@ identified by the alias in the Vec of lights.
 use changes::*;
 
 fn main() {
-	// bedroom
-	let mut lights = vec![
-		Light::new("living_room"),
-		Light::new("bedroom"),
-		Light::new("rest_room"),
-	];
-	println!("brightness = {}", lights[0].brightness);
-	change_brightness(&mut lights, "living_room", 200);
-	println!("new brightness = {}", lights[0].brightness);
+    // bedroom
+    let mut lights = vec![
+        Light::new("living_room"),
+        Light::new("bedroom"),
+        Light::new("rest_room"),
+    ];
+    println!("brightness = {}", lights[0].brightness);
+    change_brightness(&mut lights, "living_room", 200);
+    println!("new brightness = {}", lights[0].brightness);
 }
 
 #[test]
 fn test_nonexistent_alias() {
-	let mut lights = Vec::new();
-	for i in 0..5 {
-		let alias = format!("light-{i}");
-		lights.push(Light::new(&alias));
-	}
-	let copy = lights.clone();
-	change_brightness(&mut lights, "light-6", 100);
-	assert_eq!(copy, lights);
+    let mut lights = Vec::new();
+    for i in 0..5 {
+        let alias = format!("light-{i}");
+        lights.push(Light::new(&alias));
+    }
+    let copy = lights.clone();
+    change_brightness(&mut lights, "light-6", 100);
+    assert_eq!(copy, lights);
 }
 
 #[test]
 fn test_alias() {
-	let mut lights = Vec::new();
-	for i in 0..5 {
-		let alias = format!("light-{i}");
-		lights.push(Light::new(&alias));
-	}
-	let alias = "light-3";
-	change_brightness(&mut lights, alias, 100);
-	assert_eq!(lights[3].brightness, 100);
+    let mut lights = Vec::new();
+    for i in 0..5 {
+        let alias = format!("light-{i}");
+        lights.push(Light::new(&alias));
+    }
+    let alias = "light-3";
+    change_brightness(&mut lights, alias, 100);
+    assert_eq!(lights[3].brightness, 100);
 }

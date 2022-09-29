@@ -35,18 +35,9 @@ mod tests {
 
     #[test]
     fn leap_years() {
-        assert!(
-            middle_day(1892).is_none(),
-            "1892 was a leap year!",
-        );
-        assert!(
-            middle_day(1904).is_none(),
-            "1904 was a leap year!",
-        );
-        assert!(
-            middle_day(2012).is_none(),
-            "2012 was a leap year!",
-        );
+        assert!(middle_day(1892).is_none(), "1892 was a leap year!",);
+        assert!(middle_day(1904).is_none(), "1904 was a leap year!",);
+        assert!(middle_day(2012).is_none(), "2012 was a leap year!",);
     }
 
     #[test]

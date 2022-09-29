@@ -4,16 +4,16 @@
 use to_url::*;
 
 fn main() {
-	let s = "Hello, world!";
-	println!("{} to be use as an url is {}", s, to_url(s));
+    let s = "Hello, world!";
+    println!("{} to be use as an url is {}", s, to_url(s));
 }
 
 #[cfg(test)]
 mod test {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn test_url() {
-		assert_eq!(to_url("this is my search"), "this%20is%20my%20search");
-	}
+    #[test]
+    fn test_url() {
+        assert_eq!(to_url("this is my search"), "this%20is%20my%20search");
+    }
 }

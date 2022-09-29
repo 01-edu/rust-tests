@@ -42,22 +42,22 @@ fn main() {
 */
 #[derive(Clone, Copy)]
 pub struct One {
-    pub first_layer: Option<Two>
+    pub first_layer: Option<Two>,
 }
 
 #[derive(Clone, Copy)]
 pub struct Two {
-    pub second_layer: Option<Three>
+    pub second_layer: Option<Three>,
 }
 
 #[derive(Clone, Copy)]
 pub struct Three {
-    pub third_layer: Option<Four>
+    pub third_layer: Option<Four>,
 }
 
 #[derive(Clone, Copy)]
 pub struct Four {
-    pub fourth_layer: Option<u16>
+    pub fourth_layer: Option<u16>,
 }
 
 impl One {
@@ -72,22 +72,22 @@ mod tests {
     #[test]
     fn test_value() {
         let a = One {
-            first_layer : Some(Two {
+            first_layer: Some(Two {
                 second_layer: Some(Three {
                     third_layer: Some(Four {
-                        fourth_layer: Some(1000)
-                    })
-                })
-            })
+                        fourth_layer: Some(1000),
+                    }),
+                }),
+            }),
         };
         let b = One {
-            first_layer : Some(Two {
+            first_layer: Some(Two {
                 second_layer: Some(Three {
                     third_layer: Some(Four {
-                        fourth_layer: Some(3)
-                    })
-                })
-            })
+                        fourth_layer: Some(3),
+                    }),
+                }),
+            }),
         };
         assert_eq!(a.get_fourth_layer(), Some(1000));
         assert_eq!(b.get_fourth_layer(), Some(3));
