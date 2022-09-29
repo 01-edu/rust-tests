@@ -1,22 +1,37 @@
 # rust-tests
 
-Private repository that holds the files needed to build the Rust tests Docker image
+Private repository that holds the files needed to build the Rust tests Docker image.
 
-## Testing
-
-In order to test a solution for an exercise you will need to place the testing
-solution inside the `solutions` folder in the `src/` folder of the exercise in
-case.
-
-After that, in the `tests` folder of the exercise, run `cargo test`.
-
-### Example
-
-In order to test the exercise `middle_day`, after being inside `rust_tests/`:
-
-```sh
-# depending on the exercise you will need to change different files
-> $ code solutions/middle_day/src/lib.rs
-# place the tested code in the file
-> $ cargo test --manifest-path tests/middle_day_test/Cargo.toml
+## Structure of the repo
+```bash
+root
+ ├ solutions
+ | └ [exercise_name]       # This is a Cargo project
+ ├ tests
+ | ├ [exercise_name]_test  # This is a Cargo project
+ | └ test_exercises.sh
+ ├ Dockerfile
+ └ entrypoint.sh
 ```
+
+> This structure should be preserved to ensure the `Dockerfile` and the `test_exercises.sh` work properly.
+
+## How does it works
+- The `Dockerfile` will copy both `solutions` and `tests` into the image.
+- It will then download all the necessary crates to run the `solutions` into the `tests`.
+- Finally it removes `solutions` since they're not needed anymore.
+- When running, the container will execute `entrypoint.sh` which will test the student solution:
+   - This process is done offline.
+   - A lot of flags are used with `docker run`, if in doubt check with DevOps.
+   - The return of `cargo test` is used to assess success or failure of the test.
+
+## Testing and modifying `solutions` and `tests`
+With `bash tests/test_exercises.sh` you can:
+- Test all exercises
+- Test specific exercises
+- Auto-format solutions and tests
+- Check for non-idiomatic code
+- Have detailed feedback with verbose mode
+
+> Run `bash tests/test_exercises.sh -h` for more info about it.
+> 
