@@ -8,4 +8,4 @@ edition = "2021"
 
 [dependencies]
 lalgebra_vector = { path = "../../solutions/lalgebra_vector"}
-lib = { path = "../lib" }
+lib = { path = "../../tests_utility/lib" }

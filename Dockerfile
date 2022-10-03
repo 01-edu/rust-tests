@@ -5,6 +5,7 @@ RUN apt-get -y install pkg-config libssl-dev moreutils
 
 WORKDIR /app
 COPY tests tests
+COPY tests_utility tests_utility
 COPY solutions solutions
 RUN parallel cargo fetch --manifest-path -- $(find tests -name Cargo.toml)
 RUN find /usr/local/cargo/registry/src -type f -name '*.rs' -exec chmod 644 {} \;

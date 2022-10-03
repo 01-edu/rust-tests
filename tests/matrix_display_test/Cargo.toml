@@ -8,4 +8,4 @@ edition = "2021"
 
 [dependencies]
 matrix_display = { path = "../../solutions/matrix_display"}
-lib = { path = "../lib" }
+lib = { path = "../../tests_utility/lib" }

@@ -8,4 +8,4 @@ edition = "2021"
 
 [dependencies]
 card_deck = { path = "../../solutions/card_deck"}
-lib = { path = "../lib" }
+lib = { path = "../../tests_utility/lib" }
