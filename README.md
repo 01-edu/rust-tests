@@ -36,4 +36,9 @@ With `bash tests/test_exercises.sh` you can:
 - Have detailed feedback with verbose mode
 
 > Run `bash tests/test_exercises.sh -h` for more info about it.
-> 
+
+### Prerequisites
+- Install `fmt` with `rustup component add rustfmt`
+- Install `clippy` with `rustup component add clippy`
+
+> You will need to have `cargo` and `rustup` installed.
