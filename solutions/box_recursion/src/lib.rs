@@ -7,7 +7,7 @@ Using the given code create the following functions:
 
 - `new` that will initialize the `WorkEnvironment` as `None`
 - `add_worker`, that receives two strings, one being the type of worker and the other the name of the worker.
-- `remove_worker`, that removes the last worker that was placed in the `WorkEnvironment`, this functions should 
+- `remove_worker`, that removes the last worker that was placed in the `WorkEnvironment`, this functions should
   return a `Option` with the name of the worker.
 - `search_worker`, that return a tuple with the name and type of worker.
 
@@ -24,44 +24,44 @@ Do not forget that this will be a recursion type and it must point to `None` if 
 
 #[derive(Debug)]
 pub struct WorkEnvironment {
-  pub grade: Link,
+    pub grade: Link,
 }
 
 pub type Link = Option<Box<Worker>>;
 
 #[derive(Debug)]
 pub struct Worker {
-  pub worker_type: String,
-  pub worker_name: String,
-  pub next_worker: Link,
+    pub worker_type: String,
+    pub worker_name: String,
+    pub next_worker: Link,
 }
 
 impl WorkEnvironment {
-  pub fn new() -> WorkEnvironment {
-    WorkEnvironment { grade: None }
-  }
+    pub fn new() -> WorkEnvironment {
+        WorkEnvironment { grade: None }
+    }
 
-  pub fn add_worker(&mut self, t: String, name: String) {
-    let new_node = Box::new(Worker {
-      worker_type: t,
-      worker_name: name,
-      next_worker: self.grade.take(),
-    });
-    self.grade = Some(new_node);
-  }
+    pub fn add_worker(&mut self, t: String, name: String) {
+        let new_node = Box::new(Worker {
+            worker_type: t,
+            worker_name: name,
+            next_worker: self.grade.take(),
+        });
+        self.grade = Some(new_node);
+    }
 
-  pub fn remove_worker(&mut self) -> Option<String> {
-    self.grade.take().map(|node| {
-      self.grade = node.next_worker;
-      node.worker_name
-    })
-  }
+    pub fn remove_worker(&mut self) -> Option<String> {
+        self.grade.take().map(|node| {
+            self.grade = node.next_worker;
+            node.worker_name
+        })
+    }
 
-  pub fn search_worker(&self) -> Option<(String, String)> {
-    self.grade.as_ref().map(|node| {
-      (node.worker_name.clone(), node.worker_type.clone())
-    })
-  }
+    pub fn search_worker(&self) -> Option<(String, String)> {
+        self.grade
+            .as_ref()
+            .map(|node| (node.worker_name.clone(), node.worker_type.clone()))
+    }
 }
 
 /*

@@ -72,7 +72,10 @@ mod tests {
     fn test_counting(input: &str, expected: &[(&str, u32)]) {
         let mut m: HashMap<String, u32> = counting_words(input);
         for &(k, v) in expected.iter() {
-            assert_eq!((k, m.remove(&k.to_string().to_lowercase()).unwrap_or(0)), (k, v));
+            assert_eq!(
+                (k, m.remove(&k.to_string().to_lowercase()).unwrap_or(0)),
+                (k, v)
+            );
         }
         // may fail with a message that clearly shows all extra pairs in the map
         assert_eq!(m.iter().collect::<Vec<(&String, &u32)>>(), vec![]);

@@ -1,8 +1,6 @@
 use unwrap_or_expect::*;
 
-fn main() {
-
-}
+fn main() {}
 
 #[cfg(test)]
 mod tests {
@@ -21,7 +19,10 @@ mod tests {
     #[test]
     #[should_panic(expected = "malicious_server.com")]
     fn test_unwrap_err() {
-        fetch_data(Ok("malicious_server.com".to_string()), Security::BlockServer);
+        fetch_data(
+            Ok("malicious_server.com".to_string()),
+            Security::BlockServer,
+        );
     }
     #[test]
     fn test_unwrap_or() {

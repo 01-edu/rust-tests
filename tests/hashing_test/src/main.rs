@@ -8,40 +8,40 @@ use hashing::*;
 
 #[allow(dead_code)]
 fn main() {
-	println!("Hello, world!");
-	let v = vec![4, 7, 5, 2, 5, 1, 3];
-	println!("mean {}", mean(&v));
-	println!("median {}", median(&v));
-	println!("mode {}", mode(&v));
+    println!("Hello, world!");
+    let v = vec![4, 7, 5, 2, 5, 1, 3];
+    println!("mean {}", mean(&v));
+    println!("median {}", median(&v));
+    println!("mode {}", mode(&v));
 }
 
 use std::f64;
 
 #[allow(dead_code)]
 fn approx_eq(a: f64, b: f64) -> bool {
-	(a - b).abs() < f64::EPSILON
+    (a - b).abs() < f64::EPSILON
 }
 
 #[test]
 fn test_mean() {
-	let v = vec![4, 7, 5, 2, 5, 1, 3];
-	assert!(approx_eq(mean(&v), 3.857142857142857));
+    let v = vec![4, 7, 5, 2, 5, 1, 3];
+    assert!(approx_eq(mean(&v), 3.857142857142857));
 }
 
 #[test]
 fn test_median() {
-	let v = vec![4, 7, 5, 2, 5, 1, 3];
-	assert_eq!(median(&v), 4);
+    let v = vec![4, 7, 5, 2, 5, 1, 3];
+    assert_eq!(median(&v), 4);
 
-	let aux1 = vec![2,1,5,2,7,4];
-	assert_eq!(median(&aux1), 3, "tested with {:?}", aux1);
+    let aux1 = vec![2, 1, 5, 2, 7, 4];
+    assert_eq!(median(&aux1), 3, "tested with {:?}", aux1);
 
-	let aux2 = vec![1,7,5,5,6,4];
-	assert_eq!(median(&aux2), 5, "tested with {:?}", aux2);
+    let aux2 = vec![1, 7, 5, 5, 6, 4];
+    assert_eq!(median(&aux2), 5, "tested with {:?}", aux2);
 }
 
 #[test]
 fn test_mode() {
-	let v = vec![4, 7, 5, 2, 5, 1, 3];
-	assert_eq!(mode(&v), 5);
+    let v = vec![4, 7, 5, 2, 5, 1, 3];
+    assert_eq!(mode(&v), 5);
 }

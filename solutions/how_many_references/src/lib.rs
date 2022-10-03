@@ -23,7 +23,7 @@ pub use std::rc::Rc;
 
 #[derive(Debug)]
 pub struct Node {
-    pub value: Vec<Rc<String>>
+    pub value: Vec<Rc<String>>,
 }
 
 impl Node {
@@ -42,16 +42,16 @@ impl Node {
 
 fn is_same_allocate(x: &Rc<String>, v: &Rc<String>) -> bool {
     if is_eq(x, v) {
-      return v != x
+        return v != x;
     }
-    return true
+    return true;
 }
 
 pub fn how_many_references(value: &Rc<String>) -> usize {
     Rc::strong_count(value)
 }
 
-fn is_eq(value: &Rc<String>, cmp:&Rc<String>) -> bool {
+fn is_eq(value: &Rc<String>, cmp: &Rc<String>) -> bool {
     Rc::ptr_eq(value, cmp)
 }
 

@@ -69,7 +69,6 @@ pub fn add_curry(x: i32) -> impl Fn(i32) -> i32 {
 mod tests {
     use super::*;
 
-
     #[test]
     fn test_zero_twice() {
         let z = twice(add_curry(0));

@@ -19,20 +19,20 @@ only modify the code where is indicated
 // }
 
 pub fn doubtful(s: &mut String) {
-	s.push_str("?")
+    s.push_str("?")
 }
 
 #[cfg(test)]
 mod test {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn test_function() {
-		let mut s = "hello".to_string();
-		let s_copy = s.clone();
+    #[test]
+    fn test_function() {
+        let mut s = "hello".to_string();
+        let s_copy = s.clone();
 
-		doubtful(&mut s);
+        doubtful(&mut s);
 
-		assert_eq!(s, s_copy + "?");
-	}
+        assert_eq!(s, s_copy + "?");
+    }
 }

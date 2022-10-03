@@ -145,17 +145,23 @@ impl Worker {
 impl Logger for Worker {
     fn warning(&self, message: &str) {
         let v: Vec<&str> = message.split(": ").collect();
-        self.mapped_messages.borrow_mut().insert(v[0].to_string(), v[1].to_string());
+        self.mapped_messages
+            .borrow_mut()
+            .insert(v[0].to_string(), v[1].to_string());
         self.all_messages.borrow_mut().push(message.to_string());
     }
     fn info(&self, message: &str) {
         let v: Vec<&str> = message.split(": ").collect();
-        self.mapped_messages.borrow_mut().insert(v[0].to_string(), v[1].to_string());
+        self.mapped_messages
+            .borrow_mut()
+            .insert(v[0].to_string(), v[1].to_string());
         self.all_messages.borrow_mut().push(message.to_string());
     }
     fn error(&self, message: &str) {
         let v: Vec<&str> = message.split(": ").collect();
-        self.mapped_messages.borrow_mut().insert(v[0].to_string(), v[1].to_string());
+        self.mapped_messages
+            .borrow_mut()
+            .insert(v[0].to_string(), v[1].to_string());
         self.all_messages.borrow_mut().push(message.to_string());
     }
 }
@@ -189,9 +195,11 @@ mod tests {
             value: Rc::new(115),
             ms: RefCell::new(vec![]),
             correct: vec![
-              String::from("Info: you are using up to 40% of your quota"),
-              String::from("Warning: you have used up over 80% of your quota! Proceeds with precaution"),
-              String::from("Error: you are over your quota!")
+                String::from("Info: you are using up to 40% of your quota"),
+                String::from(
+                    "Warning: you have used up over 80% of your quota! Proceeds with precaution",
+                ),
+                String::from("Error: you are over your quota!"),
             ],
         };
 
@@ -221,30 +229,45 @@ mod tests {
         let _clone_test5 = log.track_value.clone();
         let _clone_test6 = log.track_value.clone();
         let _clone_test7 = log.track_value.clone();
-        
+
         // warning: 75% of the quota
         track.set_value(&log.track_value);
-        assert_eq!(log.mapped_messages.borrow().get("Warning").unwrap(), "you have used up over 75% of your quota! Proceeds with precaution");
+        assert_eq!(
+            log.mapped_messages.borrow().get("Warning").unwrap(),
+            "you have used up over 75% of your quota! Proceeds with precaution"
+        );
 
         let _clone_test8 = log.track_value.clone();
 
         // warning: 83% of the quota <- most resent of the messages last onw to be added to the hashmap
         track.set_value(&log.track_value);
-        assert_eq!(log.mapped_messages.borrow().get("Warning").unwrap(), "you have used up over 83% of your quota! Proceeds with precaution");
+        assert_eq!(
+            log.mapped_messages.borrow().get("Warning").unwrap(),
+            "you have used up over 83% of your quota! Proceeds with precaution"
+        );
 
         // info: 83%
         track.peek(&log.track_value);
-        assert_eq!(log.mapped_messages.borrow().get("Info").unwrap(), "you are using up to 83% of your quota");
+        assert_eq!(
+            log.mapped_messages.borrow().get("Info").unwrap(),
+            "you are using up to 83% of your quota"
+        );
 
         let _clone_test9 = log.track_value.clone();
         // info: 91%
         track.peek(&log.track_value);
-        assert_eq!(log.mapped_messages.borrow().get("Info").unwrap(), "you are using up to 91% of your quota");
+        assert_eq!(
+            log.mapped_messages.borrow().get("Info").unwrap(),
+            "you are using up to 91% of your quota"
+        );
 
         let _clone_test10 = log.track_value.clone();
         // error: passed the quota
         track.set_value(&log.track_value);
-        assert_eq!(log.mapped_messages.borrow().get("Error").unwrap(), "you are over your quota!");
+        assert_eq!(
+            log.mapped_messages.borrow().get("Error").unwrap(),
+            "you are over your quota!"
+        );
     }
 
     #[test]
@@ -252,7 +275,8 @@ mod tests {
         let correct = vec![
             "Info: you are using up to 40% of your quota",
             "Warning: you have used up over 80% of your quota! Proceeds with precaution",
-            "Info: you are using up to 80% of your quota", "Error: you are over your quota!"
+            "Info: you are using up to 80% of your quota",
+            "Error: you are over your quota!",
         ];
         let log = Worker::new(1);
         let track = Tracker::new(&log, 5);
@@ -270,7 +294,7 @@ mod tests {
 
         // error: passed the quota
         track.set_value(&log.track_value);
-        
+
         for (i, v) in log.all_messages.into_inner().iter().enumerate() {
             assert_eq!(v, correct[i]);
         }

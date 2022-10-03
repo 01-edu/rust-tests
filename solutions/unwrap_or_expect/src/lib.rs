@@ -1,9 +1,9 @@
 pub enum Security {
-	Unknown,
-	High,
-	Medium,
-	Low,
-	BlockServer,
+    Unknown,
+    High,
+    Medium,
+    Low,
+    BlockServer,
 }
 
 pub fn fetch_data(server: Result<String, String>, security_level: Security) -> String {
@@ -11,9 +11,7 @@ pub fn fetch_data(server: Result<String, String>, security_level: Security) -> S
         Security::Unknown => server.unwrap(),
         Security::High => server.expect("ERROR: program stops"),
         Security::Medium => server.unwrap_or("WARNING: check the server".to_string()),
-        Security::Low => server.unwrap_or_else(|url| {
-            "Not found: ".to_string() + url.as_str()
-        }),
-        Security::BlockServer => server.unwrap_err()
+        Security::Low => server.unwrap_or_else(|url| "Not found: ".to_string() + url.as_str()),
+        Security::BlockServer => server.unwrap_err(),
     }
 }

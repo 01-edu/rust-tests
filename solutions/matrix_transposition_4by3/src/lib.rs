@@ -17,35 +17,35 @@
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Matrix4by3(
-	pub (i32, i32, i32),
-	pub (i32, i32, i32),
-	pub (i32, i32, i32),
-	pub (i32, i32, i32),
+    pub (i32, i32, i32),
+    pub (i32, i32, i32),
+    pub (i32, i32, i32),
+    pub (i32, i32, i32),
 );
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Matrix3by4(
-	pub (i32, i32, i32, i32),
-	pub (i32, i32, i32, i32),
-	pub (i32, i32, i32, i32),
+    pub (i32, i32, i32, i32),
+    pub (i32, i32, i32, i32),
+    pub (i32, i32, i32, i32),
 );
 
 pub fn transpose(m: Matrix4by3) -> Matrix3by4 {
-	Matrix3by4(
-		((m.0).0, (m.1).0, (m.2).0, (m.3).0),
-		((m.0).1, (m.1).1, (m.2).1, (m.3).1),
-		((m.0).2, (m.1).2, (m.2).2, (m.3).2),
-	)
+    Matrix3by4(
+        ((m.0).0, (m.1).0, (m.2).0, (m.3).0),
+        ((m.0).1, (m.1).1, (m.2).1, (m.3).1),
+        ((m.0).2, (m.1).2, (m.2).2, (m.3).2),
+    )
 }
 
 #[cfg(test)]
 mod tests {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn test_tranposion() {
-		let matrix = Matrix4by3((1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12));
-		let expected = Matrix3by4((1, 4, 7, 10), (2, 5, 8, 11), (3, 6, 9, 12));
-		assert_eq!(transpose(matrix), expected);
-	}
+    #[test]
+    fn test_tranposion() {
+        let matrix = Matrix4by3((1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12));
+        let expected = Matrix3by4((1, 4, 7, 10), (2, 5, 8, 11), (3, 6, 9, 12));
+        assert_eq!(transpose(matrix), expected);
+    }
 }

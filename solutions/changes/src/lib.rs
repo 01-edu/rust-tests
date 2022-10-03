@@ -31,52 +31,52 @@ identified by the alias in the Vec of lights.
 
 #[derive(Debug, Eq, PartialEq, Clone)]
 pub struct Light {
-	pub alias: String,
-	pub brightness: u8,
+    pub alias: String,
+    pub brightness: u8,
 }
 
 impl Light {
-	#[allow(dead_code)]
-	pub fn new(alias: &str) -> Self {
-		Self {
-			alias: alias.to_owned(),
-			brightness: 0,
-		}
-	}
+    #[allow(dead_code)]
+    pub fn new(alias: &str) -> Self {
+        Self {
+            alias: alias.to_owned(),
+            brightness: 0,
+        }
+    }
 }
 
 pub fn change_brightness(lights: &mut Vec<Light>, alias: &str, value: u8) {
-	if let Some(mut light) = lights.into_iter().find(|x| x.alias == alias) {
-		light.brightness = value
-	}
+    if let Some(mut light) = lights.into_iter().find(|x| x.alias == alias) {
+        light.brightness = value
+    }
 }
 
 #[cfg(test)]
 mod test {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn test_unexistente_alias() {
-		let mut lights = Vec::new();
-		for i in 0..5 {
-			let alias = format!("light-{}", i);
-			lights.push(Light::new(&alias));
-		}
-		let copy = lights.clone();
-		change_brightness(&mut lights, "light-6", 100);
-		assert_eq!(copy, lights);
-	}
+    #[test]
+    fn test_unexistente_alias() {
+        let mut lights = Vec::new();
+        for i in 0..5 {
+            let alias = format!("light-{}", i);
+            lights.push(Light::new(&alias));
+        }
+        let copy = lights.clone();
+        change_brightness(&mut lights, "light-6", 100);
+        assert_eq!(copy, lights);
+    }
 
-	#[test]
-	fn test_alias() {
-		let mut lights = Vec::new();
-		for i in 0..5 {
-			let alias = format!("light-{}", i);
-			lights.push(Light::new(&alias));
-		}
-		let alias = "light-3";
-		change_brightness(&mut lights, alias, 100);
-		let light = lights.into_iter().find(|x| x.alias == alias).unwrap();
-		assert_eq!(light.brightness, 100);
-	}
+    #[test]
+    fn test_alias() {
+        let mut lights = Vec::new();
+        for i in 0..5 {
+            let alias = format!("light-{}", i);
+            lights.push(Light::new(&alias));
+        }
+        let alias = "light-3";
+        change_brightness(&mut lights, alias, 100);
+        let light = lights.into_iter().find(|x| x.alias == alias).unwrap();
+        assert_eq!(light.brightness, 100);
+    }
 }

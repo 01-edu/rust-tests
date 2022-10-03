@@ -15,16 +15,16 @@ The objective is to now how ownership works with different types.
 
 ```rust
 fn main() {
-	let a = String::from("1 2 4 5 6");
-	let b = vec![1, 2, 4, 5];
-	let c: u32 = 0;
+    let a = String::from("1 2 4 5 6");
+    let b = vec![1, 2, 4, 5];
+    let c: u32 = 0;
 
-	println!("{:?}", nbr_function(c));
-	// output: (12, 162754.79141900392, 2.4849066497880004)
-	println!("{:?}", vec_function(b));
-	// output: ([1, 2, 4], [0.0, 0.6931471805599453, 1.3862943611198906])
-	println!("{:?}", str_function(a));
-	// output: ("1 2 4", "2.718281828459045 7.38905609893065 54.598150033144236")
+    println!("{:?}", nbr_function(c));
+    // output: (12, 162754.79141900392, 2.4849066497880004)
+    println!("{:?}", vec_function(b));
+    // output: ([1, 2, 4], [0.0, 0.6931471805599453, 1.3862943611198906])
+    println!("{:?}", str_function(a));
+    // output: ("1 2 4", "2.718281828459045 7.38905609893065 54.598150033144236")
 }
 ```
 
@@ -34,99 +34,99 @@ fn main() {
 */
 
 pub fn nbr_function(c: i32) -> (i32, f64, f64) {
-	(c, exponential(c), logarithm(c))
+    (c, exponential(c), logarithm(c))
 }
 
 pub fn logarithm(n: i32) -> f64 {
-	(n.abs() as f64).ln()
+    (n.abs() as f64).ln()
 }
 pub fn exponential(n: i32) -> f64 {
-	(n as f64).exp()
+    (n as f64).exp()
 }
 
 pub fn str_function(a: String) -> (String, String) {
-	(a.clone(), exp(a).join(" "))
+    (a.clone(), exp(a).join(" "))
 }
 pub fn exp(s: String) -> Vec<String> {
-	let mut v: Vec<String> = Vec::new();
-	for token in s.split_whitespace() {
-		v.push(exponential(token.parse::<i32>().unwrap()).to_string());
-	}
-	v
+    let mut v: Vec<String> = Vec::new();
+    for token in s.split_whitespace() {
+        v.push(exponential(token.parse::<i32>().unwrap()).to_string());
+    }
+    v
 }
 
 pub fn vec_function(b: Vec<i32>) -> (Vec<i32>, Vec<f64>) {
-	(b.clone(), b.iter().map(|v| logarithm(*v)).collect())
+    (b.clone(), b.iter().map(|v| logarithm(*v)).collect())
 }
 
 #[cfg(test)]
 mod tests {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn ownership_nbr_test() {
-		assert_eq!(
-			nbr_function(12),
-			(12, 162754.79141900392, 2.4849066497880004)
-		);
-		assert_eq!(nbr_function(1), (1, 2.718281828459045, 0.0));
-		assert_eq!(nbr_function(0), (0, 1.0, std::f64::NEG_INFINITY));
-	}
+    #[test]
+    fn ownership_nbr_test() {
+        assert_eq!(
+            nbr_function(12),
+            (12, 162754.79141900392, 2.4849066497880004)
+        );
+        assert_eq!(nbr_function(1), (1, 2.718281828459045, 0.0));
+        assert_eq!(nbr_function(0), (0, 1.0, std::f64::NEG_INFINITY));
+    }
 
-	#[test]
-	fn negative_nbr_test() {
-		assert_eq!(
-			nbr_function(-12),
-			(-12, 0.00000614421235332821, 2.4849066497880004)
-		);
-		assert_eq!(nbr_function(-1), (-1, 0.36787944117144233, 0.0));
-		assert_eq!(nbr_function(0), (0, 1.0, std::f64::NEG_INFINITY));
-	}
+    #[test]
+    fn negative_nbr_test() {
+        assert_eq!(
+            nbr_function(-12),
+            (-12, 0.00000614421235332821, 2.4849066497880004)
+        );
+        assert_eq!(nbr_function(-1), (-1, 0.36787944117144233, 0.0));
+        assert_eq!(nbr_function(0), (0, 1.0, std::f64::NEG_INFINITY));
+    }
 
-	#[test]
-	fn ownership_vec_test() {
-		assert_eq!(
-			vec_function(vec![1, 2, 4]),
-			(
-				vec![1, 2, 4],
-				vec![0.0, 0.6931471805599453, 1.3862943611198906]
-			)
-		);
+    #[test]
+    fn ownership_vec_test() {
+        assert_eq!(
+            vec_function(vec![1, 2, 4]),
+            (
+                vec![1, 2, 4],
+                vec![0.0, 0.6931471805599453, 1.3862943611198906]
+            )
+        );
 
-		assert_eq!(
-			vec_function(vec![0, 1]),
-			(vec![0, 1], vec![std::f64::NEG_INFINITY, 0.0])
-		);
+        assert_eq!(
+            vec_function(vec![0, 1]),
+            (vec![0, 1], vec![std::f64::NEG_INFINITY, 0.0])
+        );
 
-		assert_eq!(
-			vec_function(vec![1, 2, 4, 5]),
-			(
-				vec![1, 2, 4, 5],
-				vec![
-					0.0,
-					0.6931471805599453,
-					1.3862943611198906,
-					1.6094379124341003
-				]
-			)
-		);
-	}
+        assert_eq!(
+            vec_function(vec![1, 2, 4, 5]),
+            (
+                vec![1, 2, 4, 5],
+                vec![
+                    0.0,
+                    0.6931471805599453,
+                    1.3862943611198906,
+                    1.6094379124341003
+                ]
+            )
+        );
+    }
 
-	#[test]
-	fn ownership_str_test() {
-		assert_eq!(
-			str_function(String::from("1 2 4")),
-			(
-				"1 2 4".to_string(),
-				"2.718281828459045 7.38905609893065 54.598150033144236".to_string()
-			)
-		);
-		assert_eq!(
-			str_function(String::from("1 0")),
-			(("1 0".to_string(), "2.718281828459045 1".to_string()))
-		);
-		assert_eq!(str_function(
+    #[test]
+    fn ownership_str_test() {
+        assert_eq!(
+            str_function(String::from("1 2 4")),
+            (
+                "1 2 4".to_string(),
+                "2.718281828459045 7.38905609893065 54.598150033144236".to_string()
+            )
+        );
+        assert_eq!(
+            str_function(String::from("1 0")),
+            (("1 0".to_string(), "2.718281828459045 1".to_string()))
+        );
+        assert_eq!(str_function(
 				String::from("1 2 4 5 6")),
 				(("1 2 4 5 6".to_string(), "2.718281828459045 7.38905609893065 54.598150033144236 148.4131591025766 403.4287934927351".to_string())));
-	}
+    }
 }

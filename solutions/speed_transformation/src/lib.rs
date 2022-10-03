@@ -2,7 +2,7 @@
 // equivalent in m/s (meters per second)
 
 pub fn km_per_hour_to_meters_per_second(km_h: f64) -> f64 {
-	(10.0 / 36.0) * km_h
+    (10.0 / 36.0) * km_h
 }
 
 // fn main() {
@@ -13,13 +13,13 @@ pub fn km_per_hour_to_meters_per_second(km_h: f64) -> f64 {
 
 #[cfg(test)]
 mod test {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn kmh_to_ms() {
-		assert_eq!(km_per_hour_to_meters_per_second(90.0), 25.0);
-		assert_eq!(km_per_hour_to_meters_per_second(50.0), 13.88888888888889);
-		assert_eq!(km_per_hour_to_meters_per_second(10.0), 2.7777777777777777);
-		assert_eq!(km_per_hour_to_meters_per_second(100.0), 27.77777777777778);
-	}
+    #[test]
+    fn kmh_to_ms() {
+        assert_eq!(km_per_hour_to_meters_per_second(90.0), 25.0);
+        assert_eq!(km_per_hour_to_meters_per_second(50.0), 13.88888888888889);
+        assert_eq!(km_per_hour_to_meters_per_second(10.0), 2.7777777777777777);
+        assert_eq!(km_per_hour_to_meters_per_second(100.0), 27.77777777777778);
+    }
 }

@@ -18,37 +18,37 @@
 use std::collections::HashMap;
 
 pub fn is_permutation(s1: &str, s2: &str) -> bool {
-	let mut s1_rep = HashMap::new();
-	let mut s2_rep = HashMap::new();
-	for c1 in s1.chars() {
-		let repetitions = s1_rep.entry(c1).or_insert(1);
-		*repetitions += 1;
-	}
-	for c2 in s2.chars() {
-		let repetitions = s2_rep.entry(c2).or_insert(1);
-		*repetitions += 1;
-	}
+    let mut s1_rep = HashMap::new();
+    let mut s2_rep = HashMap::new();
+    for c1 in s1.chars() {
+        let repetitions = s1_rep.entry(c1).or_insert(1);
+        *repetitions += 1;
+    }
+    for c2 in s2.chars() {
+        let repetitions = s2_rep.entry(c2).or_insert(1);
+        *repetitions += 1;
+    }
 
-	s1_rep == s2_rep
+    s1_rep == s2_rep
 }
 
 #[cfg(test)]
 mod test {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn permutation_ascii() {
-		assert!(is_permutation("abcde", "edbca"));
-		assert!(!is_permutation("avcde", "edbca"));
-		assert!(!is_permutation("cde", "edbca"));
-		assert!(is_permutation("code", "deco"));
-		assert!(!is_permutation("code", "deeco"));
-		assert!(!is_permutation("codde", "deeco"));
-	}
+    #[test]
+    fn permutation_ascii() {
+        assert!(is_permutation("abcde", "edbca"));
+        assert!(!is_permutation("avcde", "edbca"));
+        assert!(!is_permutation("cde", "edbca"));
+        assert!(is_permutation("code", "deco"));
+        assert!(!is_permutation("code", "deeco"));
+        assert!(!is_permutation("codde", "deeco"));
+    }
 
-	#[test]
-	fn permutation_unicode() {
-		assert!(is_permutation("hello♥", "♥oelhl"));
-		assert!(!is_permutation("♥", "♥♥"));
-	}
+    #[test]
+    fn permutation_unicode() {
+        assert!(is_permutation("hello♥", "♥oelhl"));
+        assert!(!is_permutation("♥", "♥♥"));
+    }
 }

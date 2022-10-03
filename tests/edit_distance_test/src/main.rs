@@ -47,24 +47,24 @@ use edit_distance::edit_distance;
 
 #[allow(dead_code)]
 fn main() {
-	let source = "alignment";
-	let target = "assignment";
-	println!(
-		"It's necessary to make {} change(s) to {}, to get {}",
-		edit_distance(source, target),
-		source,
-		target
-	);
+    let source = "alignment";
+    let target = "assignment";
+    println!(
+        "It's necessary to make {} change(s) to {}, to get {}",
+        edit_distance(source, target),
+        source,
+        target
+    );
 }
 
 #[cfg(test)]
 mod test {
-	use super::*;
+    use super::*;
 
-	#[test]
-	fn test_distance() {
-		assert_eq!(edit_distance("gumbo", "gambol"), 2);
-		assert_eq!(edit_distance("kitten", "sitting"), 3);
-		assert_eq!(edit_distance("rosettacode", "raisethysword"), 8);
-	}
+    #[test]
+    fn test_distance() {
+        assert_eq!(edit_distance("gumbo", "gambol"), 2);
+        assert_eq!(edit_distance("kitten", "sitting"), 3);
+        assert_eq!(edit_distance("rosettacode", "raisethysword"), 8);
+    }
 }

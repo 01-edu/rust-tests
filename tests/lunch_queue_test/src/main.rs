@@ -8,7 +8,7 @@ fn main() {
     list.add(String::from("Ana"), 5);
     list.add(String::from("Alice"), 35);
     println!("{:?}", list);
-    
+
     // output:
     // Queue { node: Some(Person { name: "Alice", discount: 35, next_person: Some(Person { name: "Ana", discount: 5, next_person: Some(Person { name: "Monica", discount: 15, next_person: Some(Person { name: "Marie", discount: 20, next_person: None }) }) }) }) }
     println!("{:?}", list.search("Marie"));
@@ -18,7 +18,7 @@ fn main() {
     // Some(("Marie", 20))
     // Some(("Alice", 35))
     // None
-    
+
     println!("removed {:?}", list.rm());
     println!("removed {:?}", list.rm());
     println!("list {:?}", list);
@@ -28,7 +28,6 @@ fn main() {
     // removed Some(("Marie", 20))
     // list Queue { node: Some(Person { name: "Alice", discount: 35, next_person: Some(Person { name: "Ana", discount: 5, next_person: Some(Person { name: "Monica", discount: 15, next_person: None }) }) }) }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -85,25 +84,13 @@ mod tests {
         list.add(String::from("Ana"), 5);
         list.add(String::from("Alice"), 35);
 
-        assert_eq!(
-            list.search("Ana"),
-            Some((String::from("Ana"), 5))
-        );
+        assert_eq!(list.search("Ana"), Some((String::from("Ana"), 5)));
 
-        assert_eq!(
-            list.search("Monica"),
-            Some((String::from("Monica"), 15))
-        );
+        assert_eq!(list.search("Monica"), Some((String::from("Monica"), 15)));
 
-        assert_eq!(
-            list.search("Alice"),
-            Some((String::from("Alice"), 35))
-        );
+        assert_eq!(list.search("Alice"), Some((String::from("Alice"), 35)));
 
-        assert_eq!(
-            list.search("someone_that_does_not_exist"),
-            None
-        );
+        assert_eq!(list.search("someone_that_does_not_exist"), None);
     }
 
     #[test]
