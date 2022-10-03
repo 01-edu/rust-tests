@@ -55,7 +55,7 @@ then
 	-f                  apply \"cargo fmt\" to the exercises
 	-c                  run \"cargo clippy\" to the exercises
 	-n                  do NOT run \"cargo test\" on the exercises
-	[exercise_name]+    test one or more selected exercises
+	[exercise_name]     test one or more selected exercises (separated by spaces)
 	[NO ARGUMENTS]      test all exercises in test directory"
 elif [[ $ARG == '-t' ]]
 then
