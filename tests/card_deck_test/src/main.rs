@@ -46,3 +46,24 @@ fn test_winner() {
         }
     }
 }
+
+#[test]
+fn test_randomness() {
+    let nb_tests = 10;
+    let curr_card = Card {
+        rank: Rank::random(),
+        suit: Suit::random(),
+    };
+    let mut nb_same_rank = 0;
+    let mut nb_same_suit = 0;
+    for _ in 0..nb_tests {
+        if curr_card.rank == Rank::random() {
+            nb_same_rank += 1;
+        }
+        if curr_card.suit == Suit::random() {
+            nb_same_suit += 1;
+        }
+    }
+    assert!(nb_same_rank < nb_tests);
+    assert!(nb_same_suit < nb_tests);
+}
