@@ -24,11 +24,6 @@ impl Mall {
     pub fn hire_guard(&mut self, guard: guard::Guard) {
         self.guards.push(guard);
     }
-
-    #[allow(dead_code)]
-    pub fn fire_guard(&mut self, name: String) {
-        self.guards.retain(|x| x.name != name);
-    }
 }
 
 pub mod guard {

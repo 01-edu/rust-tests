@@ -143,14 +143,6 @@ pub fn nbr_of_employees(mall: mall::Mall) -> usize {
     res + mall.guards.len()
 }
 
-pub fn fire_old_securities(mall: &mut mall::Mall) {
-    for sec in mall.clone().guards {
-        if sec.age >= 50 {
-            mall.fire_guard(sec.name);
-        }
-    }
-}
-
 pub fn check_for_securities(mall: &mut mall::Mall, available_sec: Vec<guard::Guard>) {
     let mut size = 0;
     for floor in mall.floors.iter() {

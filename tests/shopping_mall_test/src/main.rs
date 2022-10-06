@@ -315,43 +315,16 @@ mod tests {
     }
 
     #[test]
-    fn fire_old_sec_test() {
-        let mut shopping_mall = create_mall();
-
-        fire_old_securities(&mut shopping_mall);
-        assert_eq!(2, shopping_mall.guards.len());
-
-        shopping_mall.guards.append(&mut vec![
-            mall::guard::Guard::new("Chris Esparza", 50, 12),
-            mall::guard::Guard::new("Kane Holloway", 53, 20),
-            mall::guard::Guard::new("Connor Wardle", 22, 1),
-            mall::guard::Guard::new("Louis Pickett", 26, 3),
-            mall::guard::Guard::new("Olly Middleton", 36, 9),
-        ]);
-
-        assert_eq!(7, shopping_mall.guards.len());
-
-        fire_old_securities(&mut shopping_mall);
-
-        assert_eq!(5, shopping_mall.guards.len());
-    }
-
-    #[test]
     fn nbr_of_employees_test() {
         let mut shopping_mall = create_mall();
 
         let mut tested = nbr_of_employees(shopping_mall.clone());
         assert_eq!(36, tested);
 
-        fire_old_securities(&mut shopping_mall);
-
-        tested = nbr_of_employees(shopping_mall.clone());
-        assert_eq!(35, tested);
-
         shopping_mall.floors[2].stores[0].employees = vec![];
 
         tested = nbr_of_employees(shopping_mall.clone());
-        assert_eq!(21, tested);
+        assert_eq!(22, tested);
     }
 
     #[test]
