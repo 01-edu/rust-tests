@@ -1,4 +1,3 @@
-// Create a enum that represent the card suits
 use rand::Rng;
 
 #[derive(Debug, PartialEq, Clone)]
@@ -63,21 +62,6 @@ pub fn winner_card(card: &Card) -> bool {
         rank: Rank::Ace,
     } == *card
 }
-// Write a program that takes that returns a random card in the deck
-// A standard deck of cards has 52 cards: 4 suits and 13 cards per suit
-// fn main() {
-// 	let your_card = Card {
-// 		rank: Rank::random(),
-// 		suit: Suit::random(),
-// 	};
-
-// 	println!("You're card is a {:?}", your_card);
-
-// 	// Now if the card is an Ace of Spades print "You are the winner"
-// 	if winner_card(your_card) {
-// 		println!("You are the winner!");
-// 	}
-// }
 
 #[cfg(test)]
 mod tests {
