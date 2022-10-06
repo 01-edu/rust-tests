@@ -8,7 +8,7 @@ fn main() {
     list.add_worker(String::from("Normal Worker"), String::from("Alice"));
     println!("{:?}", list);
 
-    println!("{:?}", list.search_worker());
+    println!("{:?}", list.last_worker());
 
     list.remove_worker();
     list.remove_worker();
@@ -42,8 +42,8 @@ mod tests {
         list.add_worker(String::from("Manager"), String::from("Monica"));
         list.remove_worker();
 
-        assert_eq!(list.grade.as_ref().unwrap().worker_type, "CEO");
-        assert_eq!(list.grade.as_ref().unwrap().worker_name, "Marie");
+        assert_eq!(list.grade.as_ref().unwrap().role, "CEO");
+        assert_eq!(list.grade.as_ref().unwrap().name, "Marie");
     }
 
     #[test]
@@ -55,17 +55,17 @@ mod tests {
         list.add_worker(String::from("Normal Worker"), String::from("Alice"));
         list.remove_worker();
 
-        assert_eq!(list.grade.as_ref().unwrap().worker_type, "Normal Worker");
-        assert_eq!(list.grade.as_ref().unwrap().worker_name, "Ana");
+        assert_eq!(list.grade.as_ref().unwrap().role, "Normal Worker");
+        assert_eq!(list.grade.as_ref().unwrap().name, "Ana");
 
         list.remove_worker();
         list.remove_worker();
-        assert_eq!(list.grade.as_ref().unwrap().worker_type, "CEO");
-        assert_eq!(list.grade.as_ref().unwrap().worker_name, "Marie");
+        assert_eq!(list.grade.as_ref().unwrap().role, "CEO");
+        assert_eq!(list.grade.as_ref().unwrap().name, "Marie");
     }
 
     #[test]
-    fn test_search() {
+    fn test_last_worker() {
         let mut list = WorkEnvironment::new();
         list.add_worker(String::from("CEO"), String::from("Marie"));
         list.add_worker(String::from("Manager"), String::from("Monica"));
@@ -73,25 +73,25 @@ mod tests {
         list.add_worker(String::from("Normal Worker"), String::from("Alice"));
 
         assert_eq!(
-            list.search_worker().unwrap(),
+            list.last_worker().unwrap(),
             (String::from("Alice"), String::from("Normal Worker"))
         );
 
         list.remove_worker();
         assert_eq!(
-            list.search_worker().unwrap(),
+            list.last_worker().unwrap(),
             (String::from("Ana"), String::from("Normal Worker"))
         );
 
         list.remove_worker();
         assert_eq!(
-            list.search_worker().unwrap(),
+            list.last_worker().unwrap(),
             (String::from("Monica"), String::from("Manager"))
         );
 
         list.remove_worker();
         assert_eq!(
-            list.search_worker().unwrap(),
+            list.last_worker().unwrap(),
             (String::from("Marie"), String::from("CEO"))
         );
     }
