@@ -8,4 +8,4 @@ edition = "2021"
 
 [dependencies]
 arrays = { path = "../../solutions/arrays"}
-lib = { path = "../../tests_utility/lib" }
+lib = { path = "../lib" }
