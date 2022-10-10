@@ -5,7 +5,7 @@
 
 Create the following functions :
 
-- `add_ele` that adds an element to the value in the `Node`
+- `add_element` that adds an element to the value in the `Node`
 
 - `how_many_references` that returns how many times the value is referenced in the code
 
@@ -23,20 +23,20 @@ pub use std::rc::Rc;
 
 #[derive(Debug)]
 pub struct Node {
-    pub value: Vec<Rc<String>>,
+    pub ref_list: Vec<Rc<String>>,
 }
 
 impl Node {
-    pub fn new(value: Vec<Rc<String>>) -> Node {
-        Node { value: value }
+    pub fn new(ref_list: Vec<Rc<String>>) -> Node {
+        Node { ref_list: ref_list }
     }
 
-    pub fn add_ele(&mut self, v: Rc<String>) {
-        self.value.push(v);
+    pub fn add_element(&mut self, v: Rc<String>) {
+        self.ref_list.push(v);
     }
 
     pub fn rm_all_ref(&mut self, v: Rc<String>) {
-        self.value.retain(|x| is_same_allocate(x, &v));
+        self.ref_list.retain(|x| is_same_allocate(x, &v));
     }
 }
 
@@ -64,10 +64,10 @@ fn main() {
     let a1 = Rc::new(String::from("a"));
 
     let mut new_node = Node::new(vec![a.clone()]);
-    new_node.add_ele(b.clone());
-    new_node.add_ele(a.clone());
-    new_node.add_ele(c.clone());
-    new_node.add_ele(a.clone());
+    new_node.add_element(b.clone());
+    new_node.add_element(a.clone());
+    new_node.add_element(c.clone());
+    new_node.add_element(a.clone());
 
     println!("a: {:?}", how_many_references(&a));
     println!("b: {:?}", how_many_references(&b));
@@ -104,9 +104,9 @@ mod tests {
         let c = Rc::new(String::from("c"));
 
         let mut new_node = Node::new(vec![a.clone()]);
-        new_node.add_ele(a.clone());
-        new_node.add_ele(b.clone());
-        new_node.add_ele(c.clone());
+        new_node.add_element(a.clone());
+        new_node.add_element(b.clone());
+        new_node.add_element(c.clone());
 
         assert_eq!(new_node.value, vec![a.clone(), a, b, c]);
     }
@@ -117,10 +117,10 @@ mod tests {
         let c = Rc::new(String::from("c"));
         let d = Rc::new(String::from("d"));
         let mut new_node = Node::new(vec![]);
-        new_node.add_ele(b.clone());
-        new_node.add_ele(a.clone());
-        new_node.add_ele(c.clone());
-        new_node.add_ele(a.clone());
+        new_node.add_element(b.clone());
+        new_node.add_element(a.clone());
+        new_node.add_element(c.clone());
+        new_node.add_element(a.clone());
 
         assert_eq!(how_many_references(&d), 1);
         assert_eq!(how_many_references(&a), 3);
