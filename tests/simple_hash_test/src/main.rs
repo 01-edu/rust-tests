@@ -2,55 +2,59 @@
 // Create the function `remove` that removes a given key from the `HashMap`.
 
 use std::collections::HashMap;
-
 use simple_hash::*;
 
+
 fn main() {
-    let mut hash: HashMap<&str, i32> = HashMap::new();
-    hash.insert("Daniel", 122);
-    hash.insert("Ashley", 333);
-    hash.insert("Katie", 334);
-    hash.insert("Robert", 14);
-
-    println!(
-        "Does the HashMap contains the name Roman? => {}",
-        contain(&hash, "Roman")
-    );
-    println!(
-        "Does the HashMap contains the name Katie? => {}",
-        contain(&hash, "Katie")
-    );
-    println!("Removing Robert {:?}", remove(&mut hash, "Robert"));
-    println!("Hash {:?}", &hash);
+    
 }
 
-#[test]
-fn test_contains() {
-    let mut s = HashMap::new();
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    s.insert("Pedro", 43);
-    s.insert("Ralph", 12);
-    s.insert("Johnny", 546);
-    s.insert("Albert", 12323214);
+    fn reference_hash(words: Vec<&str>) -> HashMap<&str, usize> {
+        let mut frequency_count: HashMap<&str, usize> = HashMap::new();
+    
+        for word in words {
+            *frequency_count.entry(word).or_insert(0) += 1;
+        }
+        frequency_count
+    }
+    
+    #[test]
+    fn test_basic_example() {
+        let sentence = "this is a very basic sentence with only few \
+                repetitions. once again this is very basic and \
+                but it should be enough for basic tests".to_string();
+        let words = sentence.split(" ").collect::<Vec<&str>>();
+        assert_eq!(reference_hash(words.clone()),
+            word_frequency_counter(words.clone()));
+    }
 
-    assert_eq!(true, contain(&s, "Pedro"));
-    assert_eq!(true, contain(&s, "Ralph"));
-    assert_eq!(true, contain(&s, "Johnny"));
-    assert_eq!(true, contain(&s, "Albert"));
-    assert_eq!(false, contain(&s, "Marco"));
-    assert_eq!(false, contain(&s, "Joan"));
-    assert_eq!(false, contain(&s, "Louise"));
-}
+    #[test]
+    fn test_frequency_counter() {
+        let sentence = "on the dock there were dockers \
+                        there were dogs and cats \
+                        and it was raining cats and dogs
+                        a dog and a cat were on both sides of the rain".to_string();
+        let words = sentence.split(" ").collect::<Vec<&str>>();
+        assert_eq!(reference_hash(words.clone()),
+            word_frequency_counter(words.clone()));
+    }
 
-#[test]
-fn test_remove() {
-    let mut n = HashMap::new();
-    n.insert("Dani Sordo", 37);
-    n.insert("Sébastien Loeb", 46);
-    n.insert("Ott Tanak", 32);
-    n.insert("Thierry Neuville", 32);
+    #[test]
+    fn test_empty() {
+        let words = Vec::<&str>::new();
+        assert_eq!(reference_hash(words.clone()),
+            word_frequency_counter(words.clone()));
+    }
 
-    remove(&mut n, "Dani Sordo");
-    assert_eq!(true, contain(&n, "Ott Tanak"));
-    assert_eq!(false, contain(&n, "Dani Ŝordo"))
+    #[test]
+    fn test_only_repeated() {
+        let sentence = "one one one one one one one one one".to_string();
+        let words = sentence.split(" ").collect::<Vec<&str>>();
+        assert_eq!(reference_hash(words.clone()),
+            word_frequency_counter(words.clone()));
+    }
 }
