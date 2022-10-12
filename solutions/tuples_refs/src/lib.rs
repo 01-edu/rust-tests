@@ -1,12 +1,12 @@
 // Define a tuple to represent a student
-// Each student is identified by an id number of type i32
+// Each student is identified by an id number of type u32
 // Its name and its last name as a string
 // Print the content of the tuple to stdout
 
 #[derive(Debug)]
-pub struct Student(pub i32, pub String, pub String);
+pub struct Student(pub u32, pub String, pub String);
 
-pub fn id(student: &Student) -> i32 {
+pub fn id(student: &Student) -> u32 {
     student.0
 }
 
