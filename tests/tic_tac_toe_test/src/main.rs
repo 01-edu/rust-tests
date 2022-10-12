@@ -1,91 +1,3 @@
-/*
-## tic_tac_toe
-
-### Instructions
-
-You must create a tic tac toe checker.
-
-Create the following functions:
-
-- `tic_tac_toe` that receives a table of vectors (Vec<Vec<&str>>) and returns a string : `player O won` or `player X won` or `Tie`
-- `diagonals` that will receive a player and a table. It should return a boolean, this must return true if all the diagonals are completed by the player
-- `horizontal` that will receive a player and a table. It should return a boolean, this must return true if one of the horizontal lines are completed by the player
-- `vertical` that will receive a player and a table. It should return a boolean, this must return true if one of the vertical lines are completed by the player
-
-### Example
-
-
-```
-
-### Notions
-
-- https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html
-
-*/
-
-// fn check(player: &str, table: &Vec<Vec<&str>>) -> bool {
-//     diagonals(player, &table) || horizontal(player, &table) || vertical(player, &table)
-// }
-
-// fn tic_tac_toe(table: Vec<Vec<&str>>) -> String {
-//     let player1 = "X";
-//     let player2 = "O";
-//     if check(player2, &table) {
-//         return format!("player {} won", player2);
-//     } else if check(player1, &table) {
-//         return format!("player {} won", player1);
-//     } else {
-//         return "Tie".to_string();
-//     }
-// }
-
-// fn diagonals(player: &str, table: &Vec<Vec<&str>>) -> bool {
-//     let mut count = 0;
-//     let mut count_inv = 0;
-//     for (i, v) in table.iter().enumerate() {
-//         if v.get(i).unwrap() == &player {
-//             count += 1;
-//         }
-//         if v.get((table.len() - 1) - i).unwrap() == &player {
-//             count_inv += 1;
-//         }
-//     }
-//     return count == table.len() || count_inv == table.len();
-// }
-
-// // not good will change the solution
-// fn horizontal(player: &str, table: &Vec<Vec<&str>>) -> bool {
-//     let mut count = 0;
-//     for v in table.iter() {
-//         for value in v.iter() {
-//             if value == &player {
-//                 count += 1
-//             }
-//         }
-//         if count == table.len() {
-//             return true;
-//         }
-//         count = 0;
-//     }
-//     return false;
-// }
-
-// // not good will change the solution
-// fn vertical(player: &str, table: &Vec<Vec<&str>>) -> bool {
-//     let mut count = 0;
-//     for (i, _) in table.iter().enumerate() {
-//         for v in table.iter() {
-//             if v.get(i).unwrap() == &player {
-//                 count += 1;
-//             }
-//         }
-//         if count == table.len() {
-//             return true;
-//         }
-//         count = 0;
-//     }
-//     return false;
-// }
 use tic_tac_toe::*;
 
 fn main() {
@@ -97,7 +9,7 @@ fn main() {
             vec!["X", "#", "X"]
         ])
     );
-    // "Tie"
+    // "tie"
     println!(
         "{:?}",
         tic_tac_toe(vec![
@@ -178,7 +90,7 @@ mod tests {
                         vec!["O", "X", "O"],
                         vec!["X", "#", "X"],
                     ],
-                    result: "Tie",
+                    result: "tie",
                 },
                 Test {
                     player: "none",
@@ -187,7 +99,7 @@ mod tests {
                         vec!["X", "X", "O"],
                         vec!["X", "#", "X"],
                     ],
-                    result: "Tie",
+                    result: "tie",
                 },
                 Test {
                     player: "none",
@@ -197,7 +109,7 @@ mod tests {
                         vec!["X", "#", "X", "X"],
                         vec!["X", "X", "O", "O"],
                     ],
-                    result: "Tie",
+                    result: "tie",
                 },
             ]
         }
