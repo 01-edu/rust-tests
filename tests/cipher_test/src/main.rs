@@ -11,10 +11,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_cipher() {
+    fn test_ok_values() {
         assert_eq!(cipher("1Hello 2world!", "1Svool 2dliow!"), Some(Ok(true)));
+        assert_eq!(cipher("asdasd", "zhwzhw"), Some(Ok(true)));
+        assert_eq!(cipher("3(/&%fsd 32das", "3(/&%uhw 32wzh"), Some(Ok(true)));
+    }
+
+    #[test]
+    fn test_empty_values() {
         assert_eq!(cipher("", "1Svool 2dliow!"), None);
         assert_eq!(cipher("1Hello 2world!", ""), None);
+    }
+
+    #[test]
+    fn test_errors() {
         assert_eq!(
             cipher("1Hello 2world!", "1svool 2dliow!"),
             Some(Err(CipherError {
@@ -22,7 +32,6 @@ mod tests {
                 expected: String::from("1Svool 2dliow!")
             }))
         );
-        assert_eq!(cipher("asdasd", "zhwzhw"), Some(Ok(true)));
         assert_eq!(
             cipher("asdasd", "lkdas"),
             Some(Err(CipherError {
@@ -30,7 +39,6 @@ mod tests {
                 expected: String::from("zhwzhw")
             }))
         );
-        assert_eq!(cipher("3(/&%fsd 32das", "3(/&%uhw 32wzh"), Some(Ok(true)));
         assert_eq!(
             cipher("3(/&%sd 32das", "3(/&%uhw 32wzh"),
             Some(Err(CipherError {
