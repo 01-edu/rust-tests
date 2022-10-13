@@ -17,6 +17,7 @@ IS_VERBOSE=false
 CARGO_FORMAT=false
 CARGO_CLIPPY=false
 TEST_EXERCISES=true
+REAL_ENV_TEST=false
 
 run_test () {
 	exercise_dir=$1
@@ -32,6 +33,29 @@ run_test () {
 		printf "  ${YEL}[CLIPPY]${NC} %s\n" $exercise_name
 		cargo clippy -q --manifest-path "$exercise_dir"Cargo.toml
 		cargo clippy -q --manifest-path ../solutions/"${exercise_dir%_test/}"/Cargo.toml
+	fi
+	if [[ $REAL_ENV_TEST == true ]]
+	then
+		printf "  ${GRN}[REAL_ENV]${NC} %s\n" $exercise_name
+
+		rm -rf student
+		mkdir student
+		cp -r ../solutions/"$exercise_name" student/"$exercise_name"
+
+		docker run --read-only \
+			--network none \
+			--memory 500M \
+			--cpus 2.0 \
+			--user 1000:1000 \
+			--env EXERCISE="$exercise_name" \
+			--env USERNAME=msessa \
+			--env HOME=/jail \
+			--env TMPDIR=/jail \
+			--workdir /jail \
+			--tmpfs /jail:size=100M,noatime,exec,nodev,nosuid,uid=1000,gid=1000,nr_inodes=5k,mode=1700 \
+			--volume "$(pwd)"/student/"$exercise_name":/jail/student:ro \
+			-it rust_tests
+		# rm -rf student
 	fi
 	if [[ $TEST_EXERCISES == true ]]
 	then
@@ -55,6 +79,7 @@ then
 	-f                  apply \"cargo fmt\" to the exercises
 	-c                  run \"cargo clippy\" to the exercises
 	-n                  do NOT run \"cargo test\" on the exercises
+	-real               execute the test using the same docker image used by the runner
 	[exercise_name]     test one or more selected exercises (separated by spaces)
 	[NO ARGUMENTS]      test all exercises in test directory"
 elif [[ $ARG == '-t' ]]
@@ -98,11 +123,19 @@ else
 			TEST_EXERCISES=false
 			shift
 			;;
+			-real)
+			REAL_ENV_TEST=true
+			shift
+			;;
 			*)
 			break
 		esac
 	done
 
+	if [[ $REAL_ENV_TEST == true ]]
+	then
+		docker build --no-cache -t rust_tests ../.
+	fi
 	if [[ $# -gt 0 ]]
 	then
 		while [[ $# -gt 0 ]]
