@@ -43,19 +43,12 @@ impl fmt::Display for Table {
         }
 
         write!(f, "{:->1$}", "|", cols_len[cols_len.len() - 1] + 3)?;
-
-        if self.body.len() != 0 {
-            write!(f, "\n")?;
-        }
-        // |-------+--------+-------| for example for a table with
-        // three columns
+        write!(f, "\n")?;
 
         // write the rest of the list
-        for (i, row) in self.body.iter().enumerate() {
+        for row in self.body.iter() {
             print_row(&row, f)?;
-            if i != self.headers.len() - 1 {
-                write!(f, "\n")?;
-            }
+            write!(f, "\n")?;
         }
         Ok(())
     }
@@ -104,48 +97,5 @@ impl Table {
     pub fn add_row(&mut self, row: &[String]) {
         assert_eq!(self.headers.len(), row.len());
         self.body.push(row.to_vec());
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_displays() {
-        let mut table = Table::new();
-        for v in &[
-            "Name".to_string(),
-            "Last Name".to_string(),
-            "ID Number".to_string(),
-        ] {
-            table.add_header(v);
-        }
-        table.add_row(&[
-            "Ackerley".to_string(),
-            "Fillips".to_string(),
-            "123456789".to_string(),
-        ]);
-        table.add_row(&[
-            "Adamaris".to_string(),
-            "Fillips".to_string(),
-            "1111123456789".to_string(),
-        ]);
-        table.add_row(&[
-            "Ackerley".to_string(),
-            "Fillips".to_string(),
-            "123456789".to_string(),
-        ]);
-        assert_eq!(
-			table.to_string(),
-			"|   Name   | Last Name |   ID Number   |\n|----------+-----------+---------------|\n| Ackerley |  Fillips  |   123456789   |\n| Adamaris |  Fillips  | 1111123456789 |\n| Ackerley |  Fillips  |   123456789   |"
-		);
-    }
-
-    // An empty table must not display anything
-    #[test]
-    fn display_empty() {
-        let table = Table::new();
-        assert_eq!(table.to_string(), "");
     }
 }
