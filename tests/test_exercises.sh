@@ -53,9 +53,9 @@ run_test () {
 			--env TMPDIR=/jail \
 			--workdir /jail \
 			--tmpfs /jail:size=100M,noatime,exec,nodev,nosuid,uid=1000,gid=1000,nr_inodes=5k,mode=1700 \
-			--volume "$(pwd)"/student/"$exercise_name":/jail/student:ro \
+			--volume "$(pwd)"/student:/jail/student:ro \
 			-it rust_tests
-		# rm -rf student
+		rm -rf student
 	fi
 	if [[ $TEST_EXERCISES == true ]]
 	then
@@ -134,7 +134,7 @@ else
 
 	if [[ $REAL_ENV_TEST == true ]]
 	then
-		docker build --no-cache -t rust_tests ../.
+		docker build -t rust_tests ../.
 	fi
 	if [[ $# -gt 0 ]]
 	then
