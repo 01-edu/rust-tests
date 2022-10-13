@@ -50,9 +50,10 @@ It runs the exercise in the docker container used by `runner.go` on the platform
 
 > If you want to do it manually here is the process:
 - Build the image with `docker build -t rust_tests .`
-- Create a directory called `student`
-- Copy the exercise directory into `student`
-- ```docker run --read-only \
+- Create the directory `tests/student`
+- Copy the exercise directory from solution into `tests/student`
+- ```bash
+docker run --read-only \
    --network none \
    --memory 500M \
    --cpus 2.0 \
@@ -63,6 +64,6 @@ It runs the exercise in the docker container used by `runner.go` on the platform
    --env TMPDIR=/jail \
    --workdir /jail \
    --tmpfs /jail:size=100M,noatime,exec,nodev,nosuid,uid=1000,gid=1000,nr_inodes=5k,mode=1700 \
-   --volume [volume_containing_student_repository]:/jail/student:ro \
+   --volume "$(pwd)"/tests/student:/jail/student:ro \
    -it rust_tests
 ```
