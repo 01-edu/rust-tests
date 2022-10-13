@@ -4,7 +4,6 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use serial_test::serial;
     use std::io::Write;
     use std::process::{Command, Stdio};
     const MANIFEST_PATH: &str = "../../solutions/looping/Cargo.toml";
@@ -12,7 +11,6 @@ mod tests {
     const ANSWER: &str = "The letter e\n";
 
     #[test]
-    #[serial]
     fn test_correct_answer_on_first_try() {
         let mut looping = Command::new("cargo")
             .args(&["run", "--manifest-path", MANIFEST_PATH, "-q"])
@@ -36,7 +34,6 @@ mod tests {
     }
 
     #[test]
-    #[serial]
     fn test_more_than_one_trial_to_get_the_right_answer() {
         let mut looping = Command::new("cargo")
             .args(&["run", "--manifest-path", MANIFEST_PATH, "-q"])

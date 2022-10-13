@@ -9,4 +9,3 @@ edition = "2021"
 [dependencies]
 
 [dev-dependencies]
-serial_test = "*"
