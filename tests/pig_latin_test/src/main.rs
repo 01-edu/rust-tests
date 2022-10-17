@@ -37,14 +37,13 @@ mod tests {
         assert_eq!(pig_latin(&String::from("igloo")), "iglooay");
         assert_eq!(pig_latin(&String::from("object")), "objectay");
         assert_eq!(pig_latin(&String::from("under")), "underay");
+        assert_eq!(pig_latin(&String::from("equal")), "equalay");
     }
 
     #[test]
-
     fn test_word_beginning_with_consonant() {
-        assert_eq!(pig_latin(&String::from("queen")), "eenquay");
+        assert_eq!(pig_latin(&String::from("queen")), "ueenqay");
         assert_eq!(pig_latin(&String::from("square")), "aresquay");
-        assert_eq!(pig_latin(&String::from("equal")), "equalay");
         assert_eq!(pig_latin(&String::from("pig")), "igpay");
         assert_eq!(pig_latin(&String::from("koala")), "oalakay");
         assert_eq!(pig_latin(&String::from("yellow")), "ellowyay");
@@ -54,5 +53,6 @@ mod tests {
         assert_eq!(pig_latin(&String::from("therapy")), "erapythay");
         assert_eq!(pig_latin(&String::from("thrush")), "ushthray");
         assert_eq!(pig_latin(&String::from("school")), "oolschay");
+        assert_eq!(pig_latin(&String::from("british")), "itishbray");
     }
 }
