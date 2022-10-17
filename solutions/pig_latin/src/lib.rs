@@ -1,63 +1,34 @@
-/*
-## pig_latin
-
-### Instructions
-
-Write a function that transforms a string passed as argument in its `Pig Latin` version.
-
-The rules used by Pig Latin are the following:
-
-- If a word begins with a vowel, just add "ay" to the end.
-- If it begins with a consonant, then we take all consonants before the first vowel and we put them on the end of the word and add "ay" at the end.
-- If a word starts with a consonant followed by "qu", move it to the end of the word, and then add an "ay" at the end.
-
-### Notions
-
-- https://doc.rust-lang.org/book/ch18-00-patterns.html
-
-### Expected functions
-
-```rust
-pub fn pig_latin(text: &str) -> String {}
-```
-
-### Usage
-
-Here is a program to test your function.
-
-```rust
-fn main() {
-    println!("{}", pig_latin(&String::from("igloo")));
-    println!("{}", pig_latin(&String::from("apple")));
-    println!("{}", pig_latin(&String::from("hello")));
-    println!("{}", pig_latin(&String::from("square")));
-    println!("{}", pig_latin(&String::from("xenon")));
-    println!("{}", pig_latin(&String::from("chair")));
-}
-```
-*/
-
 pub fn pig_latin(text: &str) -> String {
     text.split_whitespace()
-        .map(|s| match (&s[0..1], &s[1..2], &s[2..3]) {
-            ("a", _, _)
-            | ("e", _, _)
-            | ("u", _, _)
-            | ("i", _, _)
-            | ("o", _, _)
-            | ("y", "t", _)
-            | ("x", "r", _) => s.to_owned() + "ay",
-
-            ("t", "h", "r") | ("s", "c", "h") | (_, "q", "u") => {
-                format!("{}{}ay", &s[3..], &s[0..3])
+        .map(|s| {
+            let mut nb_chars_to_move = 0;
+            for c in s.chars() {
+                if !is_vowel(c) {
+                    nb_chars_to_move += 1;
+                } else {
+                    break;
+                }
             }
-
-            ("c", "h", _) | ("t", "h", _) | ("q", "u", _) => format!("{}{}ay", &s[2..], &s[0..2]),
-
-            _ => format!("{}{}ay", &s[1..], &s[0..1]),
+            if nb_chars_to_move >= 2
+                && nb_chars_to_move < s.len()
+                && s.chars().nth(nb_chars_to_move - 1) == Some('q')
+                && s.chars().nth(nb_chars_to_move) == Some('u')
+            {
+                nb_chars_to_move += 1;
+            }
+            format!("{}{}ay", &s[nb_chars_to_move..], &s[0..nb_chars_to_move])
         })
         .collect::<Vec<String>>()
         .join(" ")
+}
+
+fn is_vowel(mut c: char) -> bool {
+    c = lowercase(c);
+    c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'
+}
+
+fn lowercase(c: char) -> char {
+    c.to_lowercase().to_string().chars().next().unwrap()
 }
 
 #[cfg(test)]
