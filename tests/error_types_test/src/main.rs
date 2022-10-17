@@ -10,7 +10,6 @@ fn main() {
         String::from("Lee"),
         String::from("Silva"),
         create_date("2015-09-05"),
-        Color::Red,
         String::from("Africa"),
         String::from("qwqwsa1dty_"),
     );
@@ -39,7 +38,7 @@ mod tests {
     #[derive(Debug)]
     struct TestForm<'a> {
         form: Form,
-        validation: Result<Vec<&'a str>, FErr>,
+        validation: Result<Vec<&'a str>, FormError>,
     }
 
     impl<'a> TestForm<'_> {
@@ -51,7 +50,6 @@ mod tests {
                     String::from("Katy"),
                     String::from("Silva"),
                     create_date("2015-09-05"),
-                    Color::Red,
                     String::from("Africa"),
                     String::from("qwTw12&%$3sa1dty_")),
                     validation: Ok(vec!["Valid first name", "Valid password"]),
@@ -61,10 +59,9 @@ mod tests {
                     String::from(""),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    Color::Blue,
                     String::from("Africa"),
                     String::from("qwTw12&%$3sa1dty_")),
-                    validation: Err(FErr {
+                    validation: Err(FormError {
                         form_values: (String::from("first_name"),
                         String::from("")),
                         date: Utc::now().format("%Y-%m-%d %H:%M:%S").to_string(),
@@ -75,10 +72,9 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    Color::Green,
                     String::from("Africa"),
                     String::from("12345")),
-                    validation: Err(FErr {
+                    validation: Err(FormError {
                         form_values: (String::from("password"), String::from("12345")),
                         date: Utc::now().format("%Y-%m-%d %H:%M:%S").to_string(),
                         err: String::from("At least 8 characters") }),
@@ -88,10 +84,9 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    Color::Red,
                     String::from("Africa"),
                     String::from("sdASDsrW")),
-                    validation: Err(FErr {
+                    validation: Err(FormError {
                         form_values: (String::from("password"), String::from("sdASDsrW")),
                         date: Utc::now().format("%Y-%m-%d %H:%M:%S").to_string(),
                         err: String::from("Combination of different ASCII character types (numbers, letters and none alphanumeric characters)") }),
@@ -101,10 +96,9 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    Color::Blue,
                     String::from("Africa"),
                     String::from("dsGE1SAD213")),
-                    validation: Err(FErr {
+                    validation: Err(FormError {
                         form_values: (String::from("password"), String::from("dsGE1SAD213")),
                         date: Utc::now().format("%Y-%m-%d %H:%M:%S").to_string(),
                         err: String::from("Combination of different ASCII character types (numbers, letters and none alphanumeric characters)") }),
@@ -114,10 +108,9 @@ mod tests {
                     String::from("Someone"),
                     String::from("Bear"),
                     create_date("2015-09-05"),
-                    Color::Green,
                     String::from("Africa"),
                     String::from("dsaSD&%DF!?=")),
-                    validation: Err(FErr {
+                    validation: Err(FormError {
                         form_values: (String::from("password"), String::from("dsaSD&%DF!?=")),
                         date: Utc::now().format("%Y-%m-%d %H:%M:%S").to_string(),
                         err: String::from("Combination of different ASCII character types (numbers, letters and none alphanumeric characters)") }),
