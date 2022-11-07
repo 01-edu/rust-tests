@@ -30,7 +30,7 @@ create_exercise () {
     cargo new $exercise_test
     if [[ $IS_LIB == true ]]
     then
-        echo "$exercise = { path = \"../../solutions/${exercise}\"}" >> ${exercise_test}/Cargo.toml
+        echo "$exercise = { path = \"../../solutions/${exercise}\" }" >> ${exercise_test}/Cargo.toml
     fi
     cd ..
 }
