@@ -68,3 +68,9 @@ docker run --read-only \
    --volume "$(pwd)"/tests/student:/jail/student:ro \
    -it rust_tests
 ```
+
+## Create new exercises
+
+The script `create_exercise.sh` make it easier to have the necessary boilerplate to start working on a new exercise.
+- `-l` flag create the solution as `lib` and adds it as a `dependencies` in the `Cargo.toml` of the test.
+- The script can accept more than one exercise name and for each name if will repeat the `cargo new` command according to flags. 
