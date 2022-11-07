@@ -52,7 +52,7 @@ It runs the exercise in the docker container used by `runner.go` on the platform
 - Build the image with `docker build -t rust_tests .`
 - Create the directory `tests/student`
 - Copy the exercise directory from solution into `tests/student`
-  
+- Execute the following command:
 ```bash
 docker run --read-only \
    --network none \
