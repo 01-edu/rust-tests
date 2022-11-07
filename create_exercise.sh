@@ -40,7 +40,8 @@ then
 	echo "Create new exercises boilerplates for Rust
 
 	-h, --help          show this usage screen
-	[exercise_name]     test one or more selected exercises (separated by spaces)"
+    -l                  add `--lib` as argument to cargo new
+	[exercise_name]     create one or more exercises (separated by spaces)"
 else
 	# Arguments parsing
 	while [[ $# -gt 0 ]]
