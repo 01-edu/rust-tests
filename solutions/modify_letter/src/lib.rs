@@ -56,8 +56,12 @@ mod tests {
         let result0 = "hEy hEy";
         let result1 = "hy";
         let result2 = "bBbB";
+        let result3 = "";
+        let result4 = "a";
         assert_eq!(result0, remove_letter_sensitive("hEey hEey", 'e'));
         assert_eq!(result1, remove_letter_insensitive("hEye", 'e'));
-        assert_eq!(result2, swap_letter_case("BbBb", 'b'))
+        assert_eq!(result2, swap_letter_case("BbBb", 'b'));
+        assert_eq!(result3, remove_letter_sensitive("", 'a'));
+        assert_eq!(result4, remove_letter_sensitive("a", '\0'));  
     }
 }
