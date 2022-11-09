@@ -4,8 +4,6 @@ fn main() {
     println!("{}", remove_letter_sensitive("hEey hEey", 'e'));
     println!("{}", remove_letter_insensitive("hEye", 'e'));
     println!("{}", swap_letter_case("BbBb", 'b'));
-    println!("{}", remove_letter_sensitive("", 'a'));
-    println!("{}", remove_letter_sensitive("a", '\0'));
 }
 
 #[cfg(test)]
