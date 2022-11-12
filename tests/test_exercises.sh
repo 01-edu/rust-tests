@@ -15,6 +15,7 @@ GRN="\033[0;32m"
 ARG=$1
 IS_VERBOSE=false
 CARGO_FORMAT=false
+CARGO_FORMAT_CHECK=false
 CARGO_CLIPPY=false
 TEST_EXERCISES=true
 REAL_ENV_TEST=false
@@ -27,6 +28,12 @@ run_test () {
 		printf "  ${GRN}[FORMAT]${NC} %s\n" $exercise_name
 		cargo fmt --manifest-path "$exercise_dir"Cargo.toml
 		cargo fmt --manifest-path ../solutions/"${exercise_dir%_test/}"/Cargo.toml
+	fi
+	if [[ $CARGO_FORMAT_CHECK == true ]]
+	then
+		printf "  ${GRN}[FMT CHECK]${NC} %s\n" $exercise_name
+		cargo fmt --check --manifest-path "$exercise_dir"Cargo.toml
+		cargo fmt --check --manifest-path ../solutions/"${exercise_dir%_test/}"/Cargo.toml
 	fi
 	if [[ $CARGO_CLIPPY == true ]]
 	then
@@ -77,6 +84,7 @@ then
 	-t                  show a table with the time it takes to run each exercise
 	-v                  show more details for each test
 	-f                  apply \"cargo fmt\" to the exercises
+    -fc                 check style with \"cargo fmt --check\"
 	-c                  run \"cargo clippy\" to the exercises
 	-n                  do NOT run \"cargo test\" on the exercises
 	-real               execute the test using the same docker image used by the runner
@@ -113,6 +121,10 @@ else
 			;;
 			-f)
 			CARGO_FORMAT=true
+			shift
+			;;
+			-fc)
+			CARGO_FORMAT_CHECK=true
 			shift
 			;;
 			-c)
