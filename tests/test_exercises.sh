@@ -19,6 +19,7 @@ CARGO_FORMAT_CHECK=false
 CARGO_CLIPPY=false
 TEST_EXERCISES=true
 REAL_ENV_TEST=false
+CARGO_RUN=false
 
 run_test () {
 	exercise_dir=$1
@@ -64,6 +65,11 @@ run_test () {
 			-it rust_tests
 		rm -rf student
 	fi
+    if [[ $CARGO_RUN == true ]]
+	then
+		printf "  ${RED}[RUN   ]${NC} %s\n" $exercise_name
+		cargo run --manifest-path "$exercise_dir"Cargo.toml
+	fi
 	if [[ $TEST_EXERCISES == true ]]
 	then
 		printf "  ${BLU}[TEST  ]${NC} %s\n" $exercise_name
@@ -88,6 +94,7 @@ then
 	-c                  run \"cargo clippy\" to the exercises
 	-n                  do NOT run \"cargo test\" on the exercises
 	-real               execute the test using the same docker image used by the runner
+    -m                  run the main() in tests
 	[exercise_name]     test one or more selected exercises (separated by spaces)
 	[NO ARGUMENTS]      test all exercises in test directory"
 elif [[ $ARG == '-t' ]]
@@ -137,6 +144,10 @@ else
 			;;
 			-real)
 			REAL_ENV_TEST=true
+			shift
+			;;
+			-m)
+			CARGO_RUN=true
 			shift
 			;;
 			*)
