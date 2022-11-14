@@ -39,4 +39,10 @@ mod tests {
 
         assert_eq!(0, smallest(f));
     }
+    #[test]
+    fn empty() {
+        let f = HashMap::new();
+
+        assert_eq!(i32::MAX, smallest(f));
+    }
 }
