@@ -29,6 +29,17 @@ mod tests {
         assert_eq!(2, smallest(f));
     }
     #[test]
+    fn test_negative() {
+        let mut f = HashMap::new();
+        f.insert("Daniel", 41758712);
+        f.insert("Ashley", 54551444);
+        f.insert("Katie", 575556334);
+        f.insert("Roberti", 574148);
+        f.insert("Robert", -4);
+
+        assert_eq!(-4, smallest(f));
+    }
+    #[test]
     fn test_zero() {
         let mut f = HashMap::new();
         f.insert("Mars", 1223);
