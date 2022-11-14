@@ -2,7 +2,7 @@
 pub enum Hat {
     Snapback,
     Baseball,
-    Fedora
+    Fedora,
 }
 
 #[derive(Debug, Eq, PartialEq)]
@@ -18,10 +18,13 @@ pub struct Outfit {
     pub hat: Hat,
 }
 
-pub fn choose_outfit(formality_level: Option<u32>, invitation_message: Result<&str, &str>) -> Outfit {
-    
+pub fn choose_outfit(
+    formality_level: Option<u32>,
+    invitation_message: Result<&str, &str>,
+) -> Outfit {
     let mut outfit = Outfit {
-        jacket: Jacket::Black, hat: Hat::Snapback
+        jacket: Jacket::Black,
+        hat: Hat::Snapback,
     };
 
     match formality_level {
@@ -29,7 +32,7 @@ pub fn choose_outfit(formality_level: Option<u32>, invitation_message: Result<&s
             if level > 0 {
                 outfit.jacket = Jacket::White;
             }
-        },
+        }
         _ => {
             outfit.jacket = Jacket::Flowers;
         }
@@ -37,12 +40,12 @@ pub fn choose_outfit(formality_level: Option<u32>, invitation_message: Result<&s
     match invitation_message {
         Ok(_) => {
             outfit.hat = Hat::Fedora;
-        },
+        }
         Err(_) => {
             if let Jacket::Flowers = outfit.jacket {
-                 outfit.hat = Hat::Baseball;
+                outfit.hat = Hat::Baseball;
             }
-        },
+        }
     }
     outfit
 }
