@@ -1,7 +1,10 @@
 use dress_code::*;
 
 fn main() {
-    println!("My outfit will be: {:?}", choose_outfit(Some(0), Ok("Dear friend, ...")));
+    println!(
+        "My outfit will be: {:?}",
+        choose_outfit(Some(0), Ok("Dear friend, ..."))
+    );
 }
 
 #[cfg(test)]
@@ -56,4 +59,3 @@ mod tests {
         assert_eq!(exp_outfit, choose_outfit(None, Ok("someting")));
     }
 }
-
