@@ -1,11 +1,10 @@
-use min_and_max::*;
+use min_and_max::min_and_max;
 
 fn main() {
-    let nb_1 = 9;
-    let nb_2 = 4;
-    let nb_3 = 2;
-    let (min, max) = min_and_max(nb_1, nb_2, nb_3);
-    println!("The minimum is {}, the maximum is {}", min, max);
+    println!(
+        "Minimum and maximum are: {:?}",
+        min_and_max(9, 2, 4)
+    );
 }
 
 #[test]
