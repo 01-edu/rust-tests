@@ -1,14 +1,9 @@
-use count_factorial_steps::*;
+use count_factorial_steps::count_factorial_steps;
 
 fn main() {
-    println!("The factorial step to 0: {}", count_factorial_steps(0));
-    println!("The factorial step to 6: {}", count_factorial_steps(6));
-    println!("The factorial step to 123: {}", count_factorial_steps(123));
-    println!("The factorial step to 720: {}", count_factorial_steps(720));
-    println!(
-        "The factorial step to 3628800: {}",
-        count_factorial_steps(3628800)
-    );
+    println!("The factorial steps of 720 = {}", count_factorial_steps(720));
+    println!("The factorial steps of 13 = {}", count_factorial_steps(13));
+    println!("The factorial steps of 6 = {}", count_factorial_steps(6));
 }
 
 #[cfg(test)]
@@ -16,10 +11,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn count_factorial_steps_1() {
+    fn count_factorial_steps_edge_cases() {
         assert_eq!(0, count_factorial_steps(0));
         assert_eq!(0, count_factorial_steps(1));
         assert_eq!(0, count_factorial_steps(123));
+    }
+    #[test]
+    fn count_factorial_steps_normal_cases() {
         assert_eq!(6, count_factorial_steps(720));
         assert_eq!(10, count_factorial_steps(3628800));
     }
