@@ -1,4 +1,4 @@
-pub fn neg_spell(n: i64) -> String {
+pub fn negative_spell(n: i64) -> String {
     match n {
         1.. => "error: positive number".to_string(),
         0 => "zero".to_string(),
