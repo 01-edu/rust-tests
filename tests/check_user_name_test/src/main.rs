@@ -18,8 +18,10 @@ mod tests {
     #[test]
     fn test_error() {
         let u = User::new("Michael".to_string(), AccessLevel::Guest);
-        let (t, _) = check_user_name(&u);
-        assert!(!t);
+        assert_eq!(
+            check_user_name(&u),
+            (false, "ERROR: User is guest")    
+        );
     }
 
     #[test]
