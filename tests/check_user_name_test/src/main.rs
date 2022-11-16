@@ -18,21 +18,14 @@ mod tests {
     #[test]
     fn test_error() {
         let u = User::new("Michael".to_string(), AccessLevel::Guest);
-        assert_eq!(
-            check_user_name(&u),
-            (false, "ERROR: User is guest")    
-        );
+        assert_eq!(check_user_name(&u), (false, "ERROR: User is guest"));
     }
 
     #[test]
     fn test_ok() {
-        let v = vec![
-            User::new("Fatima".to_string(), AccessLevel::Admin),
-            User::new("Sara".to_string(), AccessLevel::Normal),
-        ];
-        for value in v {
-            let (t, _) = check_user_name(&value);
-            assert!(t);
-        }
+        let admin_case = User::new("Fatima".to_string(), AccessLevel::Admin);
+        let normal_case = User::new("Sara".to_string(), AccessLevel::Normal);
+        assert_eq!(check_user_name(&admin_case), (true, "Fatima"));
+        assert_eq!(check_user_name(&normal_case), (true, "Sara"));
     }
 }
