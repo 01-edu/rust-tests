@@ -1,0 +1,61 @@
+use prime_checker::*;
+
+fn main() {
+    println!(
+        "Is {} prime? {}",
+        2,
+        match prime_checker(2) {
+            Some(res) => {
+                match res {
+                    Ok(_) => "Yes, it is!",
+                    Err(_) => "No, it is not!",
+                }
+            }
+            None => "Less than 2",
+        }
+    );
+    println!(
+        "Is {} prime? {}",
+        14,
+        match prime_checker(14) {
+            Some(res) => {
+                match res {
+                    Ok(_) => "Yes, it is!",
+                    Err(_) => "No, it is not!",
+                }
+            }
+            None => "Less than 2",
+        }
+    );
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn prime_checker_prime() {
+        assert_eq!(Some(Ok(3)), prime_checker(3));
+        assert_eq!(Some(Ok(5)), prime_checker(5));
+        assert_eq!(Some(Ok(7)), prime_checker(7));
+        assert_eq!(Some(Ok(23)), prime_checker(23));
+        assert_eq!(Some(Ok(7919)), prime_checker(7919));
+    }
+    #[test]
+    fn prime_checker_even() {
+        assert_eq!(Some(Err(PrimeErr::Even)), prime_checker(4));
+        assert_eq!(Some(Err(PrimeErr::Even)), prime_checker(6));
+        assert_eq!(Some(Err(PrimeErr::Even)), prime_checker(1234));
+    }
+    #[test]
+    fn prime_checker_not_prime() {
+        assert_eq!(Some(Err(PrimeErr::Divider(3))), prime_checker(9));
+        assert_eq!(Some(Err(PrimeErr::Divider(5))), prime_checker(25));
+        assert_eq!(Some(Err(PrimeErr::Divider(11))), prime_checker(121));
+    }
+    #[test]
+    fn prime_checker_small() {
+        assert_eq!(None, prime_checker(0));
+        assert_eq!(None, prime_checker(1));
+    }
+}
