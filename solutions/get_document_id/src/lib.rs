@@ -8,21 +8,25 @@ pub enum ErrorOffice {
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub struct OfficeOne {
     pub next_office: Result<OfficeTwo, ErrorOffice>,
+    pub id: u32,
 }
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub struct OfficeTwo {
     pub next_office: Result<OfficeThree, ErrorOffice>,
+    pub id: u32,
 }
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub struct OfficeThree {
     pub next_office: Result<OfficeFour, ErrorOffice>,
+    pub id: u32,
 }
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub struct OfficeFour {
     pub document_id: Result<u32, ErrorOffice>,
+    pub id: u32,
 }
 
 impl OfficeOne {
