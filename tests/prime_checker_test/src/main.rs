@@ -1,32 +1,8 @@
 use prime_checker::*;
 
 fn main() {
-    println!(
-        "Is {} prime? {}",
-        2,
-        match prime_checker(2) {
-            Some(res) => {
-                match res {
-                    Ok(_) => "Yes, it is!",
-                    Err(_) => "No, it is not!",
-                }
-            }
-            None => "Less than 2",
-        }
-    );
-    println!(
-        "Is {} prime? {}",
-        14,
-        match prime_checker(14) {
-            Some(res) => {
-                match res {
-                    Ok(_) => "Yes, it is!",
-                    Err(_) => "No, it is not!",
-                }
-            }
-            None => "Less than 2",
-        }
-    );
+    println!("Is {} prime? {:?}", 2, prime_checker(2));
+    println!("Is {} prime? {:?}", 14, prime_checker(14));
 }
 
 #[cfg(test)]
