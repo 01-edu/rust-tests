@@ -3,6 +3,7 @@ use prime_checker::*;
 fn main() {
     println!("Is {} prime? {:?}", 2, prime_checker(2));
     println!("Is {} prime? {:?}", 14, prime_checker(14));
+    println!("Is {} prime? {:?}", 63888049, prime_checker(63888049));
 }
 
 #[cfg(test)]
