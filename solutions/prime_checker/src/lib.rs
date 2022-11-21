@@ -5,16 +5,13 @@ pub enum PrimeErr {
 }
 
 pub fn prime_checker(nb: u32) -> Option<Result<u32, PrimeErr>> {
-    if let 0 = nb {
+    if nb == 0 {
         return None;
-    }
-    if let 1 = nb {
+    } else if nb == 1 {
         return None;
-    }
-    if let 2 = nb {
+    } else if nb == 2 {
         return Some(Ok(nb));
-    }
-    if nb % 2 == 0 {
+    } else if nb % 2 == 0 {
         return Some(Err(PrimeErr::Even));
     } else {
         let mut divider = 3;
