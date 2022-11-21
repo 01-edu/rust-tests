@@ -18,11 +18,12 @@ pub fn prime_checker(nb: u32) -> Option<Result<u32, PrimeErr>> {
         return Some(Err(PrimeErr::Even));
     } else {
         let mut divider = 3;
-        while divider < nb {
+        let max_divide = ((nb as f64).sqrt() + 1.0) as u32;
+        while divider < max_divide {
             if nb % divider == 0 {
                 return Some(Err(PrimeErr::Divider(divider)));
             } else {
-                divider += 1;
+                divider += 2;
             }
         }
     }
