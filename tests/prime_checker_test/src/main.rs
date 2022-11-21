@@ -3,7 +3,7 @@ use prime_checker::*;
 fn main() {
     println!("Is {} prime? {:?}", 2, prime_checker(2));
     println!("Is {} prime? {:?}", 14, prime_checker(14));
-    println!("Is {} prime? {:?}", 63888049, prime_checker(63888049));
+    println!("Is {} prime? {:?}", 2147483647, prime_checker(2147483647));
 }
 
 #[cfg(test)]
@@ -34,5 +34,10 @@ mod tests {
     fn prime_checker_small() {
         assert_eq!(None, prime_checker(0));
         assert_eq!(None, prime_checker(1));
+    }
+    #[test]
+    fn prime_check_big() {
+        assert_eq!(Some(Err(PrimeErr::Divider(7993))), prime_checker(63888049));
+        assert_eq!(Some(Ok(2147483647)), prime_checker(2147483647));
     }
 }
