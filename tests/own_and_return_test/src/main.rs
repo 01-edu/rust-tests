@@ -1,4 +1,4 @@
-use print_and_consume::*;
+use own_and_return::*;
 
 fn main() {
     println!(
