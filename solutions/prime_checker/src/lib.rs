@@ -5,9 +5,7 @@ pub enum PrimeErr {
 }
 
 pub fn prime_checker(nb: u32) -> Option<Result<u32, PrimeErr>> {
-    if nb == 0 {
-        return None;
-    } else if nb == 1 {
+    if nb == 0 || nb == 1 {
         return None;
     } else if nb == 2 {
         return Some(Ok(nb));
