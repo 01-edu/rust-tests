@@ -1,18 +1,6 @@
 use own_and_return::*;
 
 fn main() {
-    println!(
-        "{}",
-        own_and_return(Film {
-            name: "Casablanca".to_string()
-        })
-    );
-    println!(
-        "{}",
-        only_return(&Film {
-            name: "Casablanca".to_string()
-        })
-    );
 }
 #[cfg(test)]
 mod tests {
@@ -22,7 +10,7 @@ mod tests {
     fn test_consume() {
         println!(
             "{}",
-            own_and_return(Film {
+            take_film_name(Film {
                 name: "Matrix".to_string()
             })
         );
@@ -31,7 +19,7 @@ mod tests {
     fn test_only_print() {
         println!(
             "{}",
-            only_return(&Film {
+            read_film_name(&Film {
                 name: "Matrix".to_string()
             })
         );
