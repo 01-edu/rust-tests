@@ -74,3 +74,13 @@ docker run --read-only \
 The script `create_exercise.sh` make it easier to have the necessary boilerplate to start working on a new exercise.
 - `-l` flag create the solution as `lib` and adds it as a `dependencies` in the `Cargo.toml` of the test.
 - The script can accept more than one exercise name and for each name if will repeat the `cargo new` command according to flags. 
+
+## Create refs
+Use the script `create_refs.sh [NAMES FILE] [TEMPLATE FILE] [INLINE TEMPLATE FILE] [REF ID]`.
+- First argument is a file with one exercise name per line.
+- Second parameter is the template used for the single file ref.
+- Third parameter is the template for the inline ref (like the line adding an exercise into a quest), it will generate one file `inline_refs.txt`.
+- Fourth parameter is the first available ref number to consume.
+
+### Example
+`bash create_refs.sh new_exercises.txt ./templates/rust_ref ./inline_templates/rust_inline_ref 10000`. If the `new_exercises.txt` has 10 exercises in it there will be 10 files created in `refs` directory and a new file `inline_refs.json`.
