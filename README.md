@@ -77,10 +77,15 @@ The script `create_exercise.sh` make it easier to have the necessary boilerplate
 
 ## Create refs
 Use the script `create_refs.sh [NAMES FILE] [TEMPLATE FILE] [INLINE TEMPLATE FILE] [REF ID]`.
-- First argument is a file with one exercise name per line.
-- Second parameter is the template used for the single file ref.
-- Third parameter is the template for the inline ref (like the line adding an exercise into a quest), it will generate one file `inline_refs.txt`.
-- Fourth parameter is the first available ref number to consume.
+- `[NAMES FILE]` is a file with one exercise name per line.
+- `[TEMPLATE FILE]` is the template used for the single file ref.
+- `[INLINE TEMPLATE FILE]` is the template for the inline ref (like the line adding an exercise into a quest), it will generate one file `inline_refs.txt`.
+- `[REF ID]` is the first available ref number to consume.
+
+### Results
+For each line into `[NAMES FILE]` the script will create a file `[REF_ID].json` into `refs/` using the template with `%NAME%` and `%REF_ID%` replaced by the corresponding values.
+It will also add the inline template into a file named `inline_refs.json` with `%NAME%` and `%REF_ID%` replaced by the corresponding values.
 
 ### Example
-`bash create_refs.sh new_exercises.txt ./templates/rust_ref ./inline_templates/rust_inline_ref 10000`. If the `new_exercises.txt` has 10 exercises in it there will be 10 files created in `refs` directory and a new file `inline_refs.json`.
+`bash create_refs.sh new_exercises.txt ./templates/rust_ref ./inline_templates/rust_inline_ref 10000`.
+If the `new_exercises.txt` has 10 exercises in it there will be 10 files created in `refs` directory and a new file `inline_refs.json`.
