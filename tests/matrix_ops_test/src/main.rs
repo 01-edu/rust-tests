@@ -6,7 +6,7 @@
 // have the same size. Therefore the add method must handle the
 // possibility of failure by returning an Option<T>
 
-use matrix::Matrix;
+use matrix_ops::Matrix;
 
 fn main() {
     let matrix = Matrix(vec![vec![8, 1], vec![9, 1]]);
