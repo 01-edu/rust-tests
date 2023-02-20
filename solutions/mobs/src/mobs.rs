@@ -2,7 +2,7 @@ pub mod boss;
 pub mod member;
 
 use boss::Boss;
-use member::{new, Member, Role};
+use member::{Member, Role};
 
 #[derive(Debug, Clone)]
 pub struct Mob {
@@ -16,7 +16,7 @@ pub struct Mob {
 impl Mob {
     pub fn recruit(&mut self, member_name: &str, member_age: u8) {
         self.members
-            .push(new(member_name, Role::Associate, member_age));
+            .push(Member::new(member_name, Role::Associate, member_age));
     }
 
     pub fn attack(&mut self, target: &mut Mob) {
@@ -26,12 +26,12 @@ impl Mob {
             self.members.pop();
         }
 
-        if self.members.len() == 0 {
+        if self.members.is_empty() {
             switch_cities(target, self);
             target.wealth += self.wealth;
             self.cities = vec![];
             self.wealth = 0;
-        } else if target.members.len() == 0 {
+        } else if target.members.is_empty() {
             switch_cities(self, target);
             self.wealth += target.wealth;
             target.cities = vec![];
@@ -50,12 +50,10 @@ impl Mob {
     }
 
     pub fn conquer_city(&mut self, mobs: Vec<Mob>, wanted_city: String, value: u8) {
-        let result = mobs
+        if !mobs
             .into_iter()
-            .filter(|ele| ele.cities.iter().any(|(city, _)| city == &wanted_city))
-            .collect::<Vec<Mob>>();
-
-        if result.is_empty() {
+            .any(|ele| ele.cities.iter().any(|(city, _)| city == &wanted_city))
+        {
             self.cities.push((wanted_city, value));
         }
     }

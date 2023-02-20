@@ -22,12 +22,12 @@ impl Member {
             _ => {}
         }
     }
-}
 
-pub fn new(name: &str, role: Role, age: u8) -> Member {
-    Member {
-        name: name.to_string(),
-        role: role,
-        age: age,
+    pub fn new(name: &str, role: Role, age: u8) -> Self {
+        Self {
+            name: name.to_string(),
+            role,
+            age,
+        }
     }
 }
