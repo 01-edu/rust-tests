@@ -4,9 +4,11 @@ pub struct Boss {
     pub age: u8,
 }
 
-pub fn new(name: &str, age: u8) -> Boss {
-    Boss {
-        name: name.to_string(),
-        age: age,
+impl Boss {
+    pub fn new(name: &str, age: u8) -> Self {
+        Self {
+            name: name.to_string(),
+            age,
+        }
     }
 }
