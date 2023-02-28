@@ -47,8 +47,7 @@ run_test () {
 		printf "  ${GRN}[REAL_ENV]${NC} %s\n" $exercise_name
 
 		rm -rf student
-		mkdir student
-		cp -r ../solutions/"$exercise_name" student/"$exercise_name"
+		cp -r ../solutions ./student
 
 		docker run --read-only \
 			--network none \
