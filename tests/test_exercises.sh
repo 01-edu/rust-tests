@@ -90,11 +90,11 @@ then
 	-t                  show a table with the time it takes to run each exercise
 	-v                  show more details for each test
 	-f                  apply \"cargo fmt\" to the exercises
-    -fc                 check style with \"cargo fmt --check\"
+	-fc                 check style with \"cargo fmt --check\"
 	-c                  run \"cargo clippy\" to the exercises
 	-n                  do NOT run \"cargo test\" on the exercises
 	-real               execute the test using the same docker image used by the runner
-    -m                  run the main() in tests
+	-m                  run the main() in tests
 	[exercise_name]     test one or more selected exercises (separated by spaces)
 	[NO ARGUMENTS]      test all exercises in test directory"
 elif [[ $ARG == '-t' ]]
