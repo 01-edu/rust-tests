@@ -32,39 +32,42 @@ update_exit_code () {
 }
 
 run_test () {
-	exercise_dir=$1
-	exercise_name=${exercise_dir%_test/}
+	test_cargo_toml="${1}Cargo.toml"
+	solution_cargo_toml="../solutions/${1%_test/}/Cargo.toml"
+	ex_name=${1%_test/}
+
 	if [[ $CARGO_FORMAT == true ]]
 	then
-		printf "  ${GRN}[FORMAT]${NC} %s\n" $exercise_name
-		update_exit_code cargo fmt --manifest-path "$exercise_dir"Cargo.toml
-		update_exit_code cargo fmt --manifest-path ../solutions/"${exercise_dir%_test/}"/Cargo.toml
+		printf "  ${GRN}[FORMAT]${NC} %s\n" $ex_name
+		update_exit_code cargo fmt --manifest-path "$test_cargo_toml"
+		update_exit_code cargo fmt --manifest-path "$solution_cargo_toml"
 	fi
 	if [[ $CARGO_FORMAT_CHECK == true ]]
 	then
-		printf "  ${GRN}[FMT CHECK]${NC} %s\n" $exercise_name
-		update_exit_code cargo fmt --check --manifest-path "$exercise_dir"Cargo.toml
-		update_exit_code cargo fmt --check --manifest-path ../solutions/"${exercise_dir%_test/}"/Cargo.toml
+		printf "  ${GRN}[FMT CHECK]${NC} %s\n" $ex_name
+		update_exit_code cargo fmt --check --manifest-path "$test_cargo_toml"
+		update_exit_code cargo fmt --check --manifest-path "$solution_cargo_toml"
 	fi
 	if [[ $CARGO_CLIPPY == true ]]
 	then
-		printf "  ${YEL}[CLIPPY]${NC} %s\n" $exercise_name
-		update_exit_code cargo clippy -q --manifest-path "$exercise_dir"Cargo.toml
-		update_exit_code cargo clippy -q --manifest-path ../solutions/"${exercise_dir%_test/}"/Cargo.toml
+		printf "  ${YEL}[CLIPPY]${NC} %s\n" $ex_name
+		update_exit_code cargo clippy -q --manifest-path "$test_cargo_toml"
+		update_exit_code cargo clippy -q --manifest-path "$solution_cargo_toml"
 	fi
 	if [[ $REAL_ENV_TEST == true ]]
 	then
-		printf "  ${GRN}[REAL_ENV]${NC} %s\n" $exercise_name
+		printf "  ${GRN}[REAL_ENV]${NC} %s\n" $ex_name
 
 		rm -rf student
 		cp -r ../solutions ./student
+		rm -rf ./student/**/target
 
 		update_exit_code docker run --read-only \
 			--network none \
 			--memory 500M \
 			--cpus 2.0 \
 			--user 1000:1000 \
-			--env EXERCISE="$exercise_name" \
+			--env EXERCISE="$ex_name" \
 			--env USERNAME=msessa \
 			--env HOME=/jail \
 			--env TMPDIR=/jail \
@@ -77,17 +80,17 @@ run_test () {
 	fi
     if [[ $CARGO_RUN == true ]]
 	then
-		printf "  ${RED}[RUN   ]${NC} %s\n" $exercise_name
-		update_exit_code cargo run --manifest-path "$exercise_dir"Cargo.toml
+		printf "  ${RED}[RUN   ]${NC} %s\n" $ex_name
+		update_exit_code cargo run --manifest-path "$test_cargo_toml"
 	fi
 	if [[ $TEST_EXERCISES == true ]]
 	then
-		printf "  ${BLU}[TEST  ]${NC} %s\n" $exercise_name
+		printf "  ${BLU}[TEST  ]${NC} %s\n" $ex_name
 		if [[ $IS_VERBOSE == true ]]
 		then
-			update_exit_code cargo test --manifest-path "$exercise_dir"Cargo.toml
+			update_exit_code cargo test --manifest-path "$test_cargo_toml"
 		else
-			update_exit_code cargo test -q --manifest-path "$exercise_dir"Cargo.toml >/dev/null
+			update_exit_code cargo test -q --manifest-path "$test_cargo_toml" >/dev/null
 		fi
 	fi
 }
