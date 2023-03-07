@@ -29,5 +29,5 @@ jobs:
 
       - name: Build the Rust tests Docker image
         run: |
-          docker build . --file Dockerfile --tag ghcr.io/01-edu/test-rust:${{ github.event.pull_request.number }}
-          docker push ghcr.io/01-edu/test-rust:${{ github.event.pull_request.number }}
+          docker build . --file Dockerfile --tag ghcr.io/01-edu/test-rust:PR#${{ github.event.pull_request.number }}
+          docker push ghcr.io/01-edu/test-rust:PR#${{ github.event.pull_request.number }}
