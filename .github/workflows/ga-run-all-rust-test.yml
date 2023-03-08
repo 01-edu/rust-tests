@@ -19,4 +19,8 @@ jobs:
   steps:
     - name: "Launch script with branch $BRANCH_ID"
       run: |
-      bash "./tests/test_exercises.sh -real -n -pull-from test-rust:PR${{ github.event.pull_request.number }}"
+      ./tests/test_exercises.sh \
+        -real \
+        -n \
+        -pull-from \
+        test-rust:PR${{ github.event.pull_request.number }}
