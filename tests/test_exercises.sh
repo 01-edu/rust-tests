@@ -182,6 +182,11 @@ else
 		done
 	else
 		for dir in */; do
+			# Lib is a dependency but it is in tests directory, need to be skipped
+			if [[ $dir == "lib/" ]]
+			then
+				continue
+			fi
 			run_test $dir
 		done
 	fi
