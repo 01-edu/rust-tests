@@ -20,6 +20,17 @@ CARGO_CLIPPY=false
 TEST_EXERCISES=true
 REAL_ENV_TEST=false
 CARGO_RUN=false
+PULL_FROM="test-rust"
+
+EXIT_CODE=0
+
+update_exit_code () {
+	$@
+	if [ $? != 0 ]
+	then
+		EXIT_CODE=1
+	fi
+}
 
 EXIT_CODE=0
 
@@ -57,26 +68,13 @@ run_test () {
 	if [[ $REAL_ENV_TEST == true ]]
 	then
 		printf "  ${GRN}[REAL_ENV]${NC} %s\n" $ex_name
-
-		rm -rf student
-		cp -r ../solutions ./student
-		rm -rf ./student/**/target
-
-		update_exit_code docker run --read-only \
-			--network none \
-			--memory 500M \
-			--cpus 2.0 \
-			--user 1000:1000 \
-			--env EXERCISE="$ex_name" \
-			--env USERNAME=msessa \
-			--env HOME=/jail \
-			--env TMPDIR=/jail \
-			--workdir /jail \
-			--tmpfs /jail:size=100M,noatime,exec,nodev,nosuid,uid=1000,gid=1000,nr_inodes=5k,mode=1700 \
-			--volume "$(pwd)"/student:/jail/student:ro \
-			-it rust_tests
-		rm -rf student
-
+		runner_res=$(curl --silent --data-binary @../student.zip "http://beta.01-edu.org:8086/ghcr.io/01-edu/${PULL_FROM}?env=EXERCISE=${ex_name}")
+		echo $runner_res | jq -jr .Output
+		runner_exit=$(echo $runner_res | jq -jr .Ok)
+		if [[ $runner_exit == "false" ]]
+		then
+			EXIT_CODE=1	
+		fi
 	fi
     if [[ $CARGO_RUN == true ]]
 	then
@@ -107,7 +105,8 @@ then
 	-c                  run \"cargo clippy\" to the exercises
 	-n                  do NOT run \"cargo test\" on the exercises
 	-real               execute the test using the same docker image used by the runner
-	-m                  run the main() in tests
+  -m                  run the main() in tests
+  -pull-from		    	specify the PR id to take the a specific package image (master by default)
 	[exercise_name]     test one or more selected exercises (separated by spaces)
 	[NO ARGUMENTS]      test all exercises in test directory"
 elif [[ $ARG == '-t' ]]
@@ -163,6 +162,11 @@ else
 			CARGO_RUN=true
 			shift
 			;;
+			-pull-from)
+			PULL_FROM=$2
+			shift
+			shift
+			;;
 			*)
 			break
 		esac
@@ -170,7 +174,12 @@ else
 
 	if [[ $REAL_ENV_TEST == true ]]
 	then
-		docker build -t rust_tests ../.
+		rm -rf ../student
+		cp -r ../solutions ../student
+		rm -rf ../student/**/target
+		cd ../
+		zip -r -q student.zip student
+		cd tests/
 	fi
 	if [[ $# -gt 0 ]]
 	then
@@ -184,6 +193,11 @@ else
 		for dir in */; do
 			run_test $dir
 		done
+	fi
+
+	if [[ $REAL_ENV_TEST == true ]]
+	then
+		rm -rf ../student.zip ../student
 	fi
 fi
 
