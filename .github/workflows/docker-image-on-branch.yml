@@ -1,7 +1,7 @@
-name: Docker Image CI
+name: Docker Image On Branch CI
 
 on:
-  push:
+  pull_request:
     branches: ['master']
 
 jobs:
@@ -27,5 +27,5 @@ jobs:
 
       - name: Build the Rust tests Docker image
         run: |
-          docker build . --file Dockerfile --tag ghcr.io/01-edu/test-rust:latest
-          docker push ghcr.io/01-edu/test-rust:latest
+          docker build . --file Dockerfile --tag ghcr.io/01-edu/test-rust:PR${{ github.event.pull_request.number }}
+          docker push ghcr.io/01-edu/test-rust:PR${{ github.event.pull_request.number }}
