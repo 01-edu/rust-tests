@@ -32,16 +32,6 @@ update_exit_code () {
 	fi
 }
 
-EXIT_CODE=0
-
-update_exit_code () {
-	$@
-	if [ $? != 0 ]
-	then
-		EXIT_CODE=1
-	fi
-}
-
 run_test () {
 	test_cargo_toml="${1}Cargo.toml"
 	solution_cargo_toml="../solutions/${1%_test/}/Cargo.toml"
@@ -75,6 +65,7 @@ run_test () {
 		then
 			EXIT_CODE=1	
 		fi
+		
 	fi
     if [[ $CARGO_RUN == true ]]
 	then
@@ -101,12 +92,12 @@ then
 	-t                  show a table with the time it takes to run each exercise
 	-v                  show more details for each test
 	-f                  apply \"cargo fmt\" to the exercises
-	-fc                 check style with \"cargo fmt --check\"
+    -fc                 check style with \"cargo fmt --check\"
 	-c                  run \"cargo clippy\" to the exercises
 	-n                  do NOT run \"cargo test\" on the exercises
 	-real               execute the test using the same docker image used by the runner
-  -m                  run the main() in tests
-  -pull-from		    	specify the PR id to take the a specific package image (master by default)
+    -m                  run the main() in tests
+    -pull-from			specify the PR id to take the a specific package image (master by default)
 	[exercise_name]     test one or more selected exercises (separated by spaces)
 	[NO ARGUMENTS]      test all exercises in test directory"
 elif [[ $ARG == '-t' ]]
@@ -191,6 +182,11 @@ else
 		done
 	else
 		for dir in */; do
+			# Lib is a dependency but it is in tests directory, need to be skipped
+			if [[ $dir == "lib/" ]]
+			then
+				continue
+			fi
 			run_test $dir
 		done
 	fi
