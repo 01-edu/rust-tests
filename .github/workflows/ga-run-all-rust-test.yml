@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: 'Launch script with branch $BRANCH_ID'
         run: |
+          pwd
+          ls -la
           ./tests/test_exercises.sh \
           -real \
           -n \
