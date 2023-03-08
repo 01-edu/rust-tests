@@ -17,9 +17,9 @@ env:
 jobs:
   runs-on: ga-test-runner-check-rust-tests
   steps:
-    - name: "Launch script with branch $BRANCH_ID"
+    - name: 'Launch script with branch $BRANCH_ID'
       run: |
-      ./tests/test_exercises.sh \
+        ./tests/test_exercises.sh \
         -real \
         -n \
         -pull-from \
