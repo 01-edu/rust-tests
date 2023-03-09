@@ -15,7 +15,7 @@ jobs:
         with:
           ssh: ${{ secrets.ACTIONS_DEPLOY_KEY }}
 
-      - name: 📜 'Launch script on latest'
+      - name: 📜 Launch script on latest
         run: |
           ./tests/test_exercises.sh \
           -real \
