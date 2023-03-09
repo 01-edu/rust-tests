@@ -10,12 +10,12 @@ jobs:
   GA-All-Rust-Test:
     runs-on: ga-test-runner-check-rust-tests
     steps:
-      - name: 🐧  Check out repository code
+      - name: 🐧 Checkout
         uses: actions/checkout@v3
         with:
           ssh: ${{ secrets.ACTIONS_DEPLOY_KEY }}
 
-      - name: 'Launch script on latest'
+      - name: 📜 'Launch script on latest'
         run: |
           ./tests/test_exercises.sh \
           -real \
