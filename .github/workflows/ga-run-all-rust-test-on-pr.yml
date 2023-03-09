@@ -1,15 +1,9 @@
-name: GA-Run-All-Rust-Test
+name: GA-Run-All-Rust-Test-On-PR
 on:
-  pull_request:
-    branches: ['master']
-  # workflow_run:
-  #   workflows: ['Docker Image On Branch CI']
-  #   types:
-  #     - completed
-  # workflow_run:
-  #   workflows: ['Docker Image CI']
-  #   types:
-  #     - completed
+  workflow_run:
+    workflows: ['Docker Image On Branch CI']
+    types:
+      - completed
 
 env:
   BRANCH_ID: ${{ github.event.pull_request.number }}
@@ -25,8 +19,6 @@ jobs:
 
       - name: 'Launch script with branch $BRANCH_ID'
         run: |
-          pwd
-          ls -la
           ./tests/test_exercises.sh \
           -real \
           -n \
