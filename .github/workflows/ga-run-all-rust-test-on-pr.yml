@@ -1,4 +1,5 @@
 name: GA-Run-All-Rust-Test-On-PR
+
 on:
   workflow_run:
     workflows: ['Docker Image On Branch CI']
