@@ -31,12 +31,12 @@ jobs:
           docker build . --file Dockerfile --tag ghcr.io/01-edu/test-rust:latest
           docker push ghcr.io/01-edu/test-rust:latest
 
-    run-exercise-test:
-      needs: build-image
-      runs-on: ga-test-runner-check-rust-tests
-      steps:
-        - name: 📜 Launch script with branch ${{ github.event.pull_request.base.ref }} 
-          run: |
-            ./tests/test_exercises.sh \
-            -real \
-            -n
+  run-exercise-test:
+    needs: build-image
+    runs-on: ga-test-runner-check-rust-tests
+    steps:
+      - name: 📜 Launch script with branch ${{ github.event.pull_request.base.ref }} 
+        run: |
+          ./tests/test_exercises.sh \
+          -real \
+          -n
