@@ -19,6 +19,7 @@ CARGO_FORMAT_CHECK=false
 CARGO_CLIPPY=false
 TEST_EXERCISES=true
 REAL_ENV_TEST=false
+LOCAL_REAL_ENV_TEST=false
 CARGO_RUN=false
 PULL_FROM="test-rust"
 
@@ -67,6 +68,24 @@ run_test () {
 		fi
 		
 	fi
+	if [[ $LOCAL_REAL_ENV_TEST == true ]]
+	then
+		printf "  ${GRN}[LOCAL_REAL_ENV]${NC} %s\n" $ex_name
+
+		update_exit_code docker run --read-only \
+			--network none \
+			--memory 500M \
+			--cpus 2.0 \
+			--user 1000:1000 \
+			--env EXERCISE="$ex_name" \
+			--env USERNAME=msessa \
+			--env HOME=/jail \
+			--env TMPDIR=/jail \
+			--workdir /jail \
+			--tmpfs /jail:size=100M,noatime,exec,nodev,nosuid,uid=1000,gid=1000,nr_inodes=5k,mode=1700 \
+			--volume "$(dirname $(pwd))"/student:/jail/student:ro \
+			-it rust_tests
+	fi
     if [[ $CARGO_RUN == true ]]
 	then
 		printf "  ${RED}[RUN   ]${NC} %s\n" $ex_name
@@ -96,6 +115,7 @@ then
 	-c                  run \"cargo clippy\" to the exercises
 	-n                  do NOT run \"cargo test\" on the exercises
 	-real               execute the test using the same docker image used by the runner
+	-local-real         build and run the docker image locally
     -m                  run the main() in tests
     -pull-from			specify the PR id to take the a specific package image (master by default)
 	[exercise_name]     test one or more selected exercises (separated by spaces)
@@ -149,6 +169,10 @@ else
 			REAL_ENV_TEST=true
 			shift
 			;;
+			-local-real)
+			LOCAL_REAL_ENV_TEST=true
+			shift
+			;;
 			-m)
 			CARGO_RUN=true
 			shift
@@ -172,6 +196,14 @@ else
 		zip -r -q student.zip student
 		cd tests/
 	fi
+	if [[ $LOCAL_REAL_ENV_TEST == true ]]
+	then
+		rm -rf ../student
+		cp -r ../solutions ../student
+		rm -rf ../student/**/target
+
+		docker build -t rust_tests ../.
+	fi
 	if [[ $# -gt 0 ]]
 	then
 		while [[ $# -gt 0 ]]
@@ -194,6 +226,10 @@ else
 	if [[ $REAL_ENV_TEST == true ]]
 	then
 		rm -rf ../student.zip ../student
+	fi
+	if [[ $LOCAL_REAL_ENV_TEST == true ]]
+	then
+		rm -rf ../student
 	fi
 fi
 
