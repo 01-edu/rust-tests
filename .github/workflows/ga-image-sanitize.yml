@@ -12,7 +12,7 @@ jobs:
         uses: bots-house/ghcr-delete-image-action@v1.1.0
         with:
           owner: 01-edu
-          name: purge-pr
+          name: test-rust
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: PR${{github.event.pull_request.number}}
           
@@ -24,6 +24,6 @@ jobs:
         uses: bots-house/ghcr-delete-image-action@v1.1.0
         with:
           owner: 01-edu
-          name: purge-untagged
+          name: test-rust
           token: ${{ secrets.GITHUB_TOKEN }}
           untagged-keep-latest: 0
