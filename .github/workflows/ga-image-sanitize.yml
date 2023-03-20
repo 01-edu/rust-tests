@@ -11,7 +11,8 @@ jobs:
       - name: 🗑️ Delete image PR${{github.event.pull_request.number}}
         uses: bots-house/ghcr-delete-image-action@v1.1.0
         with:
-          # NOTE: using Personal Access Token
+          owner: 01-edu
+          name: purge-pr
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: PR${{github.event.pull_request.number}}
           
@@ -22,5 +23,7 @@ jobs:
       - name: 🔥 Clear all untagged images
         uses: bots-house/ghcr-delete-image-action@v1.1.0
         with:
+          owner: 01-edu
+          name: purge-untagged
           token: ${{ secrets.GITHUB_TOKEN }}
           untagged-keep-latest: 0
