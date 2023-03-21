@@ -3,6 +3,19 @@ name: 🧼 Sanitize – Generated Docker Images
 on:
   pull_request:
     types: [closed]
+  workflow_dispatch:
+    inputs:
+      keep-last:
+        description: >
+          Delete all untagged images except the last N
+        required: false
+        default: "1"
+
+      remove-older-than:
+        description: >
+          Delete all untagged images older than N in days.
+        required: false
+        default: "1"
 
 jobs:
   purge-pr-tagged-image:
@@ -26,4 +39,5 @@ jobs:
           owner: 01-edu
           name: test-rust
           token: ${{ secrets.GITHUB_TOKEN }}
-          untagged: all 
+          untagged-keep-latest: ${{ github.event.inputs.keep-last }}
+          untagged-older-than: ${{ github.event.inputs.remove-older-than }}
