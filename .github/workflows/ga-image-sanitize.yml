@@ -26,3 +26,4 @@ jobs:
           owner: 01-edu
           name: test-rust
           token: ${{ secrets.GITHUB_TOKEN }}
+          untagged: all 
