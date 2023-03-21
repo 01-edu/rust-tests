@@ -12,7 +12,8 @@ on:
         default: "1"
 
 jobs:
-  purge-pr-tagged-image:
+  delete-pr-tagged-image:
+    name: 🗑️ Delete PR${{github.event.pull_request.number}} Image
     runs-on: ubuntu-latest
     steps:
       - name: 🗑️ Delete image PR${{github.event.pull_request.number}}
@@ -25,7 +26,8 @@ jobs:
         continue-on-error: true
           
   delete-untagged-images:
-    needs: purge-pr-tagged-image
+    name: 🔥 Clear Untagged Images
+    needs: delete-pr-tagged-image
     runs-on: ubuntu-latest
     steps:
       - name: 🔥 Clear all untagged images
