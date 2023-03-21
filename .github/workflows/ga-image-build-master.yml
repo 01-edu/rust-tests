@@ -6,6 +6,7 @@ on:
 
 jobs:
   build-image:
+    name: 🏗️ Build Image
     runs-on: ubuntu-latest
 
     steps:
@@ -32,6 +33,7 @@ jobs:
           docker push ghcr.io/01-edu/test-rust:latest
 
   run-exercise-test:
+    name: 🧑‍🔬 Run Tests
     needs: build-image
     runs-on: ga-test-runner-check-rust-tests
     steps:
