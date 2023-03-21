@@ -5,9 +5,9 @@ on:
     types: [closed]
   workflow_dispatch:
     inputs:
-      remove-older-than:
+      keep-last:
         description: >
-          Delete all untagged images older than N in days.
+          Delete all untagged images except the last N
         required: false
         default: "1"
 
@@ -34,4 +34,4 @@ jobs:
           owner: 01-edu
           name: test-rust
           token: ${{ secrets.GITHUB_TOKEN }}
-          untagged-older-than: ${{ github.event.inputs.remove-older-than }}
+          untagged-keep-latest: ${{ github.event.inputs.keep-last }}
