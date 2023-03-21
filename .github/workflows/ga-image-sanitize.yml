@@ -28,6 +28,7 @@ jobs:
           name: test-rust
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: PR${{github.event.pull_request.number}}
+        continue-on-error: true
           
   delete-untagged-images:
     needs: purge-pr-tagged-image
