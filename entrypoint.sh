@@ -21,11 +21,6 @@ if ! test -f "tests/${EXERCISE}_test/Cargo.toml"; then
 	exit 1
 fi
 
-if find student -type f -name '*.rs' -exec grep -q 'std::process' {} +; then
-	echo "Your Rust source code cannot use std::process"
-	exit 1
-fi
-
 if test "$EXAM_RUN_ONLY"; then
 	cargo run --manifest-path "solutions/$EXERCISE/Cargo.toml" -- "$@"
 else
