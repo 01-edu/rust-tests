@@ -1,5 +1,0 @@
-{
-  "type": "exercise",
-  "name": "%NAME%",
-  "attrs": { "expectedFiles": ["%NAME%/src/lib.rs"], "language": "rust" }
-}
