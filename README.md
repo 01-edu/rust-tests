@@ -1,4 +1,6 @@
-# rust-tests
+# ⚙️ rust-tests
+
+[![🐳 On Master - Build and Test Docker Image](https://github.com/01-edu/rust-tests/actions/workflows/ga-image-build-master.yml/badge.svg?branch=master)](https://github.com/01-edu/rust-tests/actions/workflows/ga-image-build-master.yml)
 
 Private repository that holds the files needed to build the Rust tests Docker image.
 
