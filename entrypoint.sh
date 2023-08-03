@@ -7,9 +7,9 @@ IFS='
 cp -a /app/tests .
 cp -a student solutions
 
-if test "$EXAM_MODE"; then
+if test "$CODE_EDITOR_MODE"; then
 	cd "solutions/$EXERCISE"
-	if test "$EXAM_RUN_ONLY"; then
+	if test "$CODE_EDITOR_RUN_ONLY"; then
 		mv src/lib.rs src/main.rs 2>&1 ||:
 	fi
 	cargo init
@@ -21,7 +21,7 @@ if ! test -f "tests/${EXERCISE}_test/Cargo.toml"; then
 	exit 1
 fi
 
-if test "$EXAM_RUN_ONLY"; then
+if test "$CODE_EDITOR_RUN_ONLY"; then
 	cargo run --manifest-path "solutions/$EXERCISE/Cargo.toml" -- "$@"
 else
 	cargo test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
