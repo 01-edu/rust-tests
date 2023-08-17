@@ -4,6 +4,11 @@ set -eo pipefail
 IFS='
 '
 
+# support both variables CODE_EDITOR_RUN_ONLY and EXAM_RUN_ONLY
+CODE_EDITOR_RUN_ONLY="${CODE_EDITOR_RUN_ONLY:-$EXAM_RUN_ONLY}"
+# support both variables CODE_EDITOR_MODE and EXAM_MODE
+CODE_EDITOR_MODE="${CODE_EDITOR_MODE:-$EXAM_MODE}"
+
 cp -a /app/tests .
 cp -a student solutions
 
