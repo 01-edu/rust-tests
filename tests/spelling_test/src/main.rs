@@ -22,8 +22,8 @@ use spelling::*;
 
 fn main() {
     let mut rng = rand::thread_rng();
-    println!("{}", spell(rng.gen_range(0, 1000000)));
-    println!("{}", spell(rng.gen_range(0, 1000000)));
+    println!("{}", spell(rng.gen_range(0..1000000)));
+    println!("{}", spell(rng.gen_range(0..1000000)));
 }
 
 #[cfg(test)]

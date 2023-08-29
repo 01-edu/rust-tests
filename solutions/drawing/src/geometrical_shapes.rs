@@ -93,12 +93,12 @@ impl Circle {
         self.center.distance(&c.center) < c.radius as f64 + self.radius as f64
     }
     pub fn random(limit_x: i32, limit_y: i32) -> Circle {
-        let red = rand::thread_rng().gen_range(0, 255);
-        let blue = rand::thread_rng().gen_range(0, 255);
-        let green = rand::thread_rng().gen_range(0, 255);
+        let red = rand::thread_rng().gen_range(0..255);
+        let blue = rand::thread_rng().gen_range(0..255);
+        let green = rand::thread_rng().gen_range(0..255);
         Circle {
             center: Point::random(limit_x, limit_y),
-            radius: rand::thread_rng().gen_range(9, 500),
+            radius: rand::thread_rng().gen_range(9..500),
             color: raster::Color::rgb(red, green, blue),
         }
     }
@@ -122,8 +122,8 @@ impl Point {
     }
     pub fn random(limit_x: i32, limit_y: i32) -> Point {
         Point {
-            x: rand::thread_rng().gen_range(0, limit_x),
-            y: rand::thread_rng().gen_range(0, limit_y),
+            x: rand::thread_rng().gen_range(0..limit_x),
+            y: rand::thread_rng().gen_range(0..limit_y),
         }
     }
 }
