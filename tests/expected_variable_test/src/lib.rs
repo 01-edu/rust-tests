@@ -110,7 +110,7 @@ mod tests {
 
     #[test]
     fn passing_tests() {
-        assert_eq!("88%", expected_variable("soClose", "So_Close").unwrap());
+        assert_eq!("88%", expected_variable("soClose", "so_close").unwrap());
         assert_eq!("73%", expected_variable("lets_try", "lets_try_it").unwrap());
         assert_eq!("64%", expected_variable("GoodJob", "VeryGoodJob").unwrap());
         assert_eq!("64%", expected_variable("GoodJob", "VeryGoodJob").unwrap());
