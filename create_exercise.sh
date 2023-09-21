@@ -21,7 +21,7 @@ create_exercise () {
 
     if [[ $IS_LIB == true ]]
     then
-        solution_args+="--lib"
+        solution_args="--lib"
     fi
     cd solutions
     cargo new $solution_args $exercise
