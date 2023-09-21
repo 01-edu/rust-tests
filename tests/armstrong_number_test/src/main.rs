@@ -17,41 +17,41 @@ mod tests {
 
     #[test]
     fn test_subject_examples() {
-        assert_eq!(is_armstrong_number(0), Some(0));
-        assert_eq!(is_armstrong_number(1), Some(1));
-        assert_eq!(is_armstrong_number(153), Some(153));
-        assert_eq!(is_armstrong_number(370), Some(370));
-        assert_eq!(is_armstrong_number(371), Some(371));
-        assert_eq!(is_armstrong_number(407), Some(407));
-        assert_eq!(is_armstrong_number(400), None);
-        assert_eq!(is_armstrong_number(198), None);
+        assert_eq!(Some(0), is_armstrong_number(0));
+        assert_eq!(Some(1), is_armstrong_number(1));
+        assert_eq!(Some(153), is_armstrong_number(153));
+        assert_eq!(Some(370), is_armstrong_number(370));
+        assert_eq!(Some(371), is_armstrong_number(371));
+        assert_eq!(Some(407), is_armstrong_number(407));
+        assert_eq!(None, is_armstrong_number(400));
+        assert_eq!(None, is_armstrong_number(198));
     }
 
     #[test]
     fn test_valid_numbers() {
-        assert_eq!(is_armstrong_number(2), Some(2));
-        assert_eq!(is_armstrong_number(3), Some(3));
-        assert_eq!(is_armstrong_number(4), Some(4));
-        assert_eq!(is_armstrong_number(5), Some(5));
-        assert_eq!(is_armstrong_number(6), Some(6));
-        assert_eq!(is_armstrong_number(7), Some(7));
-        assert_eq!(is_armstrong_number(8), Some(8));
-        assert_eq!(is_armstrong_number(9), Some(9));
-        assert_eq!(is_armstrong_number(1634), Some(1634));
-        assert_eq!(is_armstrong_number(8208), Some(8208));
-        assert_eq!(is_armstrong_number(9474), Some(9474));
-        assert_eq!(is_armstrong_number(54748), Some(54748));
-        assert_eq!(is_armstrong_number(92727), Some(92727));
-        assert_eq!(is_armstrong_number(93084), Some(93084));
+        assert_eq!(Some(2), is_armstrong_number(2));
+        assert_eq!(Some(3), is_armstrong_number(3));
+        assert_eq!(Some(4), is_armstrong_number(4));
+        assert_eq!(Some(5), is_armstrong_number(5));
+        assert_eq!(Some(6), is_armstrong_number(6));
+        assert_eq!(Some(7), is_armstrong_number(7));
+        assert_eq!(Some(8), is_armstrong_number(8));
+        assert_eq!(Some(9), is_armstrong_number(9));
+        assert_eq!(Some(1634), is_armstrong_number(1634));
+        assert_eq!(Some(8208), is_armstrong_number(8208));
+        assert_eq!(Some(9474), is_armstrong_number(9474));
+        assert_eq!(Some(54748), is_armstrong_number(54748));
+        assert_eq!(Some(92727), is_armstrong_number(92727));
+        assert_eq!(Some(93084), is_armstrong_number(93084));
     }
 
     #[test]
     fn test_invalid_numbers() {
-        assert_eq!(is_armstrong_number(11), None);
-        assert_eq!(is_armstrong_number(98), None);
-        assert_eq!(is_armstrong_number(100), None);
-        assert_eq!(is_armstrong_number(90438), None);
-        assert_eq!(is_armstrong_number(940), None);
-        assert_eq!(is_armstrong_number(85), None);
+        assert_eq!(None, is_armstrong_number(11));
+        assert_eq!(None, is_armstrong_number(98));
+        assert_eq!(None, is_armstrong_number(100));
+        assert_eq!(None, is_armstrong_number(90438));
+        assert_eq!(None, is_armstrong_number(940));
+        assert_eq!(None, is_armstrong_number(85));
     }
 }
