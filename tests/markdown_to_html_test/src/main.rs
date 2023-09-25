@@ -22,9 +22,6 @@ lines
 also**";
 
 fn main() {
-    println!("ORIGINAL:");
-    println!("{}", EXAMPLE);
-    println!("\n ---> CONVERTED:");
     println!("{}", markdown_to_html(EXAMPLE));
 }
 
