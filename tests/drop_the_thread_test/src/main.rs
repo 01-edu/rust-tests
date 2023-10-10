@@ -1,5 +1,4 @@
 use drop_the_thread::*;
-use std::rc::Rc;
 
 fn main() {
 }
