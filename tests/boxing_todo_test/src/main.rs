@@ -91,7 +91,7 @@ mod tests {
         )
         .unwrap_err();
 
-        assert_eq!(result.to_string(), "Fail to parses todo");
+        assert_eq!(result.to_string(), "Fail to parse todo");
         assert!(result.source().is_none());
     }
 
@@ -112,7 +112,7 @@ mod tests {
 
     #[test]
     #[should_panic(
-        expected = "Fail to parses todo Some(Malformed(UnexpectedCharacter { ch: \',\', line: 1, column: 15 }))"
+        expected = "Fail to parse todo Some(Malformed(UnexpectedCharacter { ch: \',\', line: 1, column: 15 }))"
     )]
     fn test_malformed_error() {
         let file_name = "malformed.json";
