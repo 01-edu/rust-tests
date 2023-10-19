@@ -13,12 +13,16 @@ cp -a /app/tests .
 cp -a student solutions
 
 if test "$CODE_EDITOR_MODE"; then
-	cd "solutions/$EXERCISE"
-	if test "$CODE_EDITOR_RUN_ONLY"; then
-		mv src/lib.rs src/main.rs 2>&1 ||:
-	fi
-	cargo init
-	cd
+		cd "solutions/$EXERCISE"
+		# ! to support both the old and the new version of the runner we
+		# ! need to check the files in the code editor
+		if ! echo "$EDITOR_FILES" | tr ',' '\n' | grep -q 'src/main.rs'; then
+			if test "$CODE_EDITOR_RUN_ONLY"; then
+				mv src/lib.rs src/main.rs 2>&1 ||:
+			fi
+		fi
+		cargo init
+		cd
 fi
 
 if ! test -f "tests/${EXERCISE}_test/Cargo.toml"; then
