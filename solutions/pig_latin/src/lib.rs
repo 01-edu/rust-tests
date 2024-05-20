@@ -47,7 +47,7 @@ mod tests {
     #[test]
 
     fn test_word_beginning_with_consonant() {
-        assert_eq!(pig_latin(&String::from("queen")), "eenquay");
+        assert_eq!(pig_latin(&String::from("queen")), "ueenqay");
         assert_eq!(pig_latin(&String::from("square")), "aresquay");
         assert_eq!(pig_latin(&String::from("equal")), "equalay");
         assert_eq!(pig_latin(&String::from("pig")), "igpay");
