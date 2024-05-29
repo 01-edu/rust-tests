@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: 🐧 Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 📦 Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -35,9 +35,26 @@ jobs:
   run-exercise-test:
     name: 🧑‍🔬 Run Tests
     needs: build-image
-    runs-on: ga-test-runner-check-rust-tests
+    runs-on: ubuntu-latest
     steps:
-      - name: 📜 Launch script with branch ${{ github.event.pull_request.base.ref }} 
+      - name: 🐧 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐳 Login to docker.01-edu.org Registry
+        uses: docker/login-action@v2
+        with:
+          registry: docker.01-edu.org
+          username: ${{ secrets.USER_DOCKER_01EDU_ORG }}
+          password: ${{ secrets.SECRET_DOCKER_01EDU_ORG }}
+
+      - name: 📜 Launch script with branch ${{ github.event.pull_request.base.ref }}
         run: |
           ./tests/test_exercises.sh \
           -real \
