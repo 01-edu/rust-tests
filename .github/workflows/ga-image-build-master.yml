@@ -3,6 +3,7 @@ name: 🐳 On Master - Build and Test Docker Image
 on:
   push:
     branches: ["master"]
+  workflow_dispatch:
 
 jobs:
   build-image:
