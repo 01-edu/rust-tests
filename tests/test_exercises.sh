@@ -52,17 +52,7 @@ run_test() {
 		update_exit_code cargo clippy -q --manifest-path "$test_cargo_toml"
 		update_exit_code cargo clippy -q --manifest-path "$solution_cargo_toml"
 	fi
-	if [[ $REAL_ENV_TEST == true ]]; then
-		printf "  ${GRN}[REAL_ENV]${NC} %s\n" $ex_name
-		runner_res=$(curl --silent --data-binary @../student.zip "http://beta.01-edu.org:8086/ghcr.io/01-edu/${PULL_FROM}?env=EXERCISE=${ex_name}")
-		echo $runner_res | jq -jr .Output
-		runner_exit=$(echo $runner_res | jq -jr .Ok)
-		if [[ $runner_exit == "false" ]]; then
-			EXIT_CODE=1
-		fi
-
-	fi
-	if [[ $LOCAL_REAL_ENV_TEST == true ]]; then
+	if [[ $LOCAL_REAL_ENV_TEST == true || $REAL_ENV_TEST == true ]]; then
 		printf "  ${GRN}[LOCAL_REAL_ENV]${NC} %s\n" $ex_name
 
 		update_exit_code docker run --read-only \
@@ -174,15 +164,7 @@ else
 		esac
 	done
 
-	if [[ $REAL_ENV_TEST == true ]]; then
-		rm -rf ../student
-		cp -r ../solutions ../student
-		rm -rf ../student/**/target
-		cd ../
-		zip -r -q student.zip student
-		cd tests/
-	fi
-	if [[ $LOCAL_REAL_ENV_TEST == true ]]; then
+	if [[ $LOCAL_REAL_ENV_TEST == true || $REAL_ENV_TEST == true ]]; then
 		rm -rf ../student
 		cp -r ../solutions ../student
 		rm -rf ../student/**/target
