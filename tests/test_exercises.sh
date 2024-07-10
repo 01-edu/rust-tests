@@ -67,7 +67,7 @@ run_test() {
 			--workdir /jail \
 			--tmpfs /jail:size=100M,noatime,exec,nodev,nosuid,uid=1000,gid=1000,nr_inodes=5k,mode=1700 \
 			--volume "$(dirname $(pwd))"/student:/jail/student:ro \
-			-it rust_tests
+			rust_tests
 	fi
 	if [[ $CARGO_RUN == true ]]; then
 		printf "  ${RED}[RUN   ]${NC} %s\n" $ex_name
