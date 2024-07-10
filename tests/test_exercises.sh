@@ -25,51 +25,44 @@ PULL_FROM="test-rust"
 
 EXIT_CODE=0
 
-update_exit_code () {
+update_exit_code() {
 	$@
-	if [ $? != 0 ]
-	then
+	if [ $? != 0 ]; then
 		EXIT_CODE=1
 	fi
 }
 
-run_test () {
+run_test() {
 	test_cargo_toml="${1}Cargo.toml"
 	solution_cargo_toml="../solutions/${1%_test/}/Cargo.toml"
 	ex_name=${1%_test/}
 
-	if [[ $CARGO_FORMAT == true ]]
-	then
+	if [[ $CARGO_FORMAT == true ]]; then
 		printf "  ${GRN}[FORMAT]${NC} %s\n" $ex_name
 		update_exit_code cargo fmt --manifest-path "$test_cargo_toml"
 		update_exit_code cargo fmt --manifest-path "$solution_cargo_toml"
 	fi
-	if [[ $CARGO_FORMAT_CHECK == true ]]
-	then
+	if [[ $CARGO_FORMAT_CHECK == true ]]; then
 		printf "  ${GRN}[FMT CHECK]${NC} %s\n" $ex_name
 		update_exit_code cargo fmt --check --manifest-path "$test_cargo_toml"
 		update_exit_code cargo fmt --check --manifest-path "$solution_cargo_toml"
 	fi
-	if [[ $CARGO_CLIPPY == true ]]
-	then
+	if [[ $CARGO_CLIPPY == true ]]; then
 		printf "  ${YEL}[CLIPPY]${NC} %s\n" $ex_name
 		update_exit_code cargo clippy -q --manifest-path "$test_cargo_toml"
 		update_exit_code cargo clippy -q --manifest-path "$solution_cargo_toml"
 	fi
-	if [[ $REAL_ENV_TEST == true ]]
-	then
+	if [[ $REAL_ENV_TEST == true ]]; then
 		printf "  ${GRN}[REAL_ENV]${NC} %s\n" $ex_name
 		runner_res=$(curl --silent --data-binary @../student.zip "http://beta.01-edu.org:8086/ghcr.io/01-edu/${PULL_FROM}?env=EXERCISE=${ex_name}")
 		echo $runner_res | jq -jr .Output
 		runner_exit=$(echo $runner_res | jq -jr .Ok)
-		if [[ $runner_exit == "false" ]]
-		then
-			EXIT_CODE=1	
+		if [[ $runner_exit == "false" ]]; then
+			EXIT_CODE=1
 		fi
-		
+
 	fi
-	if [[ $LOCAL_REAL_ENV_TEST == true ]]
-	then
+	if [[ $LOCAL_REAL_ENV_TEST == true ]]; then
 		printf "  ${GRN}[LOCAL_REAL_ENV]${NC} %s\n" $ex_name
 
 		update_exit_code docker run --read-only \
@@ -86,16 +79,13 @@ run_test () {
 			--volume "$(dirname $(pwd))"/student:/jail/student:ro \
 			-it rust_tests
 	fi
-    if [[ $CARGO_RUN == true ]]
-	then
+	if [[ $CARGO_RUN == true ]]; then
 		printf "  ${RED}[RUN   ]${NC} %s\n" $ex_name
 		update_exit_code cargo run --manifest-path "$test_cargo_toml"
 	fi
-	if [[ $TEST_EXERCISES == true ]]
-	then
+	if [[ $TEST_EXERCISES == true ]]; then
 		printf "  ${BLU}[TEST  ]${NC} %s\n" $ex_name
-		if [[ $IS_VERBOSE == true ]]
-		then
+		if [[ $IS_VERBOSE == true ]]; then
 			update_exit_code cargo test --manifest-path "$test_cargo_toml"
 		else
 			update_exit_code cargo test -q --manifest-path "$test_cargo_toml" >/dev/null
@@ -103,8 +93,7 @@ run_test () {
 	fi
 }
 
-if [ -n $ARG ] && ([[ $ARG == '-h' ]] || [[ $ARG == '--help' ]])
-then
+if [ -n $ARG ] && ([[ $ARG == '-h' ]] || [[ $ARG == '--help' ]]); then
 	echo "Run cargo test for all the exercises
 
 	-h, --help          show this usage screen
@@ -120,75 +109,72 @@ then
     -pull-from			specify the PR id to take the a specific package image (master by default)
 	[exercise_name]     test one or more selected exercises (separated by spaces)
 	[NO ARGUMENTS]      test all exercises in test directory"
-elif [[ $ARG == '-t' ]]
-then
+elif [[ $ARG == '-t' ]]; then
 	printf "NOTICE: This could take some minutes before to show any output\n"
 	printf "| %-26s| %-14s|\n" Exercise Time
 	# Print a table with the time that took to test each exercise
 	for dir in */; do
-		exercise_name=${dir%_test/};
+		exercise_name=${dir%_test/}
 		# Don't clean the folder that don't exist
 		# This are the only exercises that don't follow the
 		# pattern (1 solution -> 1 crate)
-		if [ $exercise_name != 'matrix_mult' -a $exercise_name != 'matrix_ops' -a $exercise_name != 'roman_numbers_iter' ]
-		then
-			cargo clean --manifest-path ../solutions/"$exercise_name"/Cargo.toml;
-		fi;
-		cargo clean --manifest-path "$dir"Cargo.toml;
+		if [ $exercise_name != 'matrix_mult' -a $exercise_name != 'matrix_ops' -a $exercise_name != 'roman_numbers_iter' ]; then
+			cargo clean --manifest-path ../solutions/"$exercise_name"/Cargo.toml
+		fi
+		cargo clean --manifest-path "$dir"Cargo.toml
 
-		time=$(/usr/bin/time -f '%e secs.' cargo test -q --manifest-path "$dir"Cargo.toml 2>&1 1 > /dev/null | grep secs);
+		time=$(/usr/bin/time -f '%e secs.' cargo test -q --manifest-path "$dir"Cargo.toml 1 2>&1 >/dev/null | grep secs)
 		printf "| %-26s| %-14s|\n" $exercise_name "$time"
 	done |
 		sort -rn -k4
 else
 	# Arguments parsing
-	while [[ $# -gt 0 ]]
-	do
+	while [[ $# -gt 0 ]]; do
 		case $1 in
-			-v)
+		-v)
 			IS_VERBOSE=true
 			shift
 			;;
-			-f)
+		-f)
 			CARGO_FORMAT=true
 			shift
 			;;
-			-fc)
+		-fc)
 			CARGO_FORMAT_CHECK=true
 			shift
 			;;
-			-c)
+		-c)
 			CARGO_CLIPPY=true
 			shift
 			;;
-			-n)
+		-n)
 			TEST_EXERCISES=false
 			shift
 			;;
-			-real)
+		-real)
 			REAL_ENV_TEST=true
 			shift
 			;;
-			-local-real)
+		-local-real)
 			LOCAL_REAL_ENV_TEST=true
 			shift
 			;;
-			-m)
+		-m)
 			CARGO_RUN=true
 			shift
 			;;
-			-pull-from)
+		-pull-from)
 			PULL_FROM=$2
 			shift
 			shift
 			;;
-			*)
+		*)
 			break
+			;;
 		esac
 	done
 
-	if [[ $REAL_ENV_TEST == true ]]
-	then
+	if [[ $REAL_ENV_TEST == true ]]; then
 		rm -rf ../student
 		cp -r ../solutions ../student
 		rm -rf ../student/**/target
@@ -196,18 +182,15 @@ else
 		zip -r -q student.zip student
 		cd tests/
 	fi
-	if [[ $LOCAL_REAL_ENV_TEST == true ]]
-	then
+	if [[ $LOCAL_REAL_ENV_TEST == true ]]; then
 		rm -rf ../student
 		cp -r ../solutions ../student
 		rm -rf ../student/**/target
 
 		docker build -t rust_tests ../.
 	fi
-	if [[ $# -gt 0 ]]
-	then
-		while [[ $# -gt 0 ]]
-		do
+	if [[ $# -gt 0 ]]; then
+		while [[ $# -gt 0 ]]; do
 			exercise="${1}_test/"
 			run_test $exercise
 			shift # past argument
@@ -215,20 +198,17 @@ else
 	else
 		for dir in */; do
 			# Lib is a dependency but it is in tests directory, need to be skipped
-			if [[ $dir == "lib/" ]]
-			then
+			if [[ $dir == "lib/" ]]; then
 				continue
 			fi
 			run_test $dir
 		done
 	fi
 
-	if [[ $REAL_ENV_TEST == true ]]
-	then
+	if [[ $REAL_ENV_TEST == true ]]; then
 		rm -rf ../student.zip ../student
 	fi
-	if [[ $LOCAL_REAL_ENV_TEST == true ]]
-	then
+	if [[ $LOCAL_REAL_ENV_TEST == true ]]; then
 		rm -rf ../student
 	fi
 fi
