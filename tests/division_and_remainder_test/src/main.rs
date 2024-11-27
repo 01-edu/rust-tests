@@ -12,6 +12,8 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
+    use division_and_remainder::*;
+
     #[test]
     #[should_panic]
     fn test_divide_by_0() {
