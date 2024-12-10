@@ -10,6 +10,7 @@ struct NonAlloc {
 
 impl NonAlloc {
     #[inline]
+    #[allow(dead_code)] // incorrect false positive!
     fn reset_counter(&self) {
         self.counter.store(0, Ordering::SeqCst);
     }
