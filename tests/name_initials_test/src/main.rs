@@ -3,12 +3,12 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 
 use name_initials::*;
 
-struct NonAlloc {
+struct CounterAlloc {
     counter: AtomicUsize,
 }
 
 #[allow(dead_code)] // incorrect false positive!
-impl NonAlloc {
+impl CounterAlloc {
     #[inline]
     fn reset_counter(&self) {
         self.counter.store(0, Ordering::SeqCst);
@@ -20,7 +20,7 @@ impl NonAlloc {
     }
 }
 
-unsafe impl GlobalAlloc for NonAlloc {
+unsafe impl GlobalAlloc for CounterAlloc {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let ptr = unsafe { alloc::System.alloc(layout) };
         self.counter.fetch_add(layout.size(), Ordering::SeqCst);
@@ -36,7 +36,7 @@ unsafe impl GlobalAlloc for NonAlloc {
 }
 
 #[global_allocator]
-static ALLOCATOR: NonAlloc = NonAlloc {
+static ALLOCATOR: CounterAlloc = CounterAlloc {
     counter: AtomicUsize::new(0),
 };
 

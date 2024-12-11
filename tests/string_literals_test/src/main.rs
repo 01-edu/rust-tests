@@ -4,22 +4,27 @@ use std::{
 };
 use string_literals::*;
 
-struct NonAlloc {
-    pub counter: AtomicUsize,
+struct CounterAlloc {
+    counter: AtomicUsize,
 }
 
-impl NonAlloc {
+#[allow(dead_code)] // incorrect false positive!
+impl CounterAlloc {
     #[inline]
-    #[allow(dead_code)] // incorrect false positive!
     fn reset_counter(&self) {
         self.counter.store(0, Ordering::SeqCst);
     }
+
+    #[inline]
+    fn counter(&self) -> usize {
+        self.counter.load(Ordering::SeqCst)
+    }
 }
 
-unsafe impl GlobalAlloc for NonAlloc {
+unsafe impl GlobalAlloc for CounterAlloc {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let ptr = unsafe { alloc::System.alloc(layout) };
-        self.counter.fetch_add(1, Ordering::SeqCst);
+        self.counter.fetch_add(layout.size(), Ordering::SeqCst);
         return ptr;
     }
 
@@ -32,7 +37,7 @@ unsafe impl GlobalAlloc for NonAlloc {
 }
 
 #[global_allocator]
-static ALLOCATOR: NonAlloc = NonAlloc {
+static ALLOCATOR: CounterAlloc = CounterAlloc {
     counter: AtomicUsize::new(0),
 };
 
@@ -49,14 +54,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_memory() {
-        ALLOCATOR.reset_counter();
-        _ = Box::new(42);
-        assert!(ALLOCATOR.counter.load(Ordering::SeqCst) > 0);
-    }
-
-    #[test]
-    fn test_functions() {
+    fn test_functions_and_memory_allocation() {
         ALLOCATOR.reset_counter();
 
         assert!(is_empty(""));
@@ -69,6 +67,6 @@ mod tests {
         assert_eq!(find("ru-st-e", '-'), 2);
         assert_eq!(find("ru-st-e", 'e'), 6);
 
-        assert_eq!(ALLOCATOR.counter.load(Ordering::SeqCst), 0);
+        assert_eq!(ALLOCATOR.counter(), 0);
     }
 }
