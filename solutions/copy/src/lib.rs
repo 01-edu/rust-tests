@@ -3,13 +3,12 @@ pub fn nbr_function(c: i32) -> (i32, f64, f64) {
 }
 
 pub fn str_function(a: String) -> (String, String) {
-    (
-        a.clone(),
-        a.split_ascii_whitespace()
-            .map(|n| n.parse::<f64>().unwrap().exp().to_string())
-            .collect::<Vec<_>>()
-            .join(" "),
-    )
+    let transform = a
+        .split_ascii_whitespace()
+        .map(|n| n.parse::<f64>().unwrap().exp().to_string())
+        .collect::<Vec<_>>()
+        .join(" ");
+    (a, transform)
 }
 
 pub fn vec_function(b: Vec<i32>) -> (Vec<i32>, Vec<f64>) {
