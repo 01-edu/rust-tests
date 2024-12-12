@@ -1,16 +1,12 @@
 const PLAYERS: &[char] = &['X', 'O'];
 
 pub fn tic_tac_toe(table: [[char; 3]; 3]) -> String {
-    let winner = PLAYERS
+    PLAYERS
         .iter()
-        .find(|&&p| horizontal(p, table) || vertical(p, table) || diagonals(p, table))
-        .copied();
-
-    if let Some(winner) = winner {
-        format!("player {winner} won")
-    } else {
-        "tie".to_owned()
-    }
+        .copied()
+        .find(|&p| horizontal(p, table) || vertical(p, table) || diagonals(p, table))
+        .map(|w| format!("player {w} won"))
+        .unwrap_or_else(|| "tie".to_owned())
 }
 
 pub fn diagonals(player: char, table: [[char; 3]; 3]) -> bool {
