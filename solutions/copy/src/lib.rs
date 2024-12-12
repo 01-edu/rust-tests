@@ -13,8 +13,6 @@ pub fn str_function(a: String) -> (String, String) {
 }
 
 pub fn vec_function(b: Vec<i32>) -> (Vec<i32>, Vec<f64>) {
-    (
-        b.clone(),
-        b.into_iter().map(|n| (n as f64).abs().ln()).collect(),
-    )
+    let transform = b.iter().copied().map(|n| (n as f64).abs().ln()).collect();
+    (b, transform)
 }
