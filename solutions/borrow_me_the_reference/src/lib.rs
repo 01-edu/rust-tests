@@ -16,17 +16,12 @@ pub fn delete_and_backspace(s: &mut String) {
     }
 }
 
-pub fn do_operations(v: &mut Vec<String>) {
-    for (i, equation) in v.clone().iter().enumerate() {
-        let numbers: Vec<&str> = equation.split(|c| c == '+' || c == '-').collect();
-        let left_number = numbers[0].parse::<i32>().unwrap();
-        let right_number = numbers[1].parse::<i32>().unwrap();
+pub fn do_operations(v: &mut [String]) {
+    v.iter_mut().for_each(|equation| {
+        let (l, r) = equation.split_once(['+', '-']).unwrap();
+        let (l, r) = (l.parse::<i32>().unwrap(), r.parse::<i32>().unwrap());
 
-        let result = if equation.contains('+') {
-            left_number + right_number
-        } else {
-            left_number - right_number
-        };
-        v[i] = result.to_string();
-    }
+        let result = if equation.contains('+') { l + r } else { l - r };
+        *equation = result.to_string();
+    });
 }
