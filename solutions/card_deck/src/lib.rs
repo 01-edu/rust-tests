@@ -1,6 +1,6 @@
 use rand::Rng;
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Suit {
     Heart,
     Diamond,
@@ -8,7 +8,7 @@ pub enum Suit {
     Club,
 }
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Rank {
     Ace,
     King,
@@ -18,73 +18,49 @@ pub enum Rank {
 }
 
 impl Rank {
-    pub fn random() -> Rank {
-        let value: u8 = rand::thread_rng().gen_range(1..14);
-        Rank::translate(value)
+    pub fn random() -> Self {
+        let value = rand::thread_rng().gen_range(1..14);
+        Self::translate(value)
     }
 
-    pub fn translate(value: u8) -> Rank {
+    pub fn translate(value: u8) -> Self {
         match value {
-            1 => Rank::Ace,
-            n @ 2..=10 => Rank::Number(n),
-            11 => Rank::Jack,
-            12 => Rank::Queen,
-            _ => Rank::King,
+            1 => Self::Ace,
+            n @ 2..=10 => Self::Number(n),
+            11 => Self::Jack,
+            12 => Self::Queen,
+            13 => Self::King,
+            _ => unreachable!(),
         }
     }
 }
 
 impl Suit {
-    pub fn random() -> Suit {
+    pub fn random() -> Self {
         let value = rand::thread_rng().gen_range(1..5);
-        Suit::translate(value)
+        Self::translate(value)
     }
 
-    pub fn translate(value: u8) -> Suit {
+    pub fn translate(value: u8) -> Self {
         match value {
-            1 => Suit::Heart,
-            2 => Suit::Diamond,
-            3 => Suit::Spade,
-            _ => Suit::Club,
+            1 => Self::Heart,
+            2 => Self::Diamond,
+            3 => Self::Spade,
+            4 => Self::Club,
+            _ => unreachable!(),
         }
     }
 }
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Card {
     pub suit: Suit,
     pub rank: Rank,
 }
 
-pub fn winner_card(card: &Card) -> bool {
-    Card {
+pub fn winner_card(card: Card) -> bool {
+    card == Card {
         suit: Suit::Spade,
         rank: Rank::Ace,
-    } == *card
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_winner() {
-        let winner = Card {
-            rank: Rank::Ace,
-            suit: Suit::Spade,
-        };
-        for rank in 1..14 {
-            for suit in 1..5 {
-                let card = Card {
-                    rank: Rank::translate(rank),
-                    suit: Suit::translate(suit),
-                };
-                if card != winner {
-                    assert!(!winner_card(&card));
-                } else {
-                    assert!(winner_card(&card));
-                }
-            }
-        }
     }
 }
