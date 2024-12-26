@@ -17,7 +17,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn permutation_ascii() {
+    fn test_basic() {
         assert!(is_permutation("abcde", "edbca"));
         assert!(!is_permutation("avcde", "edbca"));
         assert!(!is_permutation("cde", "edbca"));
@@ -27,7 +27,28 @@ mod tests {
     }
 
     #[test]
-    fn permutation_unicode() {
+    fn test_repeating_characters() {
+        assert!(is_permutation("aab", "baa"));
+    }
+
+    #[test]
+    fn test_one_char() {
+        assert!(!is_permutation("a", "b"));
+        assert!(is_permutation("a", "a"));
+    }
+
+    #[test]
+    fn test_empty() {
+        assert!(is_permutation("", ""));
+    }
+
+    #[test]
+    fn test_special_characters() {
+        assert!(is_permutation("!#%@", "@%#!"));
+    }
+
+    #[test]
+    fn test_unicode() {
         assert!(is_permutation("hello♥", "♥oelhl"));
         assert!(!is_permutation("♥", "♥♥"));
     }
