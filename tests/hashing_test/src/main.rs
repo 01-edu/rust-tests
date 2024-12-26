@@ -13,7 +13,8 @@ mod tests {
     use super::*;
     use std::f64;
 
-    const fn approx_eq(a: f64, b: f64) -> bool {
+    #[inline]
+    fn approx_eq(a: f64, b: f64) -> bool {
         (a - b).abs() < f64::EPSILON
     }
 
