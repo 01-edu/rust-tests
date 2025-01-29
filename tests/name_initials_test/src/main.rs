@@ -23,7 +23,7 @@ impl CounterAlloc {
 unsafe impl GlobalAlloc for CounterAlloc {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let ptr = unsafe { alloc::System.alloc(layout) };
-        self.counter.fetch_add(layout.size(), Ordering::SeqCst);
+        self.counter.fetch_add(1, Ordering::SeqCst);
         return ptr;
     }
 
