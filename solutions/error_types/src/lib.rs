@@ -1,4 +1,4 @@
-pub use chrono::{NaiveDate, Utc};
+pub use chrono::Utc;
 
 #[derive(Debug, Eq, PartialEq)]
 pub struct FormError {
@@ -27,7 +27,7 @@ impl Form {
     pub fn validate(&self) -> Result<(), FormError> {
         if self.name.is_empty() {
             return Err(FormError::new(
-                "first_name",
+                "name",
                 self.name.clone(),
                 "Username is empty",
             ));

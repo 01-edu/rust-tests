@@ -13,10 +13,10 @@ fn test_error_type() {
         (
             Form {
                 name: "".to_owned(),
-                password: String::from("qwTw12&%$3sa1dty_"),
+                password: "qwTw12&%$3sa1dty_".to_owned(),
             },
             Err(FormError {
-                form_values: ("first_name", "".to_owned()),
+                form_values: ("name", "".to_owned()),
                 date: Utc::now().format("%Y-%m-%d %H:%M:%S").to_string(),
                 err: "Username is empty",
             }),
