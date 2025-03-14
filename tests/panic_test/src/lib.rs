@@ -2,7 +2,7 @@ use panic::*;
 use std::fs::{self, File};
 
 #[test]
-#[should_panic]
+#[should_panic(expected = "No such file or directory")]
 fn test_opening() {
     open_file("file.txt");
 }
