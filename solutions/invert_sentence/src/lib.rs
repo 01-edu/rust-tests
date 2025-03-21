@@ -1,25 +1,19 @@
+// This exercise is quite difficult and should come later in the piscine.
+
 pub fn invert_sentence(string: &str) -> String {
-    let mut words: Vec<&str> = Vec::new();
-    let mut word_start = None;
+    let words = string.split_ascii_whitespace();
 
-    for (i, c) in string.char_indices() {
-        if c.is_whitespace() {
-            if let Some(start) = word_start {
-                words.push(&string[start..i]);
-            }
-            words.push(" "); // Preserve spaces
-            word_start = None;
-        } else {
-            if word_start.is_none() {
-                word_start = Some(i);
-            }
-        }
-    }
+    let positions = string
+        .split_ascii_whitespace()
+        .map(|s| (s.as_ptr() as usize - string.as_ptr() as usize, s.len()))
+        .map(|(i, l)| i..=l + i - 1)
+        .rev();
 
-    if let Some(start) = word_start {
-        words.push(&string[start..]);
-    }
+    let mut acc = string.to_owned();
 
-    words.reverse();
-    words.join("")
+    positions
+        .zip(words)
+        .for_each(|(r, s)| acc.replace_range(r, s));
+
+    acc
 }
