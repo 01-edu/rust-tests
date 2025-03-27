@@ -1,176 +1,133 @@
+use std::collections::HashMap;
+
+#[inline]
+fn coerce_map<V>(m: HashMap<impl Into<String>, V>) -> HashMap<String, V> {
+    m.into_iter().map(|(k, v)| (k.into(), v)).collect()
+}
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct Mall {
     pub name: String,
-    pub guards: Vec<guard::Guard>,
-    pub floors: Vec<floor::Floor>,
+    pub guards: HashMap<String, Guard>,
+    pub floors: HashMap<String, Floor>,
 }
 
 impl Mall {
-    #[allow(dead_code)]
-    pub fn new(name: &str, guards: Vec<guard::Guard>, floors: Vec<floor::Floor>) -> Mall {
-        Mall {
-            name: name.to_string(),
-            guards: guards,
-            floors: floors,
+    pub fn new(
+        name: impl Into<String>,
+        guards: HashMap<impl Into<String>, Guard>,
+        floors: HashMap<impl Into<String>, Floor>,
+    ) -> Self {
+        Self {
+            name: name.into(),
+            guards: coerce_map(guards),
+            floors: coerce_map(floors),
         }
     }
 
-    #[allow(dead_code)]
-    pub fn change_name(&mut self, new_name: &str) {
-        self.name = new_name.to_string();
+    pub fn change_name(&mut self, new_name: impl Into<String>) {
+        self.name = new_name.into();
     }
 
-    #[allow(dead_code)]
-    pub fn hire_guard(&mut self, guard: guard::Guard) {
-        self.guards.push(guard);
-    }
-}
-
-pub mod guard {
-
-    #[derive(Debug, Clone, PartialEq)]
-    pub struct Guard {
-        pub name: String,
-        pub age: u8,
-        pub years_experience: u8,
+    pub fn hire_guard(&mut self, name: impl Into<String>, guard: Guard) {
+        self.guards.insert(name.into(), guard);
     }
 
-    impl Guard {
-        #[allow(dead_code)]
-        pub fn new(name: &str, age: u8, years_experience: u8) -> Guard {
-            Guard {
-                name: name.to_string(),
-                age: age,
-                years_experience: years_experience,
-            }
-        }
+    pub fn fire_guard(&mut self, name: impl Into<String>) {
+        self.guards.remove(&name.into());
     }
 }
 
-pub mod floor {
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Guard {
+    pub age: u32,
+    pub years_experience: u32,
+}
 
-    #[derive(Debug, Clone, PartialEq)]
-    pub struct Floor {
-        pub name: String,
-        pub stores: Vec<store::Store>,
-        pub size_limit: u64,
-    }
+#[derive(Debug, Clone, PartialEq)]
+pub struct Floor {
+    pub stores: HashMap<String, Store>,
+    pub size_limit: u64,
+}
 
-    impl Floor {
-        #[allow(dead_code)]
-        pub fn new(name: &str, stores: Vec<store::Store>, store_limit: u64) -> Floor {
-            Floor {
-                name: name.to_string(),
-                stores: stores,
-                size_limit: store_limit,
-            }
-        }
-
-        #[allow(dead_code)]
-        pub fn change_store(&mut self, store: &str, new_store: store::Store) {
-            let pos = self.stores.iter().position(|x| x.name == store).unwrap();
-            self.stores[pos] = new_store;
-        }
-
-        #[allow(dead_code)]
-        pub fn add_store(&mut self, new_store: store::Store) {
-            let mut current_floor_size = 0;
-
-            for store in self.stores.iter() {
-                current_floor_size += store.square_meters;
-            }
-
-            if self.size_limit < current_floor_size + new_store.square_meters {
-                self.stores.push(new_store);
-            }
-        }
-
-        #[allow(dead_code)]
-        pub fn remove_store(&mut self, store_name: String) {
-            self.stores.retain(|x| x.name != store_name);
+impl Floor {
+    pub fn new(stores: HashMap<impl Into<String>, Store>, size_limit: u64) -> Self {
+        Self {
+            stores: coerce_map(stores),
+            size_limit,
         }
     }
 
-    pub mod store {
+    pub fn replace_store(&mut self, store: impl Into<String>, with: Store) {
+        self.stores.entry(store.into()).and_modify(|v| *v = with);
+    }
 
-        #[derive(Debug, Clone, PartialEq)]
-        pub struct Store {
-            pub name: String,
-            pub square_meters: u64,
-            pub employees: Vec<employee::Employee>,
+    pub fn add_store(&mut self, name: impl Into<String>, store: Store) -> Result<(), ()> {
+        let has_space = self.size_limit
+            >= self.stores.values().map(|s| s.square_meters).sum::<u64>() + store.square_meters;
+
+        if has_space {
+            self.stores.insert(name.into(), store);
+            Ok(())
+        } else {
+            Err(())
         }
+    }
 
-        impl Store {
-            #[allow(dead_code)]
-            pub fn new(name: &str, space: u64, employees: Vec<employee::Employee>) -> Store {
-                Store {
-                    name: name.to_string(),
-                    square_meters: space,
-                    employees: employees,
-                }
-            }
+    pub fn remove_store(&mut self, name: impl Into<String>) {
+        self.stores.remove(&name.into());
+    }
+}
 
-            #[allow(dead_code)]
-            pub fn hire_employee(&mut self, employee: employee::Employee) {
-                self.employees.push(employee);
-            }
-            #[allow(dead_code)]
-            pub fn fire_employee(&mut self, employee_name: &str) {
-                self.employees.retain(|x| x.name != employee_name);
-            }
-            #[allow(dead_code)]
-            pub fn expand(&mut self, square_meters: u64) {
-                self.square_meters += square_meters;
-            }
+#[derive(Debug, Clone, PartialEq)]
+pub struct Store {
+    pub employees: HashMap<String, Employee>,
+    pub square_meters: u64,
+}
+
+impl Store {
+    pub fn new(employees: HashMap<impl Into<String>, Employee>, square_meters: u64) -> Self {
+        Self {
+            employees: coerce_map(employees),
+            square_meters,
         }
+    }
 
-        pub mod employee {
+    pub fn hire_employee(&mut self, name: impl Into<String>, employee: Employee) {
+        self.employees.insert(name.into(), employee);
+    }
 
-            #[derive(Debug, Clone, PartialEq)]
-            pub struct Employee {
-                pub name: String,
-                pub age: u8,
-                pub working_hours: (u8, u8),
-                pub salary: f64,
-            }
+    pub fn fire_employee(&mut self, name: impl Into<String>) {
+        self.employees.remove(&name.into());
+    }
 
-            impl Employee {
-                #[allow(dead_code)]
-                pub fn new(
-                    name: &str,
-                    age: u8,
-                    entry_hour: u8,
-                    exit_hour: u8,
-                    salary: f64,
-                ) -> Employee {
-                    Employee {
-                        name: name.to_string(),
-                        age: age,
-                        working_hours: (entry_hour, exit_hour),
-                        salary: salary,
-                    }
-                }
+    pub fn expand(&mut self, by: u64) {
+        self.square_meters += by;
+    }
+}
 
-                #[allow(dead_code)]
-                pub fn birthday(&mut self) {
-                    self.age += 1;
-                }
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Employee {
+    pub age: u32,
+    // The employee works from `working_hours.0` to `working_hours.1`
+    pub working_hours: (u32, u32),
+    pub salary: f64,
+}
 
-                #[allow(dead_code)]
-                pub fn change_workload(&mut self, entry_hour: u8, exit_hour: u8) {
-                    self.working_hours = (entry_hour, exit_hour);
-                }
+impl Employee {
+    pub fn birthday(&mut self) {
+        self.age += 1;
+    }
 
-                #[allow(dead_code)]
-                pub fn raise(&mut self, amount: f64) {
-                    self.salary += amount;
-                }
+    pub fn change_workload(&mut self, from: u32, to: u32) {
+        self.working_hours = (from, to);
+    }
 
-                #[allow(dead_code)]
-                pub fn cut(&mut self, amount: f64) {
-                    self.salary = self.salary - amount;
-                }
-            }
-        }
+    pub fn raise(&mut self, amount: f64) {
+        self.salary += amount;
+    }
+
+    pub fn cut(&mut self, amount: f64) {
+        self.salary -= amount;
     }
 }
