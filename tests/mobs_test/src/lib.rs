@@ -98,6 +98,16 @@ fn mob_recruit() {
             age: 37,
         })
     );
+
+    mob.recruit(("Pedro", 14));
+
+    assert_eq!(
+        mob.members.get("Pedro"),
+        Some(&Member {
+            role: Role::Associate,
+            age: 14,
+        })
+    );
 }
 
 #[test]
