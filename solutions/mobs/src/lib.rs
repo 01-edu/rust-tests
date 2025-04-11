@@ -1,61 +1,81 @@
-/*
-## mobs
+pub mod boss;
+pub mod member;
 
-### Instructions
+use std::collections::{HashMap, HashSet};
 
-Create a different file and a folder called `mob.rs` and `mob` respectively. This will be the `mob` module that will contain:
+pub use boss::*;
+pub use member::*;
 
-- a `Mob` structure that consists of:
-  - a String `name`
-  - a Boss struct `boss`
-  - a vector of Members `members`
-  - a vector of tuples containing a name String and a value u8 `cities`
-  - a u32 `wealth`
+#[derive(PartialEq, Debug, Clone)]
+pub struct Mob {
+    pub name: String,
+    pub boss: Boss,
+    pub members: HashMap<String, Member>,
+    pub cities: HashSet<String>,
+    pub wealth: u64,
+}
 
-The Mob struct should implement the following functions:
+impl Mob {
+    #[inline]
+    pub fn recruit(&mut self, (name, age): (&str, u32)) {
+        self.members.insert(
+            name.to_owned(),
+            Member {
+                role: Role::Associate,
+                age,
+            },
+        );
+    }
 
-  - `recruit`, that adds a member to the members vector of the Mob when receiving a `member_name` (&str) and a `member_age` (u8) (the role should be Associate)
-  - `attack`, that receives another Mob and will remove the last member from the vector of Members from the Mob with the less power combat (in case of draw, the loser is the attacker). The power combat is calculated by its members:
-    - an Underboss power combat is 4
-    - a Caporegime power combat is 3
-    - a Soldier power combat is 2
-    - an Associate power combat is 1
-    - In case of one of the mobs stays without members, the winner mob adds to its cities every city of the loser mob and the same happens to the wealth, and the loser mob loses all cities and all wealth
-  - `steal`, that receives the targeted mob (Mob) and a value (u32) and adds to the own mob a value and subtracts the value
-  - `conquer_city`, that receives a vector of mobs, a city name (String) and a value (u8) and adds it to the vector of cities of the own mob, only if no mob in the vector owns a city with that name
+    #[inline]
+    fn calculate_power(&self) -> usize {
+        self.members
+            .values()
+            .map(|m| match m.role {
+                Role::Underboss => 4,
+                Role::Caporegime => 3,
+                Role::Soldier => 2,
+                Role::Associate => 1,
+            })
+            .sum()
+    }
 
-Also create two submodules of mob:
+    #[inline]
+    fn give_cities(&mut self, to: &mut Mob) {
+        to.cities.extend(self.cities.drain())
+    }
 
-- `boss` submodule which should contain:
-  - a `Boss` struct that consists of:
-    - a String `name`
-    - an u8 `age`
-  - a function `new` that returns a Boss on receiving a name (&str) and an age (u8)
-- `member` submodule which consists of:
-  - a enum `Role` with the variants:
-    - Underboss
-    - Caporegime
-    - Soldier
-    - Associate
-  - a `Member` struct that consists of:
-    - a String name
-    - a enum Role `role`
-    - a u8 `age`
-  - the Member struct should implement a function `get_promotion` which will change the member role. If a member is an Associate, it will get promoted to Soldier; a Soldier is promoted to a Caporegime and a Caporegime is promoted to Underboss
-  - a function `new` that return a Member on receiving a name(&str), a role (Role) and an age (u8)
+    pub fn attack(&mut self, target: &mut Mob) {
+        let (winner, loser) = if self.calculate_power() > target.calculate_power() {
+            (self, target)
+        } else {
+            (target, self)
+        };
 
-  You must include `#[derive(Debug, CLone, PartialEq)]` on top of every struct and the enum.
+        let youngest_age = loser.members.values().map(|m| m.age).min().unwrap();
 
-  Create also a `lib.rs` file containing the following code,  in order to test your code:
+        loser.members.retain(|_, m| m.age > youngest_age);
 
-```rust
-mod mob;
+        if loser.members.is_empty() {
+            loser.give_cities(winner);
+            winner.wealth += loser.wealth;
+            loser.wealth = 0;
+        }
+    }
 
-pub use mob::*;
-```
+    pub fn steal(&mut self, target: &mut Mob, value: u64) {
+        let clamped = value.min(target.wealth);
+        self.wealth += clamped;
+        target.wealth -= clamped;
+    }
 
-  */
-
-mod mobs;
-
-pub use mobs::*;
+    pub fn conquer_city(&mut self, mobs: &[&Mob], wanted_city: String) {
+        if !mobs
+            .iter()
+            .flat_map(|m| &m.cities)
+            .any(|c| *c == wanted_city)
+        {
+            self.cities.insert(wanted_city);
+        }
+    }
+}
