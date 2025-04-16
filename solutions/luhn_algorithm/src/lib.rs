@@ -1,24 +1,23 @@
 pub fn is_luhn_formula(code: &str) -> bool {
-    if code.trim().len() <= 1 {
-        return false;
+    let it = code.chars().filter(|c| !c.is_ascii_whitespace());
+    if it.clone().count() <= 1 {
+        false
+    } else {
+        it.rev()
+            .enumerate()
+            .try_fold(0, |acc, (i, c)| {
+                c.to_digit(10).map(|c| {
+                    acc + if i % 2 == 1 {
+                        if c > 4 {
+                            c * 2 - 9
+                        } else {
+                            c * 2
+                        }
+                    } else {
+                        c
+                    }
+                })
+            })
+            .map_or(false, |n| n % 10 == 0)
     }
-    code.as_bytes()
-        .iter()
-        .rev()
-        .filter(|&c| *c != b' ')
-        .enumerate()
-        .try_fold(0, |acc, (i, &c)| {
-            if c.is_ascii_digit() {
-                Some(
-                    acc + match (i % 2 == 1, c - b'0') {
-                        (true, nb) if nb > 4 => nb * 2 - 9,
-                        (true, nb) => nb * 2,
-                        (false, nb) => nb,
-                    },
-                )
-            } else {
-                None
-            }
-        })
-        .map_or(false, |checksum| checksum % 10 == 0)
 }
