@@ -6,9 +6,9 @@ fn main() {
         suit: Suit::random(),
     };
 
-    println!("Your card is {:?}", your_card);
+    println!("Your card is {:?}", &your_card);
 
-    if card_deck::winner_card(your_card) {
+    if card_deck::winner_card(&your_card) {
         println!("You are the winner!");
     }
 }
@@ -17,7 +17,7 @@ fn main() {
 mod tests {
     use super::*;
 
-    // We cannot test the randomness as there's no 100% accurate consistent way to prove through a predicate that it yields a truly random number
+    // We cannot truly test the randomness as there's no 100% accurate consistent way to prove through a predicate that it yields a truly random number
 
     #[test]
     fn test_winner() {
@@ -33,7 +33,7 @@ mod tests {
                     suit: Suit::translate(suit),
                 };
 
-                assert_eq!(card_deck::winner_card(card), card == winner);
+                assert_eq!(card_deck::winner_card(&card), card == winner);
             }
         }
     }

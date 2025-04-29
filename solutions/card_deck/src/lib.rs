@@ -18,11 +18,12 @@ pub enum Rank {
 }
 
 impl Rank {
+    #[inline]
     pub fn random() -> Self {
-        let value = rand::thread_rng().gen_range(1..14);
-        Self::translate(value)
+        Self::translate(rand::thread_rng().gen_range(1..14))
     }
 
+    #[inline]
     pub fn translate(value: u8) -> Self {
         match value {
             1 => Self::Ace,
@@ -36,11 +37,12 @@ impl Rank {
 }
 
 impl Suit {
+    #[inline]
     pub fn random() -> Self {
-        let value = rand::thread_rng().gen_range(1..5);
-        Self::translate(value)
+        Self::translate(rand::thread_rng().gen_range(1..5))
     }
 
+    #[inline]
     pub fn translate(value: u8) -> Self {
         match value {
             1 => Self::Heart,
@@ -58,8 +60,9 @@ pub struct Card {
     pub rank: Rank,
 }
 
-pub fn winner_card(card: Card) -> bool {
-    card == Card {
+#[inline]
+pub fn winner_card(card: &Card) -> bool {
+    card == &Card {
         suit: Suit::Spade,
         rank: Rank::Ace,
     }
