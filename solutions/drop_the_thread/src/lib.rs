@@ -1,23 +1,24 @@
 use std::cell::{Cell, RefCell};
 
-#[derive(Debug, Default, Clone, Eq, PartialEq)]
-pub struct Workers {
+#[derive(Debug, Default)]
+pub struct ThreadPool {
     pub drops: Cell<usize>,
     pub states: RefCell<Vec<bool>>,
 }
 
-impl Workers {
-    pub fn new() -> Workers {
-        Workers::default()
+impl ThreadPool {
+    #[inline]
+    pub fn new() -> Self {
+        Default::default()
     }
 
-    pub fn new_worker(&self, c: String) -> (usize, Thread) {
-        let g = Thread::new_thread(self.track_worker(), c, self);
+    pub fn new_thread(&self, c: String) -> (usize, Thread) {
+        let g = Thread::new(self.thread_len(), c, self);
         self.states.borrow_mut().push(false);
         (g.pid, g)
     }
 
-    pub fn track_worker(&self) -> usize {
+    pub fn thread_len(&self) -> usize {
         self.states.borrow().len()
     }
 
@@ -25,38 +26,37 @@ impl Workers {
         self.states.borrow()[id]
     }
 
-    pub fn add_drop(&self, id: usize) {
+    pub fn drop_thread(&self, id: usize) {
         if self.is_dropped(id) {
             panic!("{:?} is already dropped", id)
         }
         self.states.borrow_mut()[id] = true;
-        self.drops.set(self.drops.get() + 1);
+        self.drops.update(|x| x + 1);
     }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq)]
+#[derive(Debug)]
 pub struct Thread<'a> {
     pub pid: usize,
     pub cmd: String,
-    pub parent: &'a Workers,
+    pub parent: &'a ThreadPool,
 }
 
 impl<'a> Thread<'a> {
-    pub fn new_thread(p: usize, c: String, t: &'a Workers) -> Thread {
-        Thread {
+    #[inline]
+    pub fn new(p: usize, c: String, t: &'a ThreadPool) -> Self {
+        Self {
             pid: p,
             cmd: c,
             parent: t,
         }
     }
 
-    pub fn skill(self) {
-        drop(self);
-    }
+    pub fn skill(self) {}
 }
 
-impl<'a> Drop for Thread<'a> {
+impl Drop for Thread<'_> {
     fn drop(&mut self) {
-        self.parent.add_drop(self.pid);
+        self.parent.drop_thread(self.pid);
     }
 }
