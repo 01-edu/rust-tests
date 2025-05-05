@@ -31,7 +31,7 @@ impl ThreadPool {
             panic!("{:?} is already dropped", id)
         }
         self.states.borrow_mut()[id] = true;
-        self.drops.update(|x| x + 1);
+        self.drops.set(self.drops.get() + 1);
     }
 }
 
