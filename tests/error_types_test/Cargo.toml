@@ -8,3 +8,4 @@ edition = "2021"
 
 [dependencies]
 error_types = { path = "../../solutions/error_types"}
+chrono = "0.4.41"
