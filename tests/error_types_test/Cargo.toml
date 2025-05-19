@@ -7,4 +7,5 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-error_types = { path = "../../solutions/error_types"}
+error_types = { path = "../../solutions/error_types" }
+chrono = "0.4.41"
