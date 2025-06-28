@@ -1,3 +1,4 @@
+use std::rc::Rc;
 use ref_cell::*;
 
 fn main() {
