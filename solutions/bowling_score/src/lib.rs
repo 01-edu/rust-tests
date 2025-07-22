@@ -5,10 +5,10 @@ pub enum Error {
 }
 
 pub struct BowlingGame {
-    rolls: Vec<u16>,
-    pins_left: u16,
-    rolls_in_frame: u16,
-    fill_balls: u16,
+    rolls: Vec<u32>,
+    pins_left: u32,
+    rolls_in_frame: u32,
+    fill_balls: u32,
 }
 
 impl BowlingGame {
@@ -21,7 +21,7 @@ impl BowlingGame {
         }
     }
 
-    pub fn roll(&mut self, pins: u16) -> Result<(), Error> {
+    pub fn roll(&mut self, pins: u32) -> Result<(), Error> {
         if pins > self.pins_left {
             return Err(Error::NotEnoughPinsLeft);
         } else if self.rolls.len() >= 20 && self.fill_balls == 0 {
@@ -48,7 +48,7 @@ impl BowlingGame {
         Ok(())
     }
 
-    fn strike_or_spare(&mut self, pins: u16) {
+    fn strike_or_spare(&mut self, pins: u32) {
         if self.rolls_in_frame == 2 {
             self.rolls_in_frame -= 1;
             self.rolls.push(0);
@@ -61,7 +61,7 @@ impl BowlingGame {
         }
     }
 
-    pub fn score(&self) -> Option<u16> {
+    pub fn score(&self) -> Option<u32> {
         if self.rolls.len() < 20 || self.fill_balls != 0 {
             return None;
         }
