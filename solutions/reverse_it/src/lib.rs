@@ -1,11 +1,8 @@
 pub fn reverse_it(nbr: i32) -> String {
     let s = nbr.to_string();
-    let str_nbr = s.trim_start_matches('-');
-    let rev: String = str_nbr.chars().rev().collect();
-    if nbr >= 0 {
-        return format!("{}{}", rev, str_nbr);
-    }
-    return format!("-{}{}", rev, str_nbr);
+    let abs_s = s.trim_start_matches('-');
+    let rev = abs_s.chars().rev().collect::<String>();
+    format!("{}{}{}", if nbr < 0 { "-" } else { "" }, rev, abs_s)
 }
 
 #[cfg(test)]
