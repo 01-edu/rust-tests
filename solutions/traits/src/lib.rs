@@ -1,63 +1,21 @@
-// Imagine you are designing a new video game and you have to create
-// food that they players can take to gain strength there are two
-// types of food for now fruits and meet: fruits increases the
-// strengths by 1 unit and meat increases it by 3 unit.
+use std::fmt;
 
-// Define both structures fruits and meat
-// Define the std::fmt::Display trait of the Player structure so using
-// the template {} inside a println! macro will print in the first
-// line the name of the player
-// in the second line the strength, score and the money
-// and in the third line the weapons
 #[derive(Debug)]
-pub struct Player {
-    pub name: String,
+pub struct Player<'a> {
+    pub name: &'a str,
     pub strength: f64,
-    pub score: i32,
-    pub money: i32,
-    pub weapons: Vec<String>,
+    pub score: u32,
+    pub money: u32,
+    pub weapons: Vec<&'a str>,
 }
 
-pub struct Fruit {
-    pub weight_in_kg: f64,
-}
-
-pub struct Meat {
-    pub weight_in_kg: f64,
-    pub fat_content: f64,
-}
-
-// fn main() {
-// 	let apple = Fruit { weight_in_kg: 1.0 };
-// 	assert_eq!(apple.gives(), 4);
-// 	let steak = Meat {
-// 		weight_in_kg: 1.0,
-// 		fat_content: 1.0,
-// 	};
-
-// 	let mut player1 = Player {
-// 		name: String::from("player1"),
-// 		strength: 1,
-// 		score: 0,
-// 		money: 0,
-// 		weapons: vec![String::from("knife")],
-// 	};
-// 	println!("Before eating {:?}", player1);
-// 	player1.eat(apple);
-// 	println!("After eating an apple\n{:?}", player1);
-// 	player1.eat(steak);
-// 	println!("After eating a steak\n{:?}", player1);
-// }
-
-impl Player {
-    pub fn eat<T: Food>(&mut self, food: T) {
+impl Player<'_> {
+    pub fn eat(&mut self, food: impl Food) {
         self.strength += food.gives();
     }
 }
 
-use std::fmt;
-
-impl fmt::Display for Player {
+impl fmt::Display for Player<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "{}", self.name)?;
         writeln!(
@@ -75,78 +33,31 @@ pub trait Food {
 
 impl Food for Fruit {
     fn gives(&self) -> f64 {
-        self.weight_in_kg * 4.0
+        self.weight_in_kg * Self::STRENGTH_PER_KG
     }
 }
 
 impl Food for Meat {
     fn gives(&self) -> f64 {
-        self.weight_in_kg * 4.0 + self.weight_in_kg * self.fat_content * 5.0
+        (((1. - self.fat_content) * self.weight_in_kg) * Self::STRENGTH_PER_PROTEIN_KG)
+            + ((self.fat_content * self.weight_in_kg) * Self::STRENGTH_PER_FAT_KG)
     }
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
+pub struct Fruit {
+    pub weight_in_kg: f64,
+}
 
-    #[test]
-    fn test_gives() {
-        let apple = Fruit { weight_in_kg: 1.0 };
-        assert_eq!(apple.gives(), 4.0);
-        let steak = Meat {
-            weight_in_kg: 1.0,
-            fat_content: 1.0,
-        };
-        assert_eq!(steak.gives(), 9.0);
+impl Fruit {
+    const STRENGTH_PER_KG: f64 = 4.;
+}
 
-        let steak = Meat {
-            weight_in_kg: 1.0,
-            fat_content: 0.0,
-        };
-        assert_eq!(steak.gives(), 4.0);
+pub struct Meat {
+    pub weight_in_kg: f64,
+    pub fat_content: f64,
+}
 
-        let steak = Meat {
-            weight_in_kg: 1.5,
-            fat_content: 0.3,
-        };
-        assert_eq!(steak.gives(), 8.25);
-    }
-
-    #[test]
-    fn test_eat() {
-        let apple = Fruit { weight_in_kg: 1.0 };
-        assert_eq!(apple.gives(), 4.0);
-        let steak = Meat {
-            weight_in_kg: 1.0,
-            fat_content: 1.0,
-        };
-
-        let mut player1 = Player {
-            name: String::from("player1"),
-            strength: 1.0,
-            score: 0,
-            money: 0,
-            weapons: vec![String::from("knife"), String::from("shotgun")],
-        };
-        player1.eat(apple);
-        assert_eq!(player1.strength, 5.0);
-        player1.eat(steak);
-        assert_eq!(player1.strength, 14.0);
-    }
-
-    #[test]
-    fn test_display() {
-        let player1 = Player {
-            name: String::from("player1"),
-            strength: 1.0,
-            score: 0,
-            money: 0,
-            weapons: vec![String::from("knife"), String::from("shotgun")],
-        };
-        println!("{}", player1);
-        assert_eq!(
-            player1.to_string(),
-            "player1\nStrength: 1, Score: 0, Money: 0\nWeapons: [\"knife\", \"shotgun\"]"
-        )
-    }
+impl Meat {
+    const STRENGTH_PER_PROTEIN_KG: f64 = 4.;
+    const STRENGTH_PER_FAT_KG: f64 = 9.;
 }

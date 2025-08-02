@@ -1,56 +1,48 @@
-const OFFSET: [(i32, i32); 8] = [
+const VECTORS: [(isize, isize); 8] = [
     (-1, -1),
-    (0, -1),
-    (1, -1),
     (-1, 0),
-    (1, 0),
     (-1, 1),
+    (0, -1),
     (0, 1),
+    (1, -1),
+    (1, 0),
     (1, 1),
 ];
 
 pub fn solve_board(minefield: &[&str]) -> Vec<String> {
-    let mut field: Vec<Vec<u8>> = minefield
+    let mut copy = minefield
         .iter()
-        .map(|line| line.as_bytes().to_owned())
-        .collect();
+        .map(|c| c.as_bytes().to_owned())
+        .collect::<Vec<_>>();
 
-    let x_max = field.first().unwrap_or(&vec![]).len();
-    let y_max = field.len();
-
-    minefield.iter().enumerate().for_each(|(y, line)| {
-        line.as_bytes()
-            .iter()
-            .enumerate()
-            .filter(|(_, &c)| c == b'*')
-            .for_each(|(x, _)| {
-                OFFSET
-                    .iter()
-                    .filter(|(x_off, y_off)| {
-                        !(*x_off == -1 && x == 0)
-                            && *x_off + (x as i32) < x_max as i32
-                            && !(*y_off == -1 && y == 0)
-                            && *y_off + (y as i32) < y_max as i32
-                    })
-                    .map(|&(x_off, y_off)| {
-                        (((x as i32) + x_off) as usize, ((y as i32) + y_off) as usize)
-                    })
-                    .for_each(|(x, y)| {
-                        let curr_val = field[y][x];
-
-                        if curr_val != b'*' {
-                            if curr_val == b' ' {
-                                field[y][x] = b'1';
+    minefield
+        .iter()
+        .enumerate()
+        .flat_map(|(y, l)| l.chars().enumerate().map(move |(x, c)| ((y, x), c)))
+        .filter(|&(_, c)| c == '*')
+        .for_each(|(p, _)| {
+            VECTORS
+                .into_iter()
+                .filter_map(|v| {
+                    Some((
+                        usize::try_from(p.0 as isize + v.0).ok()?,
+                        usize::try_from(p.1 as isize + v.1).ok()?,
+                    ))
+                })
+                .for_each(|(y, x)| {
+                    if let Some(c) = copy.get_mut(y).and_then(|y| y.get_mut(x)) {
+                        if *c != b'*' {
+                            if *c == b' ' {
+                                *c = b'1';
                             } else {
-                                field[y][x] = curr_val + 1;
+                                *c += 1;
                             }
                         }
-                    })
-            })
-    });
+                    }
+                })
+        });
 
-    field
-        .into_iter()
-        .map(|line| unsafe { String::from_utf8_unchecked(line) })
+    copy.into_iter()
+        .map(|v| String::from_utf8(v).unwrap())
         .collect()
 }
