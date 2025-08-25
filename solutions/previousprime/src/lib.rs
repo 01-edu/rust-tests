@@ -1,33 +1,33 @@
-pub fn prev_prime(nbr: u64) -> u64 {
-    if nbr <= 2 {
-        return 0;
+use std::iter;
+
+#[inline]
+pub fn prev_prime(nbr: usize) -> usize {
+    if nbr > 2 {
+        iter::once(2)
+            .chain((3..nbr).step_by(2))
+            .rfind(|&n| is_prime(n))
+            .unwrap_or_default()
+    } else {
+        Default::default()
     }
-
-    let mut min_number = 2;
-
-    for i in 2..nbr {
-        if is_prime(i) {
-            min_number = i;
-        }
-    }
-
-    min_number
 }
 
-fn is_prime(nbr: u64) -> bool {
-    if nbr > 0 {
-        if nbr <= 1 {
-            return false;
-        }
-        let mut d = 2;
-        while d * d <= nbr {
-            if nbr % d == 0 {
-                return false;
-            }
-            d += 1;
-        }
-        return true;
-    } else {
+fn is_prime(n: usize) -> bool {
+    if n < 2 {
         return false;
     }
+    if n <= 3 {
+        return true;
+    }
+    if n.is_multiple_of(2) || n.is_multiple_of(3) {
+        return false;
+    }
+    let mut d = 5;
+    while d * d <= n {
+        if n.is_multiple_of(d) || n.is_multiple_of(d + 2) {
+            return false;
+        }
+        d += 6;
+    }
+    true
 }
