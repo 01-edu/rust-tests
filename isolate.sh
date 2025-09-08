@@ -32,7 +32,7 @@ if ! "$bin" --list "${filtered[@]}" >"$tmpdir/list.txt" 2>/dev/null; then
   echo "[wrapper] unable to list tests; cannot verify harness" >&2
   exit 1
 fi
-# Lines look like: `path::to::name: test` (optionally with " (ignored)")
+# Lines look like: `path::to::name: test` (sometimes with " (ignored)")
 awk -F': test' '/: test/{print $1}' "$tmpdir/list.txt" | sed 's/[[:space:]]*$//' > "$expected"
 
 # 2) Run the suite normally and capture output + real exit code
@@ -44,11 +44,14 @@ rc="$(awk -F'__RC__' '/__RC__/ {v=$2} END{print v+0}' "$logfile")"
 
 # 3) Collect tests that actually produced a result line:
 #    Matches lines like: `test foo::bar ... ok|ignored|FAILED`
+#    Normalize names by stripping the " - should panic[ with `...`]" suffix.
 awk '
   /^test[[:space:]][^ ]/ {
     line=$0
-    sub(/^test[[:space:]]+/, "", line)
-    sub(/[[:space:]]+\.\.\..*$/, "", line)
+    sub(/^test[[:space:]]+/, "", line)            # drop leading "test "
+    sub(/[[:space:]]+\.\.\..*$/, "", line)        # drop " ... ok/FAILED/ignored"
+    # Remove should_panic annotation added to pretty output:
+    sub(/[[:space:]]+- should panic( with `[^`]*`)?$/, "", line)
     print line
   }
 ' "$logfile" | sed 's/[[:space:]]*$//' > "$actual"
