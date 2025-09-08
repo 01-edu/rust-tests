@@ -20,7 +20,7 @@ filter_args() {
   done
   printf '%s\n' "${out[@]}"
 }
-filtered=($(filter_args "$@"))
+mapfile -t filtered < <(filter_args "$@")
 
 tmpdir="$(mktemp -d -t strictwrap.XXXXXX)"; trap 'rm -rf "$tmpdir"' EXIT
 expected="$tmpdir/expected.txt"
