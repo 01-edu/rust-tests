@@ -23,6 +23,6 @@ LABEL org.opencontainers.image.description="01 Edu - Rust Test Image"
 LABEL org.opencontainers.image.licenses=MIT
 
 COPY entrypoint.sh ./
-COPY isolate.sh ./
+COPY isolate.sh ./jail/student/
 
 ENTRYPOINT ["/app/entrypoint.sh"]
