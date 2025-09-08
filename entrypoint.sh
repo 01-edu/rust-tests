@@ -10,6 +10,7 @@ CODE_EDITOR_RUN_ONLY="${CODE_EDITOR_RUN_ONLY:-$EXAM_RUN_ONLY}"
 CODE_EDITOR_MODE="${CODE_EDITOR_MODE:-$EXAM_MODE}"
 
 cp -a /app/tests .
+cp -a /app/isolate.sh .
 cp -a student solutions
 
 if test "$CODE_EDITOR_MODE"; then
@@ -33,5 +34,5 @@ fi
 if test "$CODE_EDITOR_RUN_ONLY"; then
 	cargo run --manifest-path "solutions/$EXERCISE/Cargo.toml" -- "$@"
 else
-	cargo --config 'target."cfg(all())".runner="/jail/isolate.sh"' test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
+	cargo --config 'target."cfg(all())".runner="./isolate.sh"' test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
 fi
