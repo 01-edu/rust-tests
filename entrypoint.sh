@@ -33,5 +33,5 @@ fi
 if test "$CODE_EDITOR_RUN_ONLY"; then
 	cargo run --manifest-path "solutions/$EXERCISE/Cargo.toml" -- "$@"
 else
-	cargo test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
+	cargo --config 'target."cfg(all())".runner="./isolate.sh"' test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
 fi
