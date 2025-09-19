@@ -1,6 +1,6 @@
 use std::ops::{Add, Div, Mul, Sub};
 
-pub trait Scalar: Sized + Add + Sub + Mul + Div {
+pub trait Scalar: Sized + Add + Sub + Mul + Div + Clone + Copy {
     type Item;
 
     fn zero() -> Self::Item;
