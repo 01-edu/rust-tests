@@ -1,6 +1,4 @@
-use std::cell::Ref;
-use std::cell::RefCell;
-use std::cell::RefMut;
+use std::cell::{Ref, RefCell, RefMut};
 
 #[derive(Debug, Default, PartialEq, Eq)]
 pub struct Car {
@@ -14,18 +12,22 @@ pub struct RentalBusiness {
 }
 
 impl RentalBusiness {
-    pub fn rent_car(&self) -> Ref<Car> {
+    #[inline]
+    pub fn rent_car(&self) -> Ref<'_, Car> {
         self.car.borrow()
     }
 
+    #[inline]
     pub fn sell_car(&self) -> Car {
         self.car.take()
     }
 
-    pub fn repair_car(&self) -> RefMut<Car> {
+    #[inline]
+    pub fn repair_car(&self) -> RefMut<'_, Car> {
         self.car.borrow_mut()
     }
 
+    #[inline]
     pub fn change_car(&self, new_car: Car) {
         self.car.replace(new_car);
     }

@@ -18,34 +18,23 @@ pub struct Outfit {
     pub hat: Hat,
 }
 
+#[inline]
 pub fn choose_outfit(
     formality_level: Option<u32>,
     invitation_message: Result<&str, &str>,
 ) -> Outfit {
-    let mut outfit = Outfit {
-        jacket: Jacket::Black,
-        hat: Hat::Snapback,
+    let jacket = match formality_level {
+        Some(level) if level > 0 => Jacket::White,
+        Some(_) => Jacket::Black,
+        _ => Jacket::Flowers,
     };
 
-    match formality_level {
-        Some(level) => {
-            if level > 0 {
-                outfit.jacket = Jacket::White;
-            }
-        }
-        _ => {
-            outfit.jacket = Jacket::Flowers;
-        }
+    Outfit {
+        hat: match invitation_message {
+            Ok(_) => Hat::Fedora,
+            Err(_) if jacket == Jacket::Flowers => Hat::Baseball,
+            _ => Hat::Snapback,
+        },
+        jacket,
     }
-    match invitation_message {
-        Ok(_) => {
-            outfit.hat = Hat::Fedora;
-        }
-        Err(_) => {
-            if let Jacket::Flowers = outfit.jacket {
-                outfit.hat = Hat::Baseball;
-            }
-        }
-    }
-    outfit
 }

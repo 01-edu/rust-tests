@@ -1,15 +1,19 @@
-use std::iter;
-
-#[inline]
 pub fn prev_prime(nbr: usize) -> usize {
-    if nbr > 2 {
-        iter::once(2)
-            .chain((3..nbr).step_by(2))
-            .rfind(|&n| is_prime(n))
-            .unwrap_or_default()
-    } else {
-        Default::default()
+    if nbr <= 2 {
+        return 0;
     }
+
+    let start = if nbr.is_multiple_of(2) {
+        nbr - 1
+    } else {
+        nbr - 2
+    };
+
+    (1..=start)
+        .rev()
+        .step_by(2)
+        .find(|&n| is_prime(n))
+        .unwrap_or(2)
 }
 
 fn is_prime(n: usize) -> bool {
@@ -22,12 +26,21 @@ fn is_prime(n: usize) -> bool {
     if n.is_multiple_of(2) || n.is_multiple_of(3) {
         return false;
     }
-    let mut d = 5;
-    while d * d <= n {
-        if n.is_multiple_of(d) || n.is_multiple_of(d + 2) {
+
+    if n.is_multiple_of(5) || n.is_multiple_of(7) || n.is_multiple_of(11) || n.is_multiple_of(13) {
+        return n <= 13;
+    }
+
+    let sqrt_n = (n as f64).sqrt() as usize;
+    let mut d = 17;
+    let mut step = 2;
+
+    while d <= sqrt_n {
+        if n % d == 0 {
             return false;
         }
-        d += 6;
+        d += step;
+        step = 6 - step;
     }
     true
 }

@@ -14,21 +14,28 @@ pub enum WorkerRole {
 
 impl From<&str> for OfficeWorker {
     fn from(s: &str) -> Self {
-        let entries = s.split(',').collect::<Vec<&str>>();
-        OfficeWorker {
-            name: entries.get(0).unwrap().to_string(),
-            age: entries.get(1).unwrap().parse().unwrap(),
-            role: WorkerRole::from(*entries.get(2).unwrap()),
-        }
+        let mut entries = s.split(',');
+
+        let v = Self {
+            name: entries.next().unwrap().to_owned(),
+            age: entries.next().unwrap().parse().unwrap(),
+            role: WorkerRole::from(entries.next().unwrap()),
+        };
+
+        assert!(entries.next().is_none());
+
+        v
     }
 }
 
 impl From<&str> for WorkerRole {
+    #[inline]
     fn from(s: &str) -> Self {
         match s {
             "admin" => WorkerRole::Admin,
             "user" => WorkerRole::User,
-            _ => WorkerRole::Guest,
+            "guest" => WorkerRole::Guest,
+            _ => unreachable!(),
         }
     }
 }
