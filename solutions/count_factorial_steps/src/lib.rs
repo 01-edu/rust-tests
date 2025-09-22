@@ -6,7 +6,7 @@ pub fn count_factorial_steps(factorial: u64) -> u64 {
     loop {
         if curr_val < 2 {
             return step;
-        } else if (curr_val % multiplier) > 0 {
+        } else if !curr_val.is_multiple_of(multiplier) {
             return 0;
         }
         curr_val /= multiplier;

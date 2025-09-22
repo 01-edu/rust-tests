@@ -4,6 +4,7 @@ pub struct Target {
     pub xp: u32,
 }
 
+#[derive(Default)]
 pub struct Field {
     head: Link,
 }
@@ -16,10 +17,12 @@ struct Node {
 }
 
 impl Field {
+    #[inline]
     pub fn new() -> Self {
-        Field { head: None }
+        Default::default()
     }
 
+    #[inline]
     pub fn push(&mut self, target: Target) {
         let new_node = Box::new(Node {
             elem: target,
@@ -28,6 +31,7 @@ impl Field {
         self.head = Some(new_node);
     }
 
+    #[inline]
     pub fn pop(&mut self) -> Option<Target> {
         self.head.take().map(|node| {
             self.head = node.next;
@@ -35,10 +39,12 @@ impl Field {
         })
     }
 
+    #[inline]
     pub fn peek(&self) -> Option<&Target> {
         self.head.as_ref().map(|node| &node.elem)
     }
 
+    #[inline]
     pub fn peek_mut(&mut self) -> Option<&mut Target> {
         self.head.as_mut().map(|node| &mut node.elem)
     }

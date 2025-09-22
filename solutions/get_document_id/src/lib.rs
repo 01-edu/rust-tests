@@ -26,6 +26,7 @@ pub struct OfficeFour {
 }
 
 impl OfficeOne {
+    #[inline]
     pub fn get_document_id(&self) -> Result<u32, ErrorOffice> {
         self.next_office?.next_office?.next_office?.document_id
     }
