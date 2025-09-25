@@ -1,21 +1,32 @@
-fn main() {}
-
 #[cfg(test)]
 mod tests {
     use std::process::Command;
 
     const MANIFEST_PATH: &str = "../../solutions/rpn/Cargo.toml";
 
-    fn run(s: &str) -> String {
-        let output = Command::new("cargo")
+    fn run_args(f: impl FnOnce(&mut Command) -> &mut Command) -> String {
+        let output = f(&mut Command::new("cargo")
             .arg("run")
             .arg("--manifest-path")
-            .arg(MANIFEST_PATH)
-            .arg(s)
-            .output()
-            .expect("Failed to execute command");
+            .arg(MANIFEST_PATH))
+        .output()
+        .expect("Failed to execute command");
 
         String::from_utf8(output.stdout).unwrap()
+    }
+
+    #[inline]
+    fn run(s: &str) -> String {
+        run_args(|c| c.arg(s))
+    }
+
+    #[test]
+    fn incorrect_args_tests() {
+        assert_eq!("Error\n", run_args(|c| c.arg("")));
+        assert_eq!("Error\n", run_args(|c| c.arg("test")));
+        assert_eq!("Error\n", run_args(|c| c));
+        assert_eq!("Error\n", run_args(|c| c.arg("2").arg("4")));
+        assert_eq!("Error\n", run_args(|c| c.arg("2").arg("4").arg("-")));
     }
 
     #[test]

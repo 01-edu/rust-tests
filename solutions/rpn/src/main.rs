@@ -1,44 +1,40 @@
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-
-    rpn(&args[1]);
+    match std::env::args().collect::<Vec<_>>().as_slice() {
+        [_, arg] => rpn(arg.as_str()),
+        _ => println!("Error"),
+    }
 }
 
+#[inline]
 pub fn rpn(input: &str) {
-    let mut values: Vec<i64> = Vec::new();
-    let op = input.split_whitespace();
-    let mut err = true;
+    if rpn_wrapper(input).is_err() {
+        println!("Error");
+    }
+}
 
-    for v in op {
+pub fn rpn_wrapper(input: &str) -> Result<(), ()> {
+    let mut values = Vec::<i64>::new();
+
+    for v in input.split_whitespace() {
         if let Ok(x) = v.parse() {
             values.push(x);
         } else {
-            if is_op(v) && values.len() < 2 {
-                err = false;
-                break;
-            }
-            let (y, x) = (values.pop().unwrap(), values.pop().unwrap());
+            let (y, x) = (values.pop().ok_or(())?, values.pop().ok_or(())?);
             match v {
                 "+" => values.push(x + y),
                 "-" => values.push(x - y),
                 "*" => values.push(x * y),
                 "/" => values.push(x / y),
                 "%" => values.push(x % y),
-                _ => {
-                    err = false;
-                    break;
-                }
+                _ => return Err(()),
             }
         }
     }
 
-    if values.len() == 1 && err {
-        println!("{}", values[0]);
+    if values.len() != 1 {
+        Err(())
     } else {
-        println!("Error");
+        println!("{}", values[0]);
+        Ok(())
     }
-}
-
-fn is_op(s: &str) -> bool {
-    s == "+" || s == "-" || s == "*" || s == "/" || s == "%"
 }

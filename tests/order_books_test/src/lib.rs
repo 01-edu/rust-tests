@@ -1,69 +1,30 @@
-use order_books::{
-    library::{books::Book, writers::Writer},
-    order_books,
-};
-
-fn main() {
-    let mut writer_a = Writer {
-        first_name: "William".to_string(),
-        last_name: "Shakespeare".to_string(),
-        books: vec![
-            Book {
-                title: "Hamlet".to_string(),
-                year: 1600,
-            },
-            Book {
-                title: "Othelo".to_string(),
-                year: 1603,
-            },
-            Book {
-                title: "Romeo and Juliet".to_string(),
-                year: 1593,
-            },
-            Book {
-                title: "MacBeth".to_string(),
-                year: 1605,
-            },
-        ],
-    };
-
-    println!("Before ordering");
-    for b in &writer_a.books {
-        println!("{:?}", b.title);
-    }
-
-    order_books(&mut writer_a);
-
-    println!("\nAfter ordering");
-    for b in writer_a.books {
-        println!("{:?}", b.title);
-    }
-}
-
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use order_books::{
+        library::{books::Book, writers::Writer},
+        order_books,
+    };
 
     #[test]
     fn w_shakespeare() {
         let mut writer = Writer {
-            first_name: "William".to_string(),
-            last_name: "Shakespeare".to_string(),
+            first_name: "William".to_owned(),
+            last_name: "Shakespeare".to_owned(),
             books: vec![
                 Book {
-                    title: "Hamlet".to_string(),
+                    title: "Hamlet".to_owned(),
                     year: 1600,
                 },
                 Book {
-                    title: "Othelo".to_string(),
+                    title: "Othelo".to_owned(),
                     year: 1603,
                 },
                 Book {
-                    title: "Romeo and Juliet".to_string(),
+                    title: "Romeo and Juliet".to_owned(),
                     year: 1593,
                 },
                 Book {
-                    title: "MacBeth".to_string(),
+                    title: "MacBeth".to_owned(),
                     year: 1605,
                 },
             ],
@@ -76,30 +37,31 @@ mod tests {
         assert_eq!("Othelo", writer.books[2].title);
         assert_eq!("Romeo and Juliet", writer.books[3].title);
     }
+
     #[test]
     fn j_k_rowling() {
         let mut writer = Writer {
-            first_name: "William".to_string(),
-            last_name: "Shakespeare".to_string(),
+            first_name: "Joanne".to_owned(),
+            last_name: "Rowling".to_owned(),
             books: vec![
                 Book {
-                    title: "Harry Potter and the Philosopher's Stone".to_string(),
+                    title: "Harry Potter and the Philosopher's Stone".to_owned(),
                     year: 1997,
                 },
                 Book {
-                    title: "Harry Potter and the Prisoner of Azkaban".to_string(),
+                    title: "Harry Potter and the Prisoner of Azkaban".to_owned(),
                     year: 1999,
                 },
                 Book {
-                    title: "Harry Potter and the Order of the Phoenix".to_string(),
+                    title: "Harry Potter and the Order of the Phoenix".to_owned(),
                     year: 2003,
                 },
                 Book {
-                    title: "Harry Potter and the Chamber of Secrets".to_string(),
+                    title: "Harry Potter and the Chamber of Secrets".to_owned(),
                     year: 1998,
                 },
                 Book {
-                    title: "Harry Potter and the Deathly Hallows".to_string(),
+                    title: "Harry Potter and the Deathly Hallows".to_owned(),
                     year: 2007,
                 },
             ],
