@@ -63,7 +63,7 @@ if [[ "$rc" -eq 0 ]] && grep -Eq '^test result: ok\.' "$logfile"; then
   # If no tests were expected (filters matched none), that's fine too.
   if comm -23 "$expected" "$actual" | read -r _; then
     # there were missing tests → failure
-    echo "Some tests weren't ran for the exercise `$EXERCISE`. Perhaps the solution forcefully exits?"
+    echo "Some tests weren't ran for the exercise \`$EXERCISE\`. Perhaps the solution forcefully exits?"
     exit 1
   else
     exit 0
