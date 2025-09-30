@@ -25,4 +25,6 @@ LABEL org.opencontainers.image.licenses=MIT
 COPY entrypoint.sh ./
 COPY isolate.sh ./
 
+RUN chmod +x ./entrypoint.sh ./isolate.sh
+
 ENTRYPOINT ["/app/entrypoint.sh"]
