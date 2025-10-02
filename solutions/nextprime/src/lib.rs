@@ -1,24 +1,33 @@
-pub fn next_prime(nbr: u64) -> u64 {
-    if is_prime(nbr) {
-        return nbr;
-    }
-    next_prime(nbr + 1)
+#[inline]
+pub fn next_prime(nbr: usize) -> usize {
+    (nbr..).find(|&n| is_prime(n)).unwrap()
 }
 
-fn is_prime(nbr: u64) -> bool {
-    if nbr > 0 {
-        if nbr <= 1 {
-            return false;
-        }
-        let mut d = 2;
-        while d * d <= nbr {
-            if nbr % d == 0 {
-                return false;
-            }
-            d += 1;
-        }
-        return true;
-    } else {
+fn is_prime(n: usize) -> bool {
+    if n < 2 {
         return false;
     }
+    if n <= 3 {
+        return true;
+    }
+    if n.is_multiple_of(2) || n.is_multiple_of(3) {
+        return false;
+    }
+
+    if n.is_multiple_of(5) || n.is_multiple_of(7) || n.is_multiple_of(11) || n.is_multiple_of(13) {
+        return n <= 13;
+    }
+
+    let sqrt_n = (n as f64).sqrt() as usize;
+    let mut d = 17;
+    let mut step = 2;
+
+    while d <= sqrt_n {
+        if n % d == 0 {
+            return false;
+        }
+        d += step;
+        step = 6 - step;
+    }
+    true
 }

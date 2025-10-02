@@ -7,22 +7,17 @@ pub struct Garage<T> {
 }
 
 impl<T: Add<Output = T> + Copy> Garage<T> {
+    #[inline]
     pub fn move_to_right(&mut self) {
-        if let Some(left_stuff) = self.left {
-            match self.right {
-                Some(right_stuff) => self.right = Some(right_stuff + left_stuff),
-                _ => self.right = Some(left_stuff),
-            }
-            self.left = None;
-        }
+        self.left
+            .take()
+            .map(|l| self.right = Some(self.right.take().map_or(l, |r| r + l)));
     }
+
+    #[inline]
     pub fn move_to_left(&mut self) {
-        if let Some(right_stuff) = self.right {
-            match self.left {
-                Some(left_stuff) => self.left = Some(left_stuff + right_stuff),
-                _ => self.left = Some(right_stuff),
-            }
-            self.right = None;
-        }
+        self.right
+            .take()
+            .map(|r| self.left = Some(self.left.take().map_or(r, |l| l + r)));
     }
 }
