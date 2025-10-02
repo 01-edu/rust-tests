@@ -1,17 +1,14 @@
 #[macro_export]
 macro_rules! hash_map {
-    () => {{
-        crate::HashMap::new()
-    }};
+    () => {
+        ::std::collections::HashMap::new()
+    };
 
-    ($($k:expr => $v:expr),+ $(,)?) => {{
-        use crate::HashMap;
-        let mut hm = HashMap::new();
-
+    ($($key:expr => $value:expr),+ $(,)?) => {{
+        let mut map = ::std::collections::HashMap::new();
         $(
-            hm.insert($k, $v);
+            map.insert($key, $value);
         )+
-
-        hm
+        map
     }};
 }
