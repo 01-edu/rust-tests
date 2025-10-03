@@ -1,90 +1,46 @@
-// First exercise
-
-// # Instructions
-// Define a data structure to represent a matrix of any size and
-// implement the basic operations for this you will need to follow the
-// next steps:
-
-// You can use a 2 dimensional Vec<T>'s
-// We will consider a matrix as a rectangular arrangements of scalars
-// You can use the definition of scalars done in the last exercise:
-// `lalgebra_scalar`
-
-// Then define the associated function `identity` that returns the identity matrix
-// of size n
-// Ex:
-// Matrix::identity(3) == [[1,0,0], [0,1,0], [0,0,1]]
-
-// And the associated function `zero` that returns a matrix of size
-// `row x col` with all the positions filled by zeroes
-// Ex:
-// Matrix::zero(3, 3) == [[0,0,0],[0,0,0],[0,0,0]]
-
-// Resources: https://doc.rust-lang.org/book/ch19-03-advanced-traits.html
+use std::ops::{Add, Mul, Sub};
 
 use lalgebra_scalar::Scalar;
-mod mult;
-mod ops;
+use matrix::Matrix;
 
-#[derive(Debug, Eq, PartialEq, Clone)]
-pub struct Matrix<T>(pub Vec<Vec<T>>);
+#[derive(Debug, Eq, PartialEq, Clone, Copy)]
+pub struct Wrapper<const W: usize, const H: usize, T>(pub Matrix<W, H, T>);
 
-impl<T: Scalar<Item = T>> Matrix<T> {
-    pub fn new() -> Matrix<T> {
-        Matrix(vec![Vec::new()])
-    }
-    // It returns the zero matrix of the size given by the row and
-    // column parameters
-    pub fn zero(row: usize, col: usize) -> Matrix<T> {
-        let mut matrix = Matrix(Vec::new());
-        for _ in 0..row {
-            matrix.0.push(vec![T::zero(); col]);
-        }
-        matrix
-    }
-
-    pub fn identity(n: usize) -> Matrix<T> {
-        let mut matrix = Matrix::new();
-        for y in 0..n {
-            if y > 0 {
-                matrix.0.push(Vec::new());
-            }
-            for x in 0..n {
-                if y == x {
-                    matrix.0[y].push(T::one());
-                } else {
-                    matrix.0[y].push(T::zero());
-                }
-            }
-        }
-        matrix
+impl<const W: usize, const H: usize, T> From<[[T; W]; H]> for Wrapper<W, H, T> {
+    #[inline]
+    fn from(array: [[T; W]; H]) -> Self {
+        Wrapper(Matrix(array))
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+macro_rules! impl_binary_op {
+    ($trait:ident, $method:ident, $op:tt) => {
+        impl<const W: usize, const H: usize, T: Scalar<Item = T> + $trait<Output = T>> $trait for Wrapper<W, H, T> {
+            type Output = Self;
 
-    #[test]
-    fn zero_property() {
-        let matrix: Matrix<u32> = Matrix::zero(3, 4);
-        let expected: Matrix<u32> =
-            Matrix(vec![vec![0, 0, 0, 0], vec![0, 0, 0, 0], vec![0, 0, 0, 0]]);
-        assert_eq!(matrix, expected);
+            #[inline]
+            fn $method(self, other: Self) -> Self::Output {
+                std::array::from_fn(|j| {
+                    std::array::from_fn(|i| self.0.0[j][i] $op other.0.0[j][i])
+                }).into()
+            }
+        }
+    };
+}
 
-        let matrix: Matrix<u32> = Matrix::zero(2, 2);
-        let expected: Matrix<u32> = Matrix(vec![vec![0, 0], vec![0, 0]]);
-        assert_eq!(matrix, expected);
-    }
+impl_binary_op!(Add, add, +);
+impl_binary_op!(Sub, sub, -);
 
-    #[test]
-    fn identy_matrix() {
-        let matrix: Matrix<u32> = Matrix::identity(2);
-        let expected: Matrix<u32> = Matrix(vec![vec![1, 0], vec![0, 1]]);
-        assert_eq!(matrix, expected);
+impl<const S: usize, T: Scalar<Item = T> + std::iter::Sum<<T as Mul>::Output>> Mul
+    for Wrapper<S, S, T>
+{
+    type Output = Self;
 
-        let matrix: Matrix<u32> = Matrix::identity(3);
-        let expected: Matrix<u32> = Matrix(vec![vec![1, 0, 0], vec![0, 1, 0], vec![0, 0, 1]]);
-        assert_eq!(matrix, expected);
+    #[inline]
+    fn mul(self, rhs: Self) -> Self::Output {
+        std::array::from_fn(|j| {
+            std::array::from_fn(|i| (0..S).map(|k| self.0.0[j][k] * rhs.0.0[k][i]).sum())
+        })
+        .into()
     }
 }

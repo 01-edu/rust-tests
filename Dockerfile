@@ -1,6 +1,6 @@
 ### Test Image specific config
 
-FROM rust:1.89-slim-bookworm
+FROM rust:1.90-slim-trixie
 
 RUN apt-get update
 RUN apt-get -y install pkg-config libssl-dev moreutils
