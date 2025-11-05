@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Use:
-#   EXERCISE="" bash -c 'cargo --config '\''target."cfg(all())".runner="./isolate.sh"'\'' test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"'
+#   cargo --config 'target."cfg(all())".runner="./isolate.sh"' test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
 
 set -u
 
@@ -36,8 +36,11 @@ fi
 awk -F': test' '/: test/{print $1}' "$tmpdir/list.txt" | sed 's/[[:space:]]*$//' > "$expected"
 
 # 2) Run the suite normally and capture output + real exit code
-"$bin" "${filtered[@]}" 2>&1 | tee "$logfile"
-rc="${PIPESTATUS[0]}"
+(
+  "$bin" "${filtered[@]}" 2>&1
+  echo "__RC__$?"
+) | tee "$logfile"
+rc="$(awk -F'__RC__' '/__RC__/ {v=$2} END{print v+0}' "$logfile")"
 
 # 3) Collect tests that actually produced a result line:
 #    Matches lines like: `test foo::bar ... ok|ignored|FAILED`
