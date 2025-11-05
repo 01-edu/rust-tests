@@ -1,27 +1,45 @@
 ### Test Image specific config
+FROM rustlang/rust:nightly-alpine
 
-FROM rust:1.90-slim-trixie
-
-RUN apt-get update
-RUN apt-get -y install pkg-config libssl-dev moreutils
+# Install required packages
+RUN apk add --no-cache \
+    bash \
+    coreutils \
+    findutils \
+    gawk \
+    grep \
+    sed \
+    parallel \
+    pkgconfig \
+    openssl-dev \
+    build-base \
+    moreutils
 
 WORKDIR /app
+
+# Copy project structure
 COPY tests tests
 COPY tests_utility tests_utility
 COPY solutions solutions
+
+# Use sparse index for Cargo (faster network)
 ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
-RUN parallel cargo fetch --manifest-path -- $(find tests -name Cargo.toml)
+
+# Pre-fetch all dependencies
+RUN find tests -name Cargo.toml | parallel cargo fetch --manifest-path {}
+
+# Fix permissions for Rust crates (avoid “permission denied”)
 RUN find /usr/local/cargo/registry/src -type f -name '*.rs' -exec chmod 644 {} \;
+
+# Remove solutions (only student code will be mounted)
 RUN rm -rf solutions
 
-### Default configs
-# ℹ️ URL of the Repository
-LABEL org.opencontainers.image.source=https://github.com/01-edu/rust-tests
-# ℹ️ Description of the Test Image
-LABEL org.opencontainers.image.description="01 Edu - Rust Test Image"
-# ℹ️ Licence type – MIT by default
-LABEL org.opencontainers.image.licenses=MIT
+### Metadata labels
+LABEL org.opencontainers.image.source="https://github.com/01-edu/rust-tests"
+LABEL org.opencontainers.image.description="01 Edu - Rust Test Image (Alpine)"
+LABEL org.opencontainers.image.licenses="MIT"
 
+# Copy entrypoint and isolate script
 COPY entrypoint.sh ./
 COPY isolate.sh ./
 

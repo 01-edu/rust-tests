@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Use:
-#   cargo --config 'target."cfg(all())".runner="./isolate.sh"' test [args]
+#   cargo --config 'target."cfg(all())".runner="./isolate.sh"' test --manifest-path "tests/${EXERCISE}_test/Cargo.toml"
 
 set -u
 
@@ -39,7 +39,7 @@ awk -F': test' '/: test/{print $1}' "$tmpdir/list.txt" | sed 's/[[:space:]]*$//'
 (
   "$bin" "${filtered[@]}" 2>&1
   echo "__RC__$?"
-) | tee "$logfile" >/dev/null
+) | tee "$logfile"
 rc="$(awk -F'__RC__' '/__RC__/ {v=$2} END{print v+0}' "$logfile")"
 
 # 3) Collect tests that actually produced a result line:
@@ -56,18 +56,18 @@ awk '
   }
 ' "$logfile" | sed 's/[[:space:]]*$//' > "$actual"
 
-# 4) Decide: require (a) rc==0, (b) final summary ok, (c) every expected test appeared
-if [[ "$rc" -eq 0 ]] && grep -Eq '^test result: ok\.' "$logfile"; then
-  sort -u "$expected" -o "$expected"
-  sort -u "$actual"   -o "$actual"
-  # If no tests were expected (filters matched none), that's fine too.
-  if comm -23 "$expected" "$actual" | read -r _; then
-    # there were missing tests → failure
-    echo "Some tests weren't ran for the exercise \`$EXERCISE\`. Perhaps the solution forcefully exits?"
-    exit 1
-  else
-    exit 0
-  fi
+# 4) Decide overall success/failure
+sort -u "$expected" -o "$expected"
+sort -u "$actual"   -o "$actual"
+
+missing=0
+if comm -23 "$expected" "$actual" | read -r _; then
+  echo "Some tests weren't ran for the exercise \`$EXERCISE\`. Perhaps the solution forcefully exits?"
+  missing=1
+fi
+
+if [[ "$rc" -eq 0 ]] && grep -Eq '^test result: ok\.' "$logfile" && [[ $missing -eq 0 ]]; then
+  exit 0
 fi
 
 exit 1
