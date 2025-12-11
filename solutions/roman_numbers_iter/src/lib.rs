@@ -1,159 +1,112 @@
-// ## roman_numbers_iter
-
-// ### Instructions
-
-// Implement the `Iterator` trait for the `RomanNumber` type. You should use the code from the previous exercise roman_numbers.
-
-// ### Notions
-
-// - [Trait Iterator](https://doc.rust-lang.org/std/iter/trait.Iterator.html)
-
-// ### Expected Functions
-
-// ```rust
-// //...
-
-// impl Iterator for RomanNumber {}
-// ```
-
-// ### Usage
-
-// Here is a program to test your function.
-
-// ```rust
-// use roman_numbers::RomanNumber;
-
-// fn main() {
-// 	let mut number = RomanNumber::from(15);
-
-// 	println!("{:?}", number);
-// 	println!("{:?}", number.next());
-// }
-// ```
-
-// And its output
-
-// ```console
-// $ cargo run
-// RomanNumber([X, V])
-// Some(RomanNumber([X, V, I]))
-// $
-// ```
-
-use crate::RomanDigit::*;
+use std::iter;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum RomanDigit {
-    Nulla,
-    I,
-    V,
-    X,
-    L,
-    C,
-    D,
-    M,
+    Nulla = 0,
+    I = 1,
+    V = 5,
+    X = 10,
+    L = 50,
+    C = 100,
+    D = 500,
+    M = 1000,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RomanNumber(pub Vec<RomanDigit>);
 
-impl From<u32> for RomanDigit {
-    fn from(n: u32) -> Self {
-        match n {
-            1..=4 => I,
-            5..=9 => V,
-            10..=49 => X,
-            50..=99 => L,
-            100..=499 => C,
-            500..=999 => D,
-            1000..=5000 => M,
-            _ => Nulla,
+impl RomanDigit {
+    const fn base(value: u32) -> Self {
+        use RomanDigit::*;
+
+        if value >= M as u32 {
+            M
+        } else if value >= D as u32 {
+            D
+        } else if value >= C as u32 {
+            C
+        } else if value >= L as u32 {
+            L
+        } else if value >= X as u32 {
+            X
+        } else if value >= V as u32 {
+            V
+        } else if value >= I as u32 {
+            I
+        } else {
+            Nulla
         }
     }
-}
 
-impl From<RomanDigit> for u32 {
-    fn from(n: RomanDigit) -> Self {
-        match n {
-            I => 1,
-            V => 5,
-            X => 10,
-            L => 50,
-            C => 100,
-            D => 500,
-            M => 1000,
-            _ => 0,
-        }
+    fn take(value: &mut u32) -> Vec<Self> {
+        let digits = value.checked_ilog10().unwrap_or_default() + 1;
+
+        let d = *value / 10u32.pow(digits - 1);
+
+        let ret = if (d + 1) % 5 == 0 {
+            let v = Self::base(((d + 1) / 5) * 10u32.pow(digits - 1));
+            *value -= d * 10u32.pow(digits - 1);
+            vec![v, Self::base((d + 1) * 10u32.pow(digits - 1))]
+        } else {
+            let v = Self::base(*value);
+            *value -= v as u32;
+            vec![v]
+        };
+
+        ret
     }
 }
 
 impl From<u32> for RomanNumber {
-    fn from(n: u32) -> Self {
-        if n == 0 {
-            return RomanNumber(vec![Nulla]);
+    fn from(value: u32) -> Self {
+        if value == 0 {
+            return Self(vec![RomanDigit::Nulla]);
         }
 
-        let mut quotient = n;
-        let mut p = 0;
-        let mut reverse_roman = Vec::new();
+        let mut acc = value;
 
-        while quotient != 0 {
-            let rest = quotient % 10;
-            quotient /= 10;
-            p += 1;
-            if rest == 9 {
-                reverse_roman.push(RomanDigit::from(10_u32.pow(p)));
-                reverse_roman.push(RomanDigit::from(10_u32.pow(p - 1)));
-            } else if rest == 4 {
-                reverse_roman.push(RomanDigit::from(10_u32.pow(p) / 2));
-                reverse_roman.push(RomanDigit::from(10_u32.pow(p - 1)));
-            } else if rest >= 5 {
-                let repetitions = rest - 5;
-                for _ in 0..repetitions {
-                    reverse_roman.push(RomanDigit::from(10_u32.pow(p - 1)));
-                }
-                reverse_roman.push(RomanDigit::from(10_u32.pow(p) / 2));
+        let it = iter::from_fn(|| {
+            if acc == 0 {
+                None
             } else {
-                for _ in 0..rest {
-                    reverse_roman.push(RomanDigit::from(10_u32.pow(p - 1)))
-                }
+                Some(RomanDigit::take(&mut acc))
             }
-        }
+        })
+        .flatten();
 
-        reverse_roman.reverse();
-        RomanNumber(reverse_roman)
+        Self(it.collect())
     }
 }
 
-impl From<RomanNumber> for u32 {
-    fn from(n: RomanNumber) -> Self {
-        let mut result: u32 = 0;
+impl RomanNumber {
+    #[inline]
+    fn to_u32(&self) -> u32 {
+        u32::from(self)
+    }
+}
 
-        let numbers: Vec<u32> = n.0.iter().map(|i| u32::from(*i)).collect();
-
-        for (i, value) in numbers.iter().enumerate() {
-            result += value;
-            if i >= 1 && *value > numbers[i - 1] {
-                result = result - 2 * numbers[i - 1]
-            }
-        }
-
-        result
+impl From<&RomanNumber> for u32 {
+    #[inline]
+    fn from(n: &RomanNumber) -> Self {
+        n.0.iter()
+            .copied()
+            .map(|i| i as u32)
+            .fold((0, 0), |(sum, prev), curr| {
+                (sum + if prev < curr { curr - 2 * prev } else { curr }, curr)
+            })
+            .0
     }
 }
 
 impl Iterator for RomanNumber {
-    type Item = RomanNumber;
+    type Item = Self;
 
+    #[inline]
     fn next(&mut self) -> Option<Self::Item> {
-        if self.0.len() == 0 {
-            return None;
+        if self.0.is_empty() {
+            None
+        } else {
+            Some(RomanNumber::from(self.to_u32() + 1))
         }
-
-        let mut aux = u32::from(self.clone());
-
-        aux = aux + 1;
-
-        Some(RomanNumber::from(aux))
     }
 }

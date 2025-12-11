@@ -1,26 +1,6 @@
-/*
-## adding
-
-### Instructions
-
-Create the function `add_curry` that returns a closure.
-The purpose is to curry the add method to create more variations.
-
-*/
-use adding::*;
-fn main() {
-    let add10 = add_curry(-10);
-    let add20 = add_curry(2066);
-    let add30 = add_curry(300000);
-
-    println!("{}", add10(5));
-    println!("{}", add20(195));
-    println!("{}", add30(5696));
-}
-
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use adding::*;
 
     #[test]
     fn test_zero() {
@@ -60,6 +40,7 @@ mod tests {
         assert_eq!(add250(463), 713);
         assert_eq!(add250(400000000), 400000250);
     }
+
     #[test]
     fn test_add3960() {
         let add3960 = add_curry(3960);
