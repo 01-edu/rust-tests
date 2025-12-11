@@ -1,33 +1,25 @@
-#[derive(Copy, Clone)]
-pub struct Collatz {
-    pub v: u64,
-}
+use std::iter::successors;
 
-impl Collatz {
-    pub fn new(aux: u64) -> Self {
-        Collatz { v: aux }
+pub fn collatz(n: u64) -> Option<usize> {
+    if n == 0 {
+        return None;
     }
-}
 
-impl Iterator for Collatz {
-    type Item = Collatz;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        if self.v <= 1 {
-            None
-        } else {
-            let old_value = self.v;
-            if self.v % 2 == 0 {
-                self.v /= 2;
+    let mut seq = successors(Some(Ok(n)), |&val| {
+        val.ok().and_then(|x| {
+            if x == 1 {
+                None
             } else {
-                self.v = self.v * 3 + 1;
+                Some(match x % 2 {
+                    0 => Ok(x / 2),
+                    1 => x.checked_mul(3).and_then(|y| y.checked_add(1)).ok_or(()),
+                    _ => unreachable!(),
+                })
             }
-            Some(Collatz { v: old_value })
-        }
-    }
-}
+        })
+    });
 
-pub fn collatz(n: u64) -> usize {
-    let nb = Collatz::new(n);
-    nb.count()
+    seq.try_fold(0, |count, step| step.map(|_| count + 1))
+        .ok()
+        .map(|count| count - 1)
 }

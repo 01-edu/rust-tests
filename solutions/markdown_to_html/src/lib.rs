@@ -1,100 +1,92 @@
-#[derive(Debug)]
-struct Token {
-    start: &'static str,
-    end: &'static str,
-    r_start: &'static str,
-    r_end: &'static str,
-    can_be_nested: bool,
+#![feature(string_replace_in_place)]
+
+use std::sync::LazyLock;
+
+use itertools::Itertools;
+
+const START_DELIM: (&str, &str) = ("<", ">");
+const END_DELIM: (&str, &str) = ("</", ">");
+const INLINE_DELIM: (&str, &str) = ("<", " />");
+
+static HEADINGS: LazyLock<[(&str, (String, String)); 3]> = LazyLock::new(|| {
+    [("# ", "h1"), ("## ", "h2"), ("### ", "h3")].map(|(from, to)| (from, as_element(to)))
+});
+static BLOCKQUOTE: LazyLock<(&str, (String, String))> =
+    LazyLock::new(|| ("> ", as_element("blockquote")));
+static BOLD: LazyLock<(&str, (String, String))> = LazyLock::new(|| ("**", as_element("strong")));
+static ITALIC: LazyLock<(&str, (String, String))> = LazyLock::new(|| ("*", as_element("em")));
+static SEPARATOR: LazyLock<(&str, String)> = LazyLock::new(|| {
+    (
+        "****",
+        format!("{}{}{}", INLINE_DELIM.0, "hr", INLINE_DELIM.1),
+    )
+});
+
+#[inline]
+fn as_element(to: &str) -> (String, String) {
+    (
+        format!("{}{}{}", START_DELIM.0, to, START_DELIM.1),
+        format!("{}{}{}", END_DELIM.0, to, END_DELIM.1),
+    )
 }
 
-const TOKENS: [Token; 6] = [
-    Token {
-        start: "# ",
-        end: "\n",
-        r_start: "<h1>",
-        r_end: "</h1>\n",
-        can_be_nested: false,
-    },
-    Token {
-        start: "## ",
-        end: "\n",
-        r_start: "<h2>",
-        r_end: "</h2>\n",
-        can_be_nested: false,
-    },
-    Token {
-        start: "### ",
-        end: "\n",
-        r_start: "<h3>",
-        r_end: "</h3>\n",
-        can_be_nested: false,
-    },
-    Token {
-        start: "> ",
-        end: "\n",
-        r_start: "<blockquote>",
-        r_end: "</blockquote>\n",
-        can_be_nested: true,
-    },
-    Token {
-        start: "**",
-        end: "**",
-        r_start: "<strong>",
-        r_end: "</strong>",
-        can_be_nested: true,
-    },
-    Token {
-        start: "*",
-        end: "*",
-        r_start: "<em>",
-        r_end: "</em>",
-        can_be_nested: true,
-    },
-];
-
+#[inline]
 pub fn markdown_to_html(s: &str) -> String {
-    convert(s, true)
-}
+    s.lines()
+        .map(|l| l.trim_ascii())
+        .filter(|l| !l.is_empty())
+        .peekable()
+        .batching(|it| {
+            let is_block = |l: &str| {
+                l.starts_with(SEPARATOR.0)
+                    || l.starts_with(BLOCKQUOTE.0)
+                    || HEADINGS.iter().any(|&(h, _)| l.starts_with(h))
+            };
 
-pub fn convert(s: &str, is_root: bool) -> String {
-    let mut html = String::new();
+            let line = it.next()?;
 
-    let mut i = 0;
-    while i < s.len() {
-        match get_token(&s[i..], is_root) {
-            Some(t) => {
-                i += t.start.len();
-                html += t.r_start;
-
-                let content_len = get_content_len(t, &s[i..]);
-                html += &convert(&s[i..i + content_len], false);
-
-                html += t.r_end;
-                i += content_len + t.end.len();
+            if is_block(line) {
+                return Some(line.to_owned());
             }
-            None => {
-                html.push(s.chars().nth(i).unwrap());
-                i += 1;
+
+            Some(
+                std::iter::once(line)
+                    .chain(std::iter::from_fn(|| {
+                        it.next_if(|l| !is_block(l) && !l.is_empty())
+                            .map(|s| s.trim_ascii_end())
+                    }))
+                    .join("\n"),
+            )
+        })
+        .map(|mut chunk| {
+            let replace = |chunk: &mut String, &(from, ref to): &(&str, (String, String))| {
+                chunk.push_str(&to.1);
+                chunk.replace_first(from, &to.0);
+            };
+
+            if chunk.starts_with(SEPARATOR.0) {
+                chunk.replace_first(SEPARATOR.0, &SEPARATOR.1);
+            } else if chunk.starts_with(BLOCKQUOTE.0) {
+                replace(&mut chunk, &BLOCKQUOTE);
+            } else if let Some(v) = HEADINGS.iter().find(|&&(h, _)| chunk.starts_with(h)) {
+                replace(&mut chunk, v);
             }
-        }
-    }
-    html
-}
 
-fn get_token(s: &str, is_root: bool) -> Option<&'static Token> {
-    TOKENS
-        .iter()
-        .find(|t| (is_root || t.can_be_nested) && s.starts_with(t.start))
-}
+            chunk
+        })
+        .map(|mut chunk| {
+            let mut replace = |&(from, ref to): &(&str, (String, String))| {
+                let mut toggle = false;
+                while chunk.contains(from) {
+                    toggle = !toggle;
+                    chunk.replace_first(from, if toggle { &to.0 } else { &to.1 });
+                }
+            };
 
-fn get_content_len(t: &Token, s: &str) -> usize {
-    let mut len = 0;
-    while len < s.len() {
-        if s[len..].starts_with(t.end) {
-            break;
-        }
-        len += 1;
-    }
+            replace(&BOLD);
+            replace(&ITALIC);
 
-    len
+            chunk
+        })
+        .join("\n")
 }
